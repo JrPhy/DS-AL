@@ -4,29 +4,30 @@
 typedef struct node
 {
 	int data;
-	struct node *next;
+	struct node *next;//the pointer is for linking other nodes
 }Node;
+
 
 Node *CreateList(int arr[], int num)
 {
 	int i;
-	Node *first, *current, *previous;
+	Node *list, *current, *previous;
 	for(i=0; i<num; i++)
 	{
 		current = (Node *) malloc(sizeof(Node));
-		current->data=arr[i];
-		if(i == 0) first = current;
+		current->data=arr[i];//current->data means *current.data
+		if(i == 0) list = current;
 		else previous->next = current;
-		current->next = NULL;
+		current->next = NULL;//the last pointer points to NULL
 		previous=current;
 	}
-	current=first;
-	return first;
+	current=list;
+	return list;
 }
 
 void FreeList(Node *list)
 {
-	Node *current,*tmp;
+	Node *current, *tmp;
 	current=list;
 	while(current!=NULL)
 	{
@@ -45,7 +46,7 @@ void PrintList(Node *list)
 		while(node!=NULL)
 		{
 			printf("%3d",node->data);
-			node=node->next;
+			node=node->next;//points to next data after printing.
 		}
 		printf("\n");
 	}
@@ -53,23 +54,25 @@ void PrintList(Node *list)
 
 Node *SearchNode(Node *list,int item)
 {
-	Node *node=list;
-	while(node!=NULL)
+	Node *node = list;
+	while(node != NULL)
 	{
-		if(node->data ==item) return node;
+		if(node->data == item) return node;
 		else node=node->next;
 	}
 	return NULL;
 }
 
-void PushBack(Node *list,int item)
+void PushBack(Node *node,int item)
 {
 	Node *newNode;
 	newNode=(Node *) malloc(sizeof(Node));
 	newNode->data=item;
-	newNode->next=list->next;
-	list->next=newNode;
+	newNode->next=node->next;
+	node->next=newNode;
 }
+//this function adds item after some node.
+//please use Search the data before PushBack.
 
 Node *AddFirst(Node *list,int item)
 {
@@ -83,29 +86,29 @@ Node *AddFirst(Node *list,int item)
 int CountList(Node *list)
 {
 	int n = 0;
-    Node *CurrentNode = list;
-    while (CurrentNode != NULL) 
+	Node *CurrentNode = list;
+	while (CurrentNode != NULL) 
 	{
-        n++;
-        CurrentNode = CurrentNode->next;
-    }
+		n++;
+		CurrentNode = CurrentNode->next;
+	}
 	return n ;
 }
 
 Node *Delete(Node *list,int item) 
 {
-    Node *CurrentNode = list;
-    Node *PreviousNode;
-    while (CurrentNode != NULL) 
+	Node *CurrentNode = list;
+	Node *PreviousNode;
+	while (CurrentNode != NULL) 
 	{
-        if (CurrentNode->data == item) 
+		if (CurrentNode->data == item) 
 		{
-            if (CurrentNode == list) list = CurrentNode->next;
-            else PreviousNode->next = CurrentNode->next;
-        } 
-        PreviousNode = CurrentNode;
-        CurrentNode = CurrentNode->next;
-    }
+			if (CurrentNode == list) list = CurrentNode->next;
+			else PreviousNode->next = CurrentNode->next;
+		} 
+		PreviousNode = CurrentNode;
+		CurrentNode = CurrentNode->next;
+	}
 	return list;
 }
 
