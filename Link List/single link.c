@@ -1,7 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 
-typedef struct node
+typedef struct node//use typedef for convenient
 {
 	int data;
 	struct node *next;//the pointer is for linking other nodes
