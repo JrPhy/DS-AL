@@ -4,7 +4,7 @@
 typedef struct node
 {
 	int data;
-	node *next, *previous;
+	node *next;//the pointer points to the next pointer
 }Node;
 Node *list;
 
@@ -74,54 +74,46 @@ Node *AddFirst(Node *list,int item)
 int CountList()
 {
 	int n = 0;
-    Node *CurrentNode = list;
+	Node *CurrentNode = list;
     while (CurrentNode != NULL) 
 	{
-        n++;
-        CurrentNode = CurrentNode->next;
-    }
+		n++;
+		CurrentNode = CurrentNode->next;
+	}
 	return n ;
 }
 
 void Clear()
 {
-    Node *temp;
-    while(list != NULL)
-    {
-        temp = list;
-        list = list->next;
-        free(temp);
-    }
-    printf("All nodes are delete\n");
+	Node *temp;
+	while(list != NULL)
+	{
+		temp = list;
+		list = list->next;
+		free(temp);
+	}
+	printf("All nodes are delete\n");
 }
 
 void Reverse()
 {
-    if (list == NULL || list->next == NULL) exit(0);
-    else
-    {
-        Node* previous, *current;
-        previous = list;
-        current = list->next;
-        list = list->next;
-        previous->next = NULL;
-        
-        while (list != NULL)
-        {
-            list = list->next;
-            current->next = previous;
-            previous = current;
-            current = list;
-        }
-        list = previous;
-    }
-}
-
-void Delete(Node *node)
-{
-	Node *temp = node;
-	temp->data = temp->next->data;
-	temp->next = temp->next->next; 
+	if (list == NULL || list->next == NULL) exit(0);
+	else
+	{
+		Node* previous, *current;
+		previous = list;
+		current = list->next;
+		list = list->next;
+		previous->next = NULL;
+		while (list != NULL)
+		{
+			list = list->next;
+			current->next = previous;
+			previous = current;
+			current = list;
+		}
+		list = previous;
+	}
 }
 
 int main()
