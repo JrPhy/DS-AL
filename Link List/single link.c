@@ -1,69 +1,59 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 
-typedef struct node//use typedef for convenient
+typedef struct node
 {
 	int data;
-	node *next;//the pointer is for linking other nodes
+	node *next, *previous;
 }Node;
+Node *list;
 
-
-Node *CreateList(int arr[], int num)
+void CreateList(int arr[], int num)
 {
 	int i;
-	Node *list, *current, *previous;
-	for(i=0; i<num; i++)
+	Node *newNode, *temp;
+	list = (Node *) malloc(sizeof(Node));
+	list->data=arr[0];
+	list->next=NULL;
+	temp = list;
+	for(i=1; i<num; i++)
 	{
-		current = (Node *) malloc(sizeof(Node));
-		current->data=arr[i];//current->data means *current.data
-		if(i == 0) list = current;
-		else previous->next = current;
-		current->next = NULL;//the last pointer points to NULL
-		previous=current;
-	}
-	current=list;
-	return list;
-}
-
-void FreeList(Node *list)
-{
-	Node *current, *tmp;
-	current=list;
-	while(current!=NULL)
-	{
-		tmp=current;
-		current=current->next;
-		free(tmp);
+		newNode = (Node *) malloc(sizeof(Node));
+		newNode->data = arr[i];
+		newNode->next = NULL;
+		temp->next = newNode;
+		temp = temp->next;
 	}
 }
 
-void PrintList(Node *list)
+void PrintList()
 {
-	Node *node=list;
+	Node *temp;
 	if(list==NULL) printf("List is empty!\n");
 	else
 	{
-		while(node!=NULL)
+		temp = list;
+		while(temp!=NULL)
 		{
-			printf("%3d",node->data);
-			node=node->next;//points to next data after printing.
+			printf("%3d",temp->data);
+			temp=temp->next;
 		}
 		printf("\n");
 	}
 } 
 
-Node *SearchNode(Node *list,int item)
+Node *SearchNode(int item)
 {
-	Node *node = list;
-	while(node != NULL)
+	Node *node=list;
+	while(node!=NULL)
 	{
-		if(node->data == item) return node;
+		if(node->data ==item) return node;
 		else node=node->next;
 	}
 	return NULL;
 }
 
-void PushBack(Node *node,int item)
+void PushBack(Node *node, int item)
 {
 	Node *newNode;
 	newNode=(Node *) malloc(sizeof(Node));
@@ -71,8 +61,6 @@ void PushBack(Node *node,int item)
 	newNode->next=node->next;
 	node->next=newNode;
 }
-//this function adds item after some node.
-//please use Search the data before PushBack.
 
 Node *AddFirst(Node *list,int item)
 {
@@ -83,49 +71,72 @@ Node *AddFirst(Node *list,int item)
 	return newNode;
 }
 
-int CountList(Node *list)
+int CountList()
 {
 	int n = 0;
-	Node *CurrentNode = list;
-	while (CurrentNode != NULL) 
+    Node *CurrentNode = list;
+    while (CurrentNode != NULL) 
 	{
-		n++;
-		CurrentNode = CurrentNode->next;
-	}
+        n++;
+        CurrentNode = CurrentNode->next;
+    }
 	return n ;
 }
 
-Node *Delete(Node *list,int item) 
+void Clear()
 {
-	Node *CurrentNode = list;
-	Node *PreviousNode;
-	while (CurrentNode != NULL) 
-	{
-		if (CurrentNode->data == item) 
-		{
-			if (CurrentNode == list) list = CurrentNode->next;
-			else PreviousNode->next = CurrentNode->next;
-		} 
-		PreviousNode = CurrentNode;
-		CurrentNode = CurrentNode->next;
-	}
-	return list;
+    Node *temp;
+    while(list != NULL)
+    {
+        temp = list;
+        list = list->next;
+        free(temp);
+    }
+    printf("All nodes are delete\n");
+}
+
+void Reverse()
+{
+    if (list == NULL || list->next == NULL) exit(0);
+    else
+    {
+        Node* previous, *current;
+        previous = list;
+        current = list->next;
+        list = list->next;
+        previous->next = NULL;
+        
+        while (list != NULL)
+        {
+            list = list->next;
+            current->next = previous;
+            previous = current;
+            current = list;
+        }
+        list = previous;
+    }
+}
+
+void Delete(Node *node)
+{
+	Node *temp = node;
+	temp->data = temp->next->data;
+	temp->next = temp->next->next; 
 }
 
 int main()
 {
-	Node *list,*node;
+	Node *node;
 	int arr[]={14,27,32,46};
-	list = CreateList(arr,4);
-	PrintList(list);
-	node = SearchNode(list, 46);
+	CreateList(arr,4);
+	PrintList();
+	node = SearchNode(14);
 	PushBack(node, 48);
+	PrintList();
+	Delete(node);
+	PrintList();
 	list = AddFirst(list, 5);
 	PrintList(list);
-	list = Delete(list, 46);
-	PrintList(list);
-	printf("%d\n",CountList(list));
-	FreeList(list);
-	PrintList(list);
+	Clear();
 	return 0;
 }
