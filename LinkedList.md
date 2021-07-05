@@ -62,4 +62,18 @@ void insertHead(struct node **list, int value)
     *list = newNode;
 }
 ```
-在此傳入一個指向指標的指標，
+在此傳入一個指標的指標，是因為要改變原本的指標。
+#### 2. 在尾插入
+大部分的步驟一樣，只不過 newNode 最後要指向 NULL，然後另外開一個指標 temp 指向 list，找到目前存在 list 中最後一項物件，再把 temp 指向 newNode 即可。
+```C
+void insertMiddle(struct node **list, int value)
+{
+    struct node *newNode;
+    newNode = malloc(sizeof(struct node));
+    newNode->data = value;
+    newNode->next = NULL;
+    struct node *temp = *list;
+    while(temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+}
+```
