@@ -72,8 +72,22 @@ void insertMiddle(struct node **list, int value)
     newNode = malloc(sizeof(struct node));
     newNode->data = value;
     newNode->next = NULL;
-    struct node *temp = *list;
+    struct node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標只向 list
     while(temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+}
+```
+#### 3. 在其他地方插入
+大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。
+```C
+void insertMiddle(struct node **list, int value, int n)
+{
+    struct node *newNode;
+    newNode = malloc(sizeof(struct node));
+    newNode->data = value;
+    struct node *temp = *list;
+    for(int i = 1; i < n; i++) if(temp->next != NULL) temp = temp->next;
+    newNode->next = temp->next;
     temp->next = newNode;
 }
 ```
