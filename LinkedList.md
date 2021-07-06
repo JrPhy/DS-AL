@@ -47,8 +47,8 @@ void printLinkedList(struct node *p)
     }
 }
 ```
-
-## 3. 增加串接資料於 list 中
+在 list 中能夠公開存取的只有第一個資料，但是因為紀錄的指向下一個位置的指標，所以可以訪問完整個 list。
+## ˋ. 增加串接資料於 list 中
 一般來說要改變陣列大小需用 malloc 宣告新陣列的大小，然後在將舊陣列 free，但使用 list，我們只要找到想插入的位置就可以了。在此分三種情況
 #### 1. 在首插入
 若有一個資料想放在 list 首，就先在裡面開一個新的 node 指標 newNode，將 data 放進去後，newNode 裡面的 next 指向原本的頭，最後再將 list 指向 newNode 即可。
@@ -72,8 +72,8 @@ void insertMiddle(struct node **list, int value)
     newNode = malloc(sizeof(struct node));
     newNode->data = value;
     newNode->next = NULL;
-    struct node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標只向 list
-    while(temp->next != NULL) temp = temp->next;
+    struct node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
+    while(temp->next != NULL) temp = temp->next;  //會一直指向後面的 node 直到最後一個
     temp->next = newNode;
 }
 ```
@@ -89,5 +89,79 @@ void insertMiddle(struct node **list, int value, int n)
     for(int i = 1; i < n; i++) if(temp->next != NULL) temp = temp->next;
     newNode->next = temp->next;
     temp->next = newNode;
+}
+```
+
+最後可以把這三個函數整合成一個
+```C
+void insertNode(struct node **list, int value, int position)
+{
+    struct node *tmp = *list;
+    int length = 0;
+    while(tmp != NULL)
+    {
+        length += 1;
+        tmp = tmp->next;
+    }
+    /* insert at the beginning*/
+    struct node *newNode;
+    newNode = malloc(sizeof(struct node));
+    newNode->data = value;
+    if(position < 1)
+    {
+        newNode->next = *list;
+        *list = newNode;
+        return;
+    }
+    /* insert at the beginning*/
+    /* insert at the middle*/
+    else if (position >= length + 1)
+    {
+        newNode->next = NULL;
+        struct node *temp = *list;
+        while(temp->next != NULL) temp = temp->next;
+        temp->next = newNode;
+        return;
+    }
+    /* insert at the middle*/
+    /* insert at the ending*/
+    else
+    {
+        struct node *temp = *list;
+        for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
+        newNode->next = temp->next;
+        temp->next = newNode;
+        return;
+    }
+    /* insert at the ending*/
+}
+```
+## 4. 刪除 list 中某筆資料
+在此我們會先從頭開始尋找資料在 list 中哪個位置，然後再把那筆資料移除，如同插入一樣分成三種情況
+#### 1. 刪除首位資料
+同樣的先開一個指標 temp 來指向 list 的第一個位置，因為是要將首位資料刪除，所以再把 list 指向 temp 的 next，此時 list 就是到了第二個位置，接著再free(temp)即可。
+```C
+void deleteNode(struct node **list, int position)
+{
+    struct node *temp = *list;
+    if (position == 0) 
+    {
+        *list = temp->next;
+        free(temp);
+        return;
+    }
+}
+```
+#### 2. 刪除其餘位置資料
+
+```C
+void deleteNode(struct node **list, int position)
+{
+    struct node *temp = *list;
+    for (int i = 1; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    if (temp == NULL || temp ->next == NULL) return;
+    struct node *next = temp->next->next;
+    free(temp->next);
+    temp->next=next;
 }
 ```
