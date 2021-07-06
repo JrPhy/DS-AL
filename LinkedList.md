@@ -153,15 +153,15 @@ void deleteNode(struct node **list, int position)
 }
 ```
 #### 2. 刪除其餘位置資料
-
+刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把找到的位置的下一個節點存下來，最後把兩個串接起來就完成了。
 ```C
 void deleteNode(struct node **list, int position)
 {
     struct node *temp = *list;
     for (int i = 1; temp != NULL && i < position - 1; ++i) temp = temp->next;
-    if (temp == NULL || temp ->next == NULL) return;
-    struct node *next = temp->next->next;
+    if (temp == NULL || temp->next == NULL) return;
+    struct node *nextNode = temp->next->next;
     free(temp->next);
-    temp->next=next;
+    temp->next = nextNode;
 }
 ```
