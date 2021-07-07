@@ -192,3 +192,5 @@ void deleteNode(struct node **list, int position)
     temp->next = nextNode;
 }
 ```
+
+這邊出現了 temp->next->next，是因為我們先找出要移除的 node 前一個位置 temp->next，然後用 nextNode 這個指標指向要移除的 node 的下一個 node，最後才把兩個接起來。
