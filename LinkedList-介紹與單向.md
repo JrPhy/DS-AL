@@ -141,3 +141,4 @@ void deleteNode(struct node **list, int position)
     free(nodeToBeDel);
 }
 ```
+倒數第三行為儲存倒數第二個資料勾環的位置，下一行則是把 temp->next 指向末位資料的鉤環，也就是指向 NULL 的鉤環，所以將最末位的資料刪除後仍是指向 NULL。
