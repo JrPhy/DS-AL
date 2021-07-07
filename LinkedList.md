@@ -38,12 +38,12 @@ int main()
 ## 2. 印出 list 中的資料
 因為 list 的最後一個是指向 NULL，故當傳入一個 node 的結構指標，只要指標不為 NULL，就都印出來，印出來後指向下一個。
 ```C
-void printLinkedList(struct node *p)
+void printList(struct node *list)
 {
-    while(p != NULL)
+    while(list != NULL)
     {
-        printf("%d\n", p->data);
-        p = p->next;
+        printf("%d\n", list->data);
+        list = list->next;
     }
 }
 ```
@@ -62,7 +62,7 @@ void insertHead(struct node **list, int value)
     *list = newNode;
 }
 ```
-在此傳入一個指標的指標，是因為要改變原本的指標。
+與 printList 不同，在此傳入一個指標的指標，是因為要改變原本的指標，故必須要先宣告一個指標指向傳入的 list。若是直接傳入指標 list，則因為是指向 list 了所以可以直接操作。
 #### 2. 在尾插入
 大部分的步驟一樣，只不過 newNode 最後要指向 NULL，然後另外開一個指標 temp 指向 list，找到目前存在 list 中最後一項物件，再把 temp 指向 newNode 即可。
 ```C
@@ -152,7 +152,31 @@ void deleteNode(struct node **list, int position)
     }
 }
 ```
-#### 2. 刪除其餘位置資料
+#### 2. 刪除末位資料
+刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把倒數第二個的節點存下來，將最後一個節點 free 調，並把原先倒數第二的 next 指向 NULL 即可。
+```C
+void deleteNode(struct node **list, int position)
+{
+    if (*list == NULL)  return;
+    else if ((*list)->next == NULL)
+    {
+        free(list);
+        return;
+    }
+    else
+    {
+        struct node *temp2 = *list;
+        while(temp->next != NULL)
+        {
+            temp2 = temp;
+            temp = temp->next;
+        }
+        temp2->next = NULL;
+        free(temp->next);
+    }
+}
+```
+#### 3. 刪除其餘位置資料
 刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把找到的位置的下一個節點存下來，最後把兩個串接起來就完成了。
 ```C
 void deleteNode(struct node **list, int position)
