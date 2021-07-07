@@ -63,6 +63,7 @@ void insertHead(struct node **list, int value)
     *list = newNode;
 }
 ```
+![image](pic/insert-at-head.jpg)
 與 printList 不同，在此傳入一個指標的指標，是因為要改變原本的指標，故必須要先宣告一個指標指向傳入的 list。若是直接傳入指標 list，則因為是指向 list 了所以可以直接操作。
 #### 2. 在尾插入
 大部分的步驟一樣，只不過 newNode 最後要指向 NULL，然後另外開一個指標 temp 指向 list，找到目前存在 list 中最後一項物件，再把 temp 指向 newNode 即可。
@@ -78,6 +79,7 @@ void insertMiddle(struct node **list, int value)
     temp->next = newNode;
 }
 ```
+![image](pic/insert-at-tail.jpg)
 #### 3. 在其他地方插入
 大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。
 ```C
@@ -92,7 +94,7 @@ void insertMiddle(struct node **list, int value, int n)
     temp->next = newNode;
 }
 ```
-
+![image](pic/insert-in-middle.jpg)
 最後可以把這三個函數整合成一個
 ```C
 void insertNode(struct node **list, int value, int position)
