@@ -12,15 +12,22 @@ struct node
     struct node *next;
 };
 
+node* newNode(int value)
+{
+    node *tmpNode = malloc(sizeof(node));
+    if(tmpNode!=NULL) {
+        tmpNode->data = value;
+        tmpNode->next = NULL;
+    }
+    return tmpNode;
+}
+
 int main()
 {
     /* Initialize nodes */
-    struct node *one = NULL, *two = NULL, *three = NULL; //指標用 NULL 初始化是好習慣
-
-    /* Allocate memory */
-    one = malloc(sizeof(struct node));
-    two = malloc(sizeof(struct node));
-    three = malloc(sizeof(struct node));
+    node *one = newNode(1);
+    node *two = newNode(2);
+    node *three = newNode(3);
 
     /* Assign data values */
     one->data   = 1;
