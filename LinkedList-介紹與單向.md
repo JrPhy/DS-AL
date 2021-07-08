@@ -122,6 +122,7 @@ void deleteNode(node **list, int position)
     }
 }
 ```
+![image](pic/delete-head.jpg)
 #### 2. 刪除其餘資料
 刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把倒數第二個的節點存下來，將最後一個節點 free 調，並把原先倒數第二的 next 指向 NULL 即可。
 ```C
@@ -142,3 +143,4 @@ void deleteNode(struct node **list, int position)
 }
 ```
 倒數第三行為儲存倒數第二個資料勾環的位置，下一行則是把 temp->next 指向末位資料的鉤環，也就是指向 NULL 的鉤環，所以將最末位的資料刪除後仍是指向 NULL。
+![image](pic/delete-else.jpg)
