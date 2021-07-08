@@ -104,7 +104,7 @@ void insertMiddle(struct node **list, int value, int n)
 }
 ```
 ![image](pic/insert-in-middle.jpg)
-## 5. 刪除 list 中某筆資料
+## 5. 刪除 list 中某位置資料
 在此我們會先從頭開始尋找資料在 list 中哪個位置，然後再把那筆資料移除，如同插入一樣分成三種情況
 #### 1. 刪除首位資料
 同樣的先開一個指標 temp 來指向 list 的第一個位置，因為是要將首位資料刪除，所以再把 list 指向 temp 的 next，此時 list 就是到了第二個位置，接著再free(temp)即可。
