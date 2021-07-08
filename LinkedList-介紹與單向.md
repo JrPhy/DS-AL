@@ -146,4 +146,25 @@ void deleteNode(struct node **list, int position)
 ![image](pic/delete-else.jpg)
 
 ## 6. list 反轉
-list 反轉需要另外開三個 node 才能完成，一個是要做移動，另外兩個則是要存取移動中的與前一個 node。
+list 反轉需要另外開三個 node 才能完成，current 是要做移動，next 則是要存取移動中下一個指標，prev 則是指向前一個 node。
+* 1. 將 current 指向 prve
+* 2. 再將 prev 往後走一個 node
+* 3. 接著將 current 往後移動一個 node
+```C
+static void reverse(struct Node** head_ref)
+{
+    struct node *prev = NULL, *current = *list, *next = NULL;
+    while (current != NULL) {
+        // Store next
+        next = current->next;
+ 
+        // Reverse current node's pointer
+        current->next = prev;
+ 
+        // Move pointers one position ahead.
+        prev = current;
+        current = next;
+    }
+    *list = prev;
+}
+```
