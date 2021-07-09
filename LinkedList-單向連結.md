@@ -154,16 +154,16 @@ list 反轉需要另外開三個 node 才能完成，current 是要做移動，n
 * 4. 接著重複以上三步驟直到最後一個為止
 結束以上步驟後將 list 分配給 prev 即可。
 ```C
-static void reverse(struct Node** head_ref)
+void reverse(node **list)
 {
-    struct node *prev = NULL, *current = *list, *next = NULL;
+    node *prevNode = NULL, *current = *list, *nextNode = NULL;
     while (current != NULL) 
     {
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
+        nextNode = current->next;
+        current->next = prevNode;
+        prevNode = current;
+        current = nextNode;
     }
-    *list = prev;
+    *list = prevNode;
 }
 ```
