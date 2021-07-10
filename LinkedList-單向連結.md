@@ -6,11 +6,11 @@ Linked List 的結構為許多的成員與勾環，此鉤環是與其他 list �
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node
+struct _node
 {
     int data;
-    struct node *next;
-};
+    struct _node *next;
+}node;
 
 node* newNode(int value)
 {
