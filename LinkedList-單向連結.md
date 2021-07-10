@@ -1,6 +1,6 @@
 在 C 語言中內建的組合型別有陣列、結構、聯合、枚舉、函數等，陣列只能夠裝相同型別的物件，結構可裝不同型別的成員，而結構陣列只能裝相同類別的成員，若要自由的增減陣列內的成員，可搭配 malloc 與 free，但都不如 python 中的 list 方便。故在 C 語言中若要像 python 的 list 一樣就必須自己實作，在此稱為Linked List。
 
-## 1. Linked List 實作
+## 1. 單向 Linked List 實作
 Linked List 的結構為許多的成員與勾環，此鉤環是與其他 list 串接的成員
 ```C
 #include <stdio.h>
