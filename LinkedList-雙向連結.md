@@ -1,6 +1,7 @@
 與單向連結相比，雙向連結在結構上多了一個指標，每個會比單向多出 4 Byte/8 Byte，但在使用上會比單向更自由方便。
 
 ## 1. 雙向 Linked List 實作
+在結構上比單向多了一個 * prev，且在串接上要將尾端的 * prev 往前指向前一個 node 的 prev。
 ```C
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,7 +38,7 @@ int main()
     three->next = NULL;
     
     one->prev = NULL;
-    two->prev = one->prev;
-    three->prev = two->prev;
+    two->prev = one;
+    three->prev = two;
 }
 ```
