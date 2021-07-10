@@ -6,7 +6,7 @@ Linked List 的結構為許多的成員與勾環，此鉤環是與其他 list �
 #include <stdio.h>
 #include <stdlib.h>
 
-struct _node
+typedef struct _node
 {
     int data;
     struct _node *next;
@@ -42,7 +42,7 @@ int main()
 ## 2. 印出 list 中的資料
 因為 list 的最後一個是指向 NULL，故當傳入一個 node 的結構指標，只要指標不為 NULL，就都印出來，印出來後指向下一個。
 ```C
-void printList(struct node *list)
+void printList(node *list)
 {
     while(list != NULL)
     {
@@ -72,7 +72,7 @@ int lenOfList(node *list)
 #### 1. 在首插入
 若有一個資料想放在 list 首，就先在裡面開一個新的 node 指標 newNode，將 data 放進去後，newNode 裡面的 next 指向原本的頭，最後再將 list 指向 newNode 即可。
 ```C
-void insertHead(struct node **list, int value)
+void insertHead(node **list, int value)
 {
     node *new_node = newNode(value);
     newNode->next = *list;
@@ -96,7 +96,7 @@ void insertMiddle(struct node **list, int value)
 #### 3. 在其他地方插入
 大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。
 ```C
-void insertMiddle(struct node **list, int value, int n)
+void insertMiddle(node **list, int value, int n)
 {
     node *new_node = newNode(value);
     for(int i = 1; i < n; i++) if(temp->next != NULL) temp = temp->next;
@@ -127,7 +127,7 @@ void deleteNode(node **list, int position)
 #### 2. 刪除其餘資料
 刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把倒數第二個的節點存下來，將最後一個節點 free 調，並把原先倒數第二的 next 指向 NULL 即可。
 ```C
-void deleteNode(struct node **list, int position)
+void deleteNode(node **list, int position)
 {
     int length = lenOfList(*list);
     if (position >= length) position = length - 1;
