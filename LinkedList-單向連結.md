@@ -167,3 +167,4 @@ void reverse(node **list)
     *list = prevNode;
 }
 ```
+![image](pic/reverse.jpg)
