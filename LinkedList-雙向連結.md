@@ -42,3 +42,4 @@ int main()
     three->prev = two;
 }
 ```
+[!img](pic/Double-linked-list.jpg)
