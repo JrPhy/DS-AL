@@ -43,3 +43,4 @@ int main()
 }
 ```
 ![image](pic/Double-linked-list.jpg)
+
