@@ -46,7 +46,7 @@ int main()
 ![image](pic/Double-linked-list.jpg)
 
 ## 2. 印出 list 中的資料
-雙向連結因為多了一個 prev 所以從後面往前印。
+雙向連結因為多了一個 prev 所以可以從後面往前印。
 ```C
 void printList(node *list)
 {
@@ -74,8 +74,8 @@ void insertHead(node **list, int value)
 }
 ```
 
-#### 1. 在尾插入
-與單向連結大致上相同，但要記得傳入的 list 中的 prev 要指向 newNode。
+#### 2. 在尾插入
+因為多了一個
 ```C
 void insertHead(node **list, int value)
 {
