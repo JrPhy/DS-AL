@@ -84,7 +84,7 @@ void insertHead(node **list, int value)
 #### 2. 在尾插入
 大部分的步驟一樣，只不過 newNode 最後要指向 NULL，然後另外開一個指標 temp 指向 list，找到目前存在 list 中最後一項物件，再把 temp 指向 newNode 即可。
 ```C
-void insertMiddle(struct node **list, int value)
+void insertEnd(struct node **list, int value)
 {
     node *new_node = newNode(value);
     struct node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
@@ -104,6 +104,7 @@ void insertMiddle(node **list, int value, int n)
     temp->next = newNode;
 }
 ```
+而實作上可以考慮將插入函數寫成一個函數即可。
 ![image](pic/insert-in-middle.jpg)
 ## 5. 刪除 list 中某位置資料
 在此我們會先從頭開始尋找資料在 list 中哪個位置，然後再把那筆資料移除，如同插入一樣分成三種情況
