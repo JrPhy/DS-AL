@@ -45,7 +45,7 @@ int main()
 ```
 ![image](pic/Double-linked-list.jpg)
 
-##2. 印出 list 中的資料
+## 2. 印出 list 中的資料
 雙向連結因為多了一個 prev 所以從後面往前印。
 ```C
 void printList(node *list)
