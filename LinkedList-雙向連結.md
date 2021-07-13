@@ -40,7 +40,21 @@ int main()
     one->prev = NULL;
     two->prev = one;
     three->prev = two;
+    node *head = one, *tail = three;
 }
 ```
 ![image](pic/Double-linked-list.jpg)
 
+##2. 印出 list 中的資料
+雙向連結因為多了一個 prev 所以從後面往前印。
+```C
+void printList(node *list)
+{
+    while(list != NULL)
+    {
+        printf("%d\n", list->data);
+        list = list->prev;
+    }
+}
+```
+而由前往後印與計算 list 長度皆與單向相同，故在此不再贅述。
