@@ -58,3 +58,30 @@ void printList(node *list)
 }
 ```
 而由前往後印與計算 list 長度皆與單向相同，故在此不再贅述。
+
+## 3. 增加串接資料於 list 中
+一般來說要改變陣列大小需用 malloc 宣告新陣列的大小，然後在將舊陣列 free，但使用 list，我們只要找到想插入的位置就可以了。在此分三種情況
+
+#### 1. 在首插入
+與單向連結大致上相同，但要記得傳入的 list 中的 prev 要指向 newNode。
+```C
+void insertHead(node **list, int value)
+{
+    node *new_node = newNode(value);
+    (*list)->prev = newNode;
+    newNode->next = *list;
+    *list = newNode;
+}
+```
+
+#### 1. 在尾插入
+與單向連結大致上相同，但要記得傳入的 list 中的 prev 要指向 newNode。
+```C
+void insertHead(node **list, int value)
+{
+    node *new_node = newNode(value);
+    (*list)->prev = newNode;
+    newNode->next = *list;
+    *list = newNode;
+}
+```
