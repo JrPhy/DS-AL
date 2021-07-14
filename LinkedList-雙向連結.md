@@ -68,20 +68,21 @@ void printList(node *list)
 void insertHead(node **list, int value)
 {
     node *new_node = newNode(value);
-    (*list)->prev = newNode;
-    newNode->next = *list;
-    *list = newNode;
+    (*list)->prev = new_node;
+    new_node->next = *list;
+    *list = new_node;
 }
 ```
 
 #### 2. 在尾插入
 因為多了一個
 ```C
-void insertHead(node **list, int value)
+void insertEnd(struct node **list, int value)
 {
     node *new_node = newNode(value);
-    (*list)->prev = newNode;
-    newNode->next = *list;
-    *list = newNode;
+    struct node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
+    while(temp->next != NULL) temp = temp->next;  //會一直指向後面的 node 直到最後一個
+    temp->next = newNode;
+    newNode->prev = temp;
 }
 ```
