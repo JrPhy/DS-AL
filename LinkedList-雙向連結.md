@@ -93,9 +93,11 @@ void insertEnd(struct node **list, int value)
 void insertMiddle(node **list, int value, int n)
 {
     node *new_node = newNode(value);
-    for(int i = 1; i < n; i++) if(temp->next != NULL) temp = temp->next;
-    newNode->next = temp->next;
-    temp->next = newNode;
+    for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
+    new_node->next = temp->next;
+    temp->next = new_node;
+    new_node->prev = temp;
+    temp->next->prev = new_node;
 }
 ```
 而實作上可以考慮將插入函數寫成一個函數即可。
