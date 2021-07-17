@@ -118,6 +118,7 @@ void deleteNode(node **list, int position)
     if (position <= 0) 
     {
         *list = temp->next;
+        temp->next->prev = NULL;
         free(temp);
         return;
     }
@@ -140,6 +141,7 @@ void deleteNode(node **list, int position)
     //將找到的位置的前一個另外開一個指標存下來
     temp->next = nodeToBeDel->next;
     //指向要被刪除的位置的下一個。
+    temp->prev = temp;
     free(nodeToBeDel);
 }
 ```
