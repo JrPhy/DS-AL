@@ -80,10 +80,10 @@ void insertHead(node **list, int value)
 void insertEnd(struct node **list, int value)
 {
     node *new_node = newNode(value);
-    struct node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
+    node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
     while(temp->next != NULL) temp = temp->next;  //會一直指向後面的 node 直到最後一個
-    temp->next = newNode;
-    newNode->prev = temp;
+    temp->next = new_node;
+    new_node->prev = temp;
 }
 ```
 
@@ -92,7 +92,8 @@ void insertEnd(struct node **list, int value)
 ```C
 void insertMiddle(node **list, int value, int position)
 {
-    node *new_node = newNode(value);
+    node *new_node = new_node(value);
+    node *temp = *list;
     for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
     new_node->next = temp->next;
     temp->next = new_node;
