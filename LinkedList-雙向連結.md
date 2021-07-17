@@ -103,3 +103,44 @@ void insertMiddle(node **list, int value, int position)
 ```
 temp->next->prev 是指原本的第 n+1 個 node 的 prev。其中而實作上可以考慮將插入函數寫成一個函數即可。
 ![image](pic/DLL-insert-in-middle.jpg)
+
+## 5. 刪除 list 中某位置資料
+在此我們會先從頭開始尋找資料在 list 中哪個位置，然後再把那筆資料移除，如同插入一樣分成三種情況
+
+#### 1. 刪除首位資料
+同樣的先開一個指標 temp 來指向 list 的第一個位置，因為是要將首位資料刪除，所以再把 list 指向 temp 的 next，此時 list 就是到了第二個位置，接著再free(temp)即可。
+```C
+void deleteNode(node **list, int position) 
+{
+    if (*list == NULL) return; //如果本身就是空 list 則直接回傳
+
+    node *temp = *list;
+    if (position <= 0) 
+    {
+        *list = temp->next;
+        free(temp);
+        return;
+    }
+}
+```
+
+#### 2. 刪除其餘資料
+刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把倒數第二個的節點存下來，將最後一個節點 free 調，並把原先倒數第二的 next 指向 NULL 即可。
+```C
+void deleteNode(node **list, int position)
+{
+    int length = lenOfList(*list);
+    if (position >= length) position = length - 1;
+    //在此先計算 list 長度，若欲刪除之位置 > 長度，則直接刪除最後一個
+    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    //找到要刪除的位置的前一個
+    if (temp == NULL || temp->next == NULL) return;
+    //如果在第二個位置就已經是 NULL 了則直接回傳，代表 list 長度為 1。
+    node *nodeToBeDel = temp->next;
+    //將找到的位置的前一個另外開一個指標存下來
+    temp->next = nodeToBeDel->next;
+    //指向要被刪除的位置的下一個。
+    free(nodeToBeDel);
+}
+```
+倒數第三行為儲存倒數第二個資料勾環的位置，下一行則是把 temp->next 指向末位資料的鉤環，也就是指向 NULL 的鉤環，所以將最末位的資料刪除後仍是指向 NULL。 
