@@ -90,7 +90,7 @@ void insertEnd(struct node **list, int value)
 3. 在其他地方插入
 大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。
 ```C
-void insertMiddle(node **list, int value, int n)
+void insertMiddle(node **list, int value, int position)
 {
     node *new_node = newNode(value);
     for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
@@ -100,4 +100,4 @@ void insertMiddle(node **list, int value, int n)
     temp->next->prev = new_node;
 }
 ```
-而實作上可以考慮將插入函數寫成一個函數即可。
+temp->next->prev 是指原本的第 n+1 個 node 的 prev。其中而實作上可以考慮將插入函數寫成一個函數即可。
