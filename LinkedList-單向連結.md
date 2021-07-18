@@ -84,10 +84,10 @@ void insertHead(node **list, int value)
 #### 2. 在尾插入
 大部分的步驟一樣，只不過 newNode 最後要指向 NULL，然後另外開一個指標 temp 指向 list，找到目前存在 list 中最後一項物件，再把 temp 指向 newNode 即可。
 ```C
-void insertEnd(struct node **list, int value)
+void insertEnd(node **list, int value)
 {
     node *new_node = newNode(value);
-    struct node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
+    node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
     while(temp->next != NULL) temp = temp->next;  //會一直指向後面的 node 直到最後一個
     temp->next = newNode;
 }
