@@ -80,13 +80,7 @@ void deleteNode(node **list, int position)
         free(temp);
         return;
     }
-    else
-    {
-        int length = lenOfList(*list);
-        if (position >= length) position = length - 1;
-    }
-    
-
+   
     for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
     
     if (temp == NULL || temp ->next == NULL) return;
