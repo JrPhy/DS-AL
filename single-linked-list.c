@@ -23,6 +23,7 @@ void printList(node *list)
         printf("%d->", list->data);
         list = list->next;
     }
+     printf("\n");
 }
 
 int lenOfList(node *list)
@@ -50,9 +51,8 @@ void insertNode(node **list, int value, int position)
     }
     /* insert at the beginning*/
     /* insert at the middle*/
-    else if (position >= length + 1)
+    else if (position > length)
     {
-        
         node *temp = *list;
         while(temp->next != NULL) temp = temp->next;
         temp->next = new_node;
@@ -71,7 +71,6 @@ void insertNode(node **list, int value, int position)
 
 void deleteNode(node **list, int position) 
 {
-
     if (*list == NULL) return;
 
     node *temp = *list;
@@ -123,29 +122,23 @@ int main()
     three->next = NULL;
     // insert new node at the beginning
     printList(one);
-    printf("\n");
     insertNode(&one, 4, 0);
     printList(one);
-    printf("\n");
     // insert new node at the ending
     insertNode(&one, 5, 10);
     printList(one);
-    printf("\n");
-
     // insert new node in the middle
     insertNode(&one, 7, 2);
     printList(one);
-    printf("\n");
 
     deleteNode(&one, 10);
     printList(one);
-    printf("\n");
 
     deleteNode(&one, 3);
     printList(one);
-    printf("\n");
     
     reverse(&one);
     printList(one);
-    printf("\n");
+    
+    return 0;
 }
