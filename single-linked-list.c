@@ -50,15 +50,15 @@ void insertNode(node **list, int value, int position)
         *list = new_node;
     }
     /* insert at the beginning*/
-    /* insert at the middle*/
+    /* insert at the ending*/
     else if (position > length)
     {
         node *temp = *list;
         while(temp->next != NULL) temp = temp->next;
         temp->next = new_node;
     }
-    /* insert at the middle*/
     /* insert at the ending*/
+    /* insert at the middle*/
     else
     {
         node *new_node = newNode(value);
@@ -66,7 +66,7 @@ void insertNode(node **list, int value, int position)
         new_node->next = temp->next;
         temp->next = new_node;
     }
-    /* insert at the ending*/
+    /* insert at the middle*/
 }
 
 void deleteNode(node **list, int position) 
