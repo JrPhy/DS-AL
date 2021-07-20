@@ -131,7 +131,6 @@ void deleteNode(node **list, int position)
 void deleteNode(node **list, int position)
 {
     int length = lenOfList(*list);
-    if (position >= length) position = length - 1;
     //在此先計算 list 長度，若欲刪除之位置 > 長度，則直接刪除最後一個
     for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
     //找到要刪除的位置的前一個
