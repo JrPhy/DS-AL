@@ -126,7 +126,7 @@ void deleteNode(node **list, int position)
 ```
 
 #### 2. 刪除其餘資料
-刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把倒數第二個的節點存下來，將最後一個節點 free 調，並把原先倒數第二的 next 指向 NULL 即可。
+雙向鏈結在此與單向不同的地方在於，如果非最後一個節點，則還需要將被刪除節點的下一個 prev 指向被刪除節點的前一個節點，兩者在行為上有些許不同。
 ```C
 void deleteNode(node **list, int position)
 {
@@ -137,12 +137,20 @@ void deleteNode(node **list, int position)
     //找到要刪除的位置的前一個
     if (temp == NULL || temp->next == NULL) return;
     //如果在第二個位置就已經是 NULL 了則直接回傳，代表 list 長度為 1。
-    node *nodeToBeDel = temp->next;
+    node *nodeToBeDel = temp->next, *temp2;
     //將找到的位置的前一個另外開一個指標存下來
-    temp->next = nodeToBeDel->next;
-    //指向要被刪除的位置的下一個。
-    temp->prev = temp;
+    if(nodeToBeDel->next == NULL)
+    {
+        temp->next = nodeToBeDel->next;
+    }
+    //如果 nodeToBeDel->next 為 NULL，表示此節點為最後一個節點，所以只要把前一個節點的 next 指向 NULL 即可。
+    else
+    {
+        temp2 = nodeToBeDel->next;
+        temp->next = temp2;
+        temp2->prev = temp;
+    }
+    //如果 nodeToBeDel->next 不為 NULL，則要將前一個節點的 next 指向 nodeToBeDel 的下一個節點，並將 nodeToBeDel 的下一個節點的 prev 指向 nodeToBeDel 的前一個節點。
     free(nodeToBeDel);
 }
 ```
-倒數第三行為儲存倒數第二個資料勾環的位置，下一行則是把 temp->next 指向末位資料的鉤環，也就是指向 NULL 的鉤環，所以將最末位的資料刪除後仍是指向 NULL。 
