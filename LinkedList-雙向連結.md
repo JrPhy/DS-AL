@@ -153,5 +153,5 @@ void deleteNode(node **list, int position)
     //如果 nodeToBeDel->next 不為 NULL，則要將前一個節點的 next 指向 nodeToBeDel 的下一個節點，並將 nodeToBeDel 的下一個節點的 prev 指向 nodeToBeDel 的前一個節點。
     free(nodeToBeDel);
 }
-![image](pic/DLL-delete.jpg)
 ```
+![image](pic/DLL-delete.jpg)
