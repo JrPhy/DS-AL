@@ -146,7 +146,7 @@ void deleteNode(node **list, int position)
 倒數第三行為儲存倒數第二個資料勾環的位置，下一行則是把 temp->next 指向末位資料的鉤環，也就是指向 NULL 的鉤環，所以將最末位的資料刪除後仍是指向 NULL。如果 nodeToBeDel->next 不是 NULL，則非刪除最後一個節點。
 ![image](pic/delete-else.jpg)
 
-## 6. list 反轉
+## 6. 單向 list 反轉
 list 反轉需要另外開三個 node 才能完成，current 是要做移動，next 則是要存取移動中下一個指標，prev 則是指向前一個 node。
 * 1. 將 current 指向 prve
 * 2. 再將 prev 往後走一個 node
