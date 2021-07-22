@@ -150,8 +150,26 @@ void deleteNode(node **list, int position)
         temp->next = temp2;
         temp2->prev = temp;
     }
-    //如果 nodeToBeDel->next 不為 NULL，則要將前一個節點的 next 指向 nodeToBeDel 的下一個節點，並將 nodeToBeDel 的下一個節點的 prev 指向 nodeToBeDel 的前一個節點。
+    //如果 nodeToBeDel->next 不為 NULL，則要將前一個節點的 next 指向 nodeToBeDel 的下一個節點
+    //並將 nodeToBeDel 的下一個節點的 prev 指向 nodeToBeDel 的前一個節點。
     free(nodeToBeDel);
 }
 ```
 ![image](pic/DLL-delete.jpg)
+
+## 6. 雙向 list 反轉
+雙向 list 反轉比單向單純，可以想成只是 prev 與 next 做交換而已。
+```C
+void reverse(node **list)
+{
+    node *temp = NULL, *current = *list;
+    while(current != NULL)
+    {
+        current->prev = current->next;
+        current->next = temp;
+        temp = current;
+        current = current->prev;
+    }
+    *list = temp;
+}
+```
