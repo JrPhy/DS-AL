@@ -106,3 +106,24 @@ void deleteNode(node **list, int position)
 }
 ```
 
+## 6. list 反轉
+list 反轉需要另外開三個 node 才能完成，current 是要做移動，next 則是要存取移動中下一個指標，prev 則是指向前一個 node。
+* 1. 將 current 指向 prve
+* 2. 再將 prev 往後走一個 node
+* 3. 接著將 current 往後移動一個 node
+* 4. 接著重複以上三步驟直到最後一個為止
+結束以上步驟後將 list 分配給 prev 即可。
+```C
+void reverse(node **list)
+{
+    node *prevNode = NULL, *current = *list, *nextNode = NULL;
+    while (current != NULL) 
+    {
+        nextNode = current->next;
+        current->next = prevNode;
+        prevNode = current;
+        current = nextNode;
+    }
+    *list = prevNode;
+}
+```
