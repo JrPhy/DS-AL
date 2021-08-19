@@ -84,3 +84,25 @@ void insert(node **list, int value, int position)
     temp->next = new_node;
 }
 ```
+
+## 5. 刪除 list 中某位置資料
+同增加資料，只要實做刪除任意點資料即可
+```C
+void deleteNode(node **list, int position)
+{
+    int length = lenOfList(*list);
+    node *temp = *list;
+    if(position >= length) position = position%length;
+    //在此先計算 list 長度，若欲刪除之位置 > 長度，則直接刪除最後一個
+    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    //找到要刪除的位置的前一個
+    if (temp == NULL || temp->next == NULL) return;
+    //如果在第二個位置就已經是 NULL 了則直接回傳，代表 list 長度為 1。
+    node *nodeToBeDel = temp->next;
+    //將找到的位置的前一個另外開一個指標存下來
+    temp->next = nodeToBeDel->next;
+    //指向要被刪除的位置的下一個。
+    free(nodeToBeDel);
+}
+```
+
