@@ -92,7 +92,7 @@ void insertEnd(struct node **list, int value)
 ```C
 void insertMiddle(node **list, int value, int position)
 {
-    node *new_node = new_node(value);
+    node *new_node = newNode(value);
     node *temp = *list;
     for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
     new_node->next = temp->next;
