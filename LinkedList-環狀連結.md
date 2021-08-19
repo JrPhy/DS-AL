@@ -46,7 +46,7 @@ void printList(node *list)
     node *ptr = list;
     printf("%d\n", list->data);
     list = list->next;
-    while(list->next != ptr)
+    while(list != ptr)
     {
         printf("%d\n", list->data);
         list = list->next;
