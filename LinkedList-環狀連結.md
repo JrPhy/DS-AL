@@ -35,7 +35,7 @@ int main()
     three->next = one;
 }
 ```
-![image](pic/Circle-linked-list.jpg)
+![image](pic/Circle-linked-list.jpg) \
 除了最後要將最末端的節點指回頭，其他都與單向鏈結一樣。
 
 ## 2. 印出 list 中的資料
@@ -53,4 +53,34 @@ void printList(node *list)
     }
 }
 ```
-在 list 中能夠公開存取的只有第一個資料，但是因為紀錄的指向下一個位置的指標，所以可以訪問完整個 list。
+
+## 3. 計算 list 長度
+使用方式與印出 list 中所有元素並無不同。
+```C
+int lenOfList(node *list)
+{
+    int length = 1;
+    node *ptr = list;
+    list = list->next;
+    while(list != ptr)
+    {
+        ++length;
+        list = list->next;
+    }
+    return length;
+}
+```
+## 4. 增加串接資料於 list 中
+由於是環狀鏈結，所以可以當作沒有頭尾，所以只要實做在中間插入即可，如果想要在定義的頭前面插入，其實就是在最尾端插入一個節點的意思。
+```C
+void insert(node **list, int value, int position)
+{
+    node *new_node = newNode(value);
+    int length = lenOfList(&list)
+    if(position >= length)position = position%length;
+    node *temp = *list;
+    for(int i = 0; i < position; i++) if(temp->next != NULL) temp = temp->next;
+    new_node->next = temp->next;
+    temp->next = new_node;
+}
+```
