@@ -44,13 +44,14 @@ int main()
 void printList(node *list)
 {
     node *ptr = list;
-    printf("%d\n", list->data);
+    printf("%d->", list->data);
     list = list->next;
     while(list != ptr)
     {
-        printf("%d\n", list->data);
+        printf("%d->", list->data);
         list = list->next;
     }
+    printf("\n");
 }
 ```
 
@@ -76,7 +77,7 @@ int lenOfList(node *list)
 void insert(node **list, int value, int position)
 {
     node *new_node = newNode(value);
-    int length = lenOfList(&list)
+    int length = lenOfList(*list)
     if(position >= length)position = position%length;
     node *temp = *list;
     for(int i = 0; i < position; i++) if(temp->next != NULL) temp = temp->next;
