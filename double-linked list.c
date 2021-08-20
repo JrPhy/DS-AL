@@ -38,16 +38,6 @@ void printList(node *list)
 
 }
 
-void printListAddress(node *list)
-{
-    while(list != NULL)
-    {
-        printf("%p->", list->prev);
-        list = list->next;
-    }
-    printf("\n");
-}
-
 int lenOfList(node *list)
 {
     int length = 0;
