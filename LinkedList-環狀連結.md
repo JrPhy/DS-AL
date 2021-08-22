@@ -72,14 +72,30 @@ int lenOfList(node *list)
 }
 ```
 ## 4. 增加串接資料於 list 中
-由於是環狀鏈結，所以可以當作沒有頭尾，所以只要實做在中間插入即可，如果想要在定義的頭前面插入，其實就是在最尾端插入一個節點的意思。
+#### 1. 在首插入
+若有一個資料想放在 list 首，因為頭尾是連接的，所以若是要將新的 node 當作頭，則必須要再找到最後一個 node 將其接上。
+```C
+void insertHead(node **list, int value)
+{
+    node *new_node = newNode(value);
+    node *temp = *list;
+    node *ptr = *list;
+    while(temp->next != ptr) temp = temp->next;//此迴圈是移動到末節點
+
+    temp->next = new_node; //將末節點與新的頭節點接上
+    new_node->next = *list;//新的首節點接上原本的 list
+    *list = new_node;
+}
+```
+#### 2. 在其餘地方插入
+因為是環狀鏈結，所以可以看成一個無限長的單向鏈結，所以在尾插入與在其他地方插入是一樣的做法。
 ```C
 void insert(node **list, int value, int position)
 {
     node *new_node = newNode(value);
+    node *temp = *list;
     int length = lenOfList(*list)
     if(position >= length)position = position%length;
-    node *temp = *list;
     for(int i = 0; i < position; i++) if(temp->next != NULL) temp = temp->next;
     new_node->next = temp->next;
     temp->next = new_node;
@@ -87,22 +103,31 @@ void insert(node **list, int value, int position)
 ```
 
 ## 5. 刪除 list 中某位置資料
-同增加資料，只要實做刪除任意點資料即可
+#### 1. 刪除首位資料
+因為頭尾是連接的，所以要將原本的末節點接到第二個節點。
 ```C
 void deleteNode(node **list, int position)
 {
-    int length = lenOfList(*list);
     node *temp = *list;
+    node *ptr = *list;
+    while(temp->next != *list) temp = temp->next;
+    
+    *list = ptr->next;
+    temp->next = *list;
+    free(ptr);
+}
+```
+#### 2. 刪除其餘位置
+因為是環狀鏈結，所以可以看成一個無限長的單向鏈結，所以刪除末節點與在刪除其他節點是一樣的做法。
+```C
+void deleteNode(node **list, int position)
+{
+    node *temp = *list;
+    int length = lenOfList(*list);
     if(position >= length) position = position%length;
-    //在此先計算 list 長度，若欲刪除之位置 > 長度，則直接刪除最後一個
-    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
-    //找到要刪除的位置的前一個
-    if (temp == NULL || temp->next == NULL) return;
-    //如果在第二個位置就已經是 NULL 了則直接回傳，代表 list 長度為 1。
+    for (int i = 0; i < position - 1; ++i) temp = temp->next;
     node *nodeToBeDel = temp->next;
-    //將找到的位置的前一個另外開一個指標存下來
     temp->next = nodeToBeDel->next;
-    //指向要被刪除的位置的下一個。
     free(nodeToBeDel);
 }
 ```
