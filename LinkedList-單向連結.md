@@ -113,15 +113,9 @@ void insertMiddle(node **list, int value, int position)
 ```C
 void deleteNode(node **list, int position) 
 {
-    if (*list == NULL) return; //如果本身就是空 list 則直接回傳
-
     node *temp = *list;
-    if (position <= 0) 
-    {
-        *list = temp->next;
-        free(temp);
-        return;
-    }
+    *list = temp->next;
+    free(temp);
 }
 ```
 ![image](pic/delete-head.jpg)
