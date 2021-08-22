@@ -133,3 +133,19 @@ void deleteNode(node **list, int position)
 ```
 
 ## 6. list 反轉
+
+```C
+void reverse(node **list)
+{
+    node *prevNode = *list, *current = *list, *nextNode = NULL;
+    while (nextNode != *list)
+    {
+        nextNode = current->next;
+        current->next = prevNode;
+        prevNode = current;
+        current = nextNode;
+    }
+    current->next = prevNode;
+    *list = prevNode;
+}
+```
