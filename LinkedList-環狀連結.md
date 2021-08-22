@@ -133,7 +133,7 @@ void deleteNode(node **list, int position)
 ```
 
 ## 6. list 反轉
-
+在此與單向鏈結差不多，只是最後要再讓原本的頭指向尾即可。
 ```C
 void reverse(node **list)
 {
