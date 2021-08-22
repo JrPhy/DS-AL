@@ -71,14 +71,12 @@ void insertNode(node **list, int value, int position)
 
 void deleteNode(node **list, int position) 
 {
-    if (*list == NULL) return;
     int length;
     node *temp = *list;
     if (position <= 0) 
     {
         *list = temp->next;
         free(temp);
-        return;
     }
     else
     {
