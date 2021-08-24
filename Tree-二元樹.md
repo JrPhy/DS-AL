@@ -11,7 +11,7 @@ https://udn.com/news/story/7327/5064320 \
 2. 高度 h 的二元樹節點個數最多有 2<sup>h</sup>−1 個。 
 3. 非空二元樹若 leaf 個數為 n<sub>0</sub> 個，degree 為 2 的節點個數為 n<sub>2</sub> 個，則 n<sub>0</sub> = n<sub>2</sub>+1。  
 ```C
-struct _node
+typedef struct _node
 {
     int data;
     struct _node *left;
@@ -34,10 +34,49 @@ int main()
 {
     /* Initialize nodes */
     node *root = newNode(1);
-    node *root_left = newNode(2);
-    node *root_right = newNode(3);
+    node *root1_left = newNode(2);
+    node *root1_right = newNode(3);
     
-    root->left = root_left;
-    root->right = root_right;
+    root->left = root1_left;
+    root->right = root1_right;
+}
+```
+
+## 印出數中所有資料
+從根進入後可以分左右進入，所以印出所有元素共有四種組合
+#### 1. Preorder Traversal 前序遍歷
+從根進入後先印出資料，並先將跟左邊的所有子節點印出，在走道根的右邊印出，當走到最後一個節點時就會到 NULL。
+```C
+void preorder(node *root) 
+{
+    printf("%d", root->data);
+    if (root->left != NULL)  //若其中一側的子樹非空則會讀取其子樹
+        preorder(root->left);
+    if (root->right != NULL) //另一側的子樹也做相同事
+        preorder(root->right);
+}
+```
+#### 2. Inorder Traversal 中序遍歷
+從最左邊的節點開始，由左至右，由下而上(葉子到根)印出，根的左邊節點全部走訪後再到右邊節點。
+```C
+void inorder(node *root) 
+{
+    if (root->left != NULL)  //若其中一側的子樹非空則會讀取其子樹
+        inorder(root->left);
+    printf("%d", root->data);
+    if (root->right != NULL) //另一側的子樹也做相同事
+        inorder(root->right);
+}
+```
+#### 3. Postorder Traversal 後序遍歷
+從最左邊的節點開始，每一層的節點由左至右印出，最後才會印到根。
+```C
+void postorder(node *root) 
+{
+    if (root->left != NULL)  //若其中一側的子樹非空則會讀取其子樹
+        postorder(root->left);
+    if (root->right != NULL) //另一側的子樹也做相同事
+        postorder(root->right);
+    printf("%d", root->data);
 }
 ```
