@@ -21,9 +21,17 @@ node* newNode(int value)
     if(tmpNode!=NULL) 
     {
         tmpNode->data = value;
-        tmpNode->next = NULL;
-        tmpNode->prev = NULL;
+        tmpNode->left = NULL;
+        tmpNode->right = NULL;
     }
     return tmpNode;
+}
+
+int main()
+{
+    /* Initialize nodes */
+    node *root = newNode(1);
+    node *root_left = newNode(2);
+    node *root_right = newNode(3);
 }
 ```
