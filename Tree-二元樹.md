@@ -33,5 +33,8 @@ int main()
     node *root = newNode(1);
     node *root_left = newNode(2);
     node *root_right = newNode(3);
+    
+    root->left = root_left;
+    root->right = root_right;
 }
 ```
