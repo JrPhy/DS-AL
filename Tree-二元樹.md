@@ -36,9 +36,13 @@ int main()
     node *root = newNode(1);
     node *root1_left = newNode(2);
     node *root1_right = newNode(3);
+    node *root2_left = newNode(4);
+    node *root2_right = newNode(5);
     
     root->left = root1_left;
     root->right = root1_right;
+    root1_left->left = root2_left;
+    root1_right->right = root2_right;
 }
 ```
 
@@ -88,9 +92,62 @@ void postorder(node *root)
 1. 在"根"節點左邊的所有值皆小於根
 2. 在"根"節點右邊的所有值皆大於根
 3. 所有子樹皆為二元搜尋樹
+4. 不存在任何鍵值 ( key/value ) 相等的節點。
 因為順序排放，故在空間與算法時間上有以下結果
 
 |  | 搜尋 | 插入 | 刪除 | 空間 | 
 | --- | --- | --- | --- | --- |
 | 平均 | O(logn) | O(logn) | O(logn) | O(n) |
 | 最差 | O(n) | O(n) | O(n) | O(n) |
+
+```C
+typedef struct _node
+{
+    int data;
+    struct _node *left;
+    struct _node *right;
+}node;
+
+node* newNode(int value)
+{
+    node *tmpNode = malloc(sizeof(node));
+    if(tmpNode!=NULL) 
+    {
+        tmpNode->data = value;
+        tmpNode->left = NULL;
+        tmpNode->right = NULL;
+    }
+    return tmpNode;
+}
+
+int main()
+{
+    /* Initialize nodes */
+    node *root = newNode(4);
+    node *root1_left = newNode(1);
+    node *root1_right = newNode(5);
+    node *root2_left = newNode(3);
+    node *root2_right = newNode(2);
+    
+    root->left = root1_left;
+    root->right = root1_right;
+    root1_left->left = root2_left;
+    root1_right->right = root2_right;
+}
+```
+
+#### 1. 搜尋
+根據二元搜尋樹的元素順序，只要是比節點小的就往走，比節點大的就往右，若是 key 不在數裡面則回傳 NULL。
+```C
+node *search(node *root, int key) 
+{
+    node *current = root;
+    while(current != NULL && key != current->data)
+    {
+        if(key > root->data) current = current->right; //若比較大則往右走
+        else current  = current->left;                 //否則往左走
+    }
+    if(current != NULL) return current;
+    else return NULL;
+}
+```
