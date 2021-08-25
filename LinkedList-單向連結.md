@@ -93,7 +93,7 @@ void insertEnd(node **list, int value)
 }
 ```
 ![image](pic/insert-at-tail.jpg)
-#### 3. 在其他地方插入
+#### 3. 在其他地方插入 
 大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。
 ```C
 void insertMiddle(node **list, int value, int position)
