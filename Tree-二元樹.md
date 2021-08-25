@@ -1,11 +1,11 @@
-## 介紹
+## 1. 介紹
 
 樹是一種資料結構，如現實生活中一樣，由根往上長出許多樹枝與葉子。在樹狀結構中，有一個**最上面**的節點，稱為根結點，所以資料結構中的樹與現實生活中的樹剛好相反。根結點往下會長出子節點，每個子節點不互相連結，長出子節點的節點又稱作父節點，長出的子節點可追溯到同一個父節點，而最後一個子節點稱為葉，如圖所示。
 ![image](pic/Tree1.jpg)
 https://udn.com/news/story/7327/5064320 \
 而樹有很多種，在此以二元樹為主繼續往下介紹
 
-## 二元樹
+## 2. 二元樹
 二元樹是一種**至多**只有兩個子節點的樹狀資料結構，如同雙向鍊結一樣可以往左或往右，但是左右不串接。也可以使用陣列實作，但是在此以結構的方式實作，並有以下性質：
 1. 第 i 層的節點個數最多有 2<sup>i</sup>−1 個。
 2. 高度 h 的二元樹節點個數最多有 2<sup>h</sup>−1 個。 
@@ -46,7 +46,7 @@ int main()
 }
 ```
 
-## 印出數中所有資料
+## 3. 印出數中所有資料
 從根進入後可以分左右進入，所以印出所有元素共有四種組合
 #### 1. Preorder Traversal 前序遍歷
 從根進入後先印出資料，並先將根左邊的所有子節點印出，再走到根的右邊印出，當走到最後一個節點時就會到 NULL。
@@ -87,7 +87,7 @@ void postorder(node *root)
 ```
 可發現此三個函數幾乎一樣，只差在印出資料的程式碼位置不同。
 
-## 二元搜尋樹
+## 4. 二元搜尋樹
 若樹中的資料都是同一種類，且按序排放，則稱為二元搜尋樹，其定義如下
 1. 在"根"節點左邊的所有值皆小於根
 2. 在"根"節點右邊的所有值皆大於根
@@ -149,5 +149,36 @@ node *search(node *root, int key)
     }
     if(current != NULL) return current;
     else return NULL;
+}
+```
+
+#### 2. 插入
+
+```C
+void insert(node **root, int value) 
+{
+    node *current = *root, *prevNode = NULL;
+    while(current != NULL)
+    {
+        prevNode = current;
+        if(prevNode->data > value && value > current->data) break;
+        if(current->data > value && value > prevNode->data) break;
+        if(value > current->data)  current = current->right; //若比較大則往右走
+        else current  = current->left;                 //否則往左走
+    }
+    
+    if(prevNode == NULL) prevNode = newNode(value);
+    else if (value < prevNode->data)
+    {
+        prevNode->left = newNode(value);
+        prevNode = prevNode->left;
+        prevNode->left = current;
+    }
+    else
+    {
+        prevNode->right = newNode(value);
+        prevNode = prevNode->right;
+        prevNode->right = current;
+    }
 }
 ```
