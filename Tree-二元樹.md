@@ -180,19 +180,34 @@ void insert(node **root, int value)
 ```
 
 #### 3. 刪除
-在此可搭配 serach 做使用，會有以下三種情況發生
+在此可搭配 serach 做使用，將樹與欲刪除的直傳入函數中並直接修改該樹，宣告為```C void deleteNode(node **root, int value) ```，會有以下三種情況發生
 #### 刪除葉子
-因為是刪除葉子，所以直接將葉子節點 free 掉即可
-
-#### 刪除僅有一分支的節點
-類似 linked-list 中的刪除，只要將該節點後的資料與前一節點串接起來即可
-
-#### 刪除有一分支的節點
-因為二元搜尋樹按序排列，所以當這種狀況發生時就要將該節點以下的資料全部拿出來重新排列一次再放入
-
+因為是刪除葉子，所以直接將葉子節點 free 掉即可，然後要記得將該節點設為 NULL。
 ```C
-void deleteNode(node **root, int key)
+if(current->left == NULL && current->right == NULL)
 {
-
+    if (prevNode->left == current)  prevNode->left = NULL;
+    else prevNode->right = NULL;
+    free(current);
 }
 ```
+#### 刪除僅有一分支的節點
+類似 linked-list 中的刪除，只要將該節點後的資料與前一節點串接起來即可
+```C
+else
+{
+    if (prevNode->data > current->data)
+    {
+        if (current->left != NULL) prevNode->left = current->left;
+        else prevNode->left = current->right;
+    }
+    else
+    {
+        if (current->left != NULL) prevNode->right = current->left;
+        else prevNode->right = current->right;
+    }
+}
+```
+
+#### 刪除有兩分支的節點
+因為二元搜尋樹按序排列，所以當這種狀況發生時就要將該節點以下的資料全部拿出來重新排列一次再放入
