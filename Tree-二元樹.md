@@ -153,7 +153,7 @@ node *search(node *root, int key)
 ```
 
 #### 2. 插入
-
+在插入時因為 value 一定不等於數中的任何一個值，所以在迴圈中要判斷是否介於兩節點之間，之後再照著定義插入即可。
 ```C
 void insert(node **root, int value) 
 {
@@ -163,6 +163,7 @@ void insert(node **root, int value)
         prevNode = current;
         if(prevNode->data > value && value > current->data) break;
         if(current->data > value && value > prevNode->data) break;
+        //當要插入的值介於兩節點之間就跳脫迴圈
         if(value > current->data)  current = current->right; //若比較大則往右走
         else current  = current->left;                 //否則往左走
     }
@@ -182,3 +183,15 @@ void insert(node **root, int value)
     }
 }
 ```
+
+#### 3. 刪除
+在此可搭配 serach 做使用，會有以下三種情況發生
+#### 刪除葉子
+因為是刪除葉子，所以直接將葉子節點 free 掉即可
+
+#### 刪除僅有一分支的節點
+類似 linked-list 中的刪除，只要將該節點後的資料與前一節點串接起來即可
+
+#### 刪除有一分支的節點
+因為二元搜尋樹按序排列，所以當這種狀況發生時就要將該節點以下的資料全部拿出來重新排列一次再放入
+
