@@ -180,7 +180,7 @@ void insert(node **root, int value)
 ```
 
 #### 3. 刪除
-在此可搭配 serach 做使用，將樹與欲刪除的直傳入函數中並直接修改該樹，宣告為```C void deleteNode(node **root, int value) ```，會有以下三種情況發生
+在此可搭配 serach 做使用，將樹與欲刪除的直傳入函數中並直接修改該樹，宣告為```void deleteNode(node **root, int value) ```，會有以下三種情況發生
 #### 刪除葉子
 因為是刪除葉子，所以直接將葉子節點 free 掉即可，然後要記得將該節點設為 NULL。
 ```C
