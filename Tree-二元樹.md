@@ -93,12 +93,7 @@ void postorder(node *root)
 2. 在"根"節點右邊的所有值皆大於根
 3. 所有子樹皆為二元搜尋樹
 4. 不存在任何鍵值 ( key/value ) 相等的節點。
-因為順序排放，故在空間與算法時間上有以下結果
-
-|  | 搜尋 | 插入 | 刪除 | 空間 | 
-| --- | --- | --- | --- | --- |
-| 平均 | O(logn) | O(logn) | O(logn) | O(n) |
-| 最差 | O(n) | O(n) | O(n) | O(n) |
+因為順序排放，故算法時間平均為 O(logn)，最差 O(n)。
 
 ```C
 typedef struct _node
@@ -195,3 +190,9 @@ void insert(node **root, int value)
 #### 刪除有一分支的節點
 因為二元搜尋樹按序排列，所以當這種狀況發生時就要將該節點以下的資料全部拿出來重新排列一次再放入
 
+```C
+void deleteNode(node **root, int key)
+{
+
+}
+```
