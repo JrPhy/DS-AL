@@ -195,16 +195,17 @@ node *hasCycle(node *head)
             slow = slow->next;
             ++count;
         }
+        //若有環，找出進入環的節點
+        fast = head;
+        while(fast != current)
+        {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        slow->data = count;
     }
-    fast = head;
+    else slow = NULL;
 
-    //若有環，找出進入環的節點
-    while(fast != current)
-    {
-        fast = fast->next;
-        slow = slow->next;
-    }
-    slow->data = count;
     return slow;
 }
 ```
