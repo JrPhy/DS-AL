@@ -23,7 +23,7 @@ void printList(node *list)
     node *ptr = list;
     printf("%d->", list->data);
     list = list->next;
-    while(list != ptr)
+    while(list != ptr && list != NULL)
     {
         printf("%d->", list->data);
         list = list->next;
@@ -120,6 +120,50 @@ void reverse(node **list)
     *list = prevNode;
 }
 
+node *hasCycle(node *head)
+{
+    int count = 0, cycle = 0;
+    node *fast = head, *slow = head, *current = NULL;
+
+    while (fast != NULL && fast->next != NULL)
+    {
+        //檢測是否有環
+
+        fast = fast->next->next;
+        slow = slow->next;
+        if(fast == slow)
+        {
+            cycle = 1;
+            current = slow;
+            break;
+        }
+
+    }
+
+    //若有環，計算環的長度
+    if(cycle == 1)
+    {
+        slow = current->next;
+        count = 1;
+        while (slow != current)
+        {
+            slow = slow->next;
+            ++count;
+        }
+        //若有環，找出進入環的節點
+        fast = head;
+        while(fast != current)
+        {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        slow->data = count;
+    }
+    else slow = NULL;
+
+    return slow;
+}
+
 
 int main()
 {
@@ -132,7 +176,6 @@ int main()
     one->next = two;
     two->next = three;
     three->next = one;
-
     printList(one);
 
     insert(&one, 4, 0);
@@ -157,5 +200,28 @@ int main()
 
     reverse(&one);
     printList(one);
+
+    reverse(&one);
+    deleteNode(&one, 10);
+    deleteNode(&one, 10);
+    deleteNode(&one, 10);
+    one = newNode(1);
+    two = newNode(2);
+    three = newNode(3);
+    node *four = newNode(4);
+    node *five = newNode(5);
+
+    // connect the node
+    one->next = two;
+    two->next = three;
+    three->next = four;
+    four->next = five;
+    five->next = NULL;
+
+    printList(one);
+    node *entry = hasCycle(one);
+    if(entry != NULL) printf("%d\n", entry->data);
+    else printf("%p\n", entry);
+
     return 0;
 }
