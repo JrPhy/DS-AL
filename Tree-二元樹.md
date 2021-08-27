@@ -211,5 +211,19 @@ else
 ```
 
 #### 刪除有兩分支的節點
-![image](pic/BST_delete.jpg)
-這種情況比較複雜，我們可以看圖來討論狀況。若是要刪除
+![image](pic/BST_delete.jpg) \
+這種情況比較複雜，我們可以看圖來討論狀況。若是要刪除 5 這個節點，則在以 5 為 root 下的子樹有兩個選擇，4 與 7。若是要刪除 15 這個節點，則在以 15 為 root 下的子樹有兩個選擇，13 與 17，所以選擇非唯一。但是根據二元搜尋樹的定義，該值就是在子樹中最和**欲刪除點值最接近**的，所以在找的時候可以找右子樹的最小值或左子樹的最大值，所以經過此操作的二元搜尋樹不唯一。
+```C
+else if(current->left != NULL && current->right != NULL)
+{
+    node *tempNode = current->right, *prevTemp;
+    while(tempNode->left != NULL)
+    {
+        prevTemp = tempNode;
+        tempNode = tempNode->left;
+    }
+    current->data = tempNode->data;
+    prevTemp->left = NULL;
+    free(tempNode);
+}
+```
