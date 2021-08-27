@@ -165,42 +165,47 @@ void reverse(node **list)
 #### 3. 計算環的起點
 假設環的長度為 n，起點到環的入口長度為 m，第一次相遇距環的入口為 k。已知快指標速度是慢指標的兩倍，設快指標第二次到**相遇**點時，快指標共走了 m + (n-k) + 2k 步，慢指標共走 m + k 步，又 2(m+k) = m + (n-k) + 2k，可得 m = n - k，即慢指標與快指標第一次相遇後，將快指標指向起點，然後走一次一步，接著慢指標繼續從相遇點往前走，在下一次遇到的點就是環的入口了。
 ```C
-node *hasCycle(node *head) 
+node *hasCycle(node *head)
 {
     int count = 0, cycle = 0;
-    node *fast = *slow = head, node *current = NULL;
-    while (fast != NULL && fast->next != NULL) 
+    node *fast = head, *slow = head, *current = NULL;
+
+    while (fast != NULL && fast->next != NULL)
     {
         //檢測是否有環
+
         fast = fast->next->next;
         slow = slow->next;
-        if(fast == slow) 
+        if(fast == slow)
         {
             cycle = 1;
             current = slow;
+            break;
         }
-        
-        //若有環，計算環的長度
-        if(cycle == 1)
-        {
-            slow = current->next;
-            count = 1;
-            while (slow != current) slow = slow->next;
-            {
-                slow = slow->next;
-                ++count;
-            }
-        }
-        fast = head;
-        
-        //若有環，找出進入環的節點
-        while(fast != current)
-        {
-            fast = fast->next;
-            slow = slow->next;
-        }
-        slow->data = count;
+
     }
+
+    //若有環，計算環的長度
+    if(cycle == 1)
+    {
+        slow = current->next;
+        count = 1;
+        while (slow != current)
+        {
+            slow = slow->next;
+            ++count;
+        }
+    }
+    fast = head;
+
+    //若有環，找出進入環的節點
+    while(fast != current)
+    {
+        fast = fast->next;
+        slow = slow->next;
+    }
+    slow->data = count;
     return slow;
 }
 ```
+此算法檢測若鏈結沒有環，則會回傳 NULL，若有環則會回傳環的入口以及環的長度。
