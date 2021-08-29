@@ -40,3 +40,18 @@ void printStack(stack *buffer)
 }
 ```
 注意到這邊使用了 ++ 與 -- 操作。a[i++] 表示先執行 a[i]，執行完後 i 再 +1。a[++i] 表示先執行 +1，執行完後 i 再執行 a[i]。所以在 push 中是先將 buffer->top = buffer->top+1，再將 data 放入 buffer->array 中。而 pop 則是先將 buffer->array[buffer->top] 回傳，再將 buffer->top = buffer->top - 1。
+```C
+int main()
+{
+    stack *buffer = newStack(100);
+    
+    push(buffer, 10);
+    push(buffer, 20);
+    push(buffer, 30);
+    printStack(buffer);
+ 
+    printf("%d popped from stack\n", pop(buffer));
+ 
+    return 0;
+}
+```
