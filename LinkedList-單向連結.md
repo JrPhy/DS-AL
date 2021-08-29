@@ -75,7 +75,7 @@ int lenOfList(node *list)
 void insertNode(node **list, int value)
 {
     node *new_node = newNode(value);
-    newNode->next = *list;
+    new_node->next = *list;
     *list = newNode;
 }
 ```
