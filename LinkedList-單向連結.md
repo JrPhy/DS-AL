@@ -46,9 +46,10 @@ void printList(node *list)
 {
     while(list != NULL)
     {
-        printf("%d\n", list->data);
+        printf("%d ", list->data);
         list = list->next;
     }
+    printf("\n");
 }
 ```
 在 list 中能夠公開存取的只有第一個資料，但是因為紀錄的指向下一個位置的指標，所以可以訪問完整個 list。
@@ -76,7 +77,7 @@ void insertNode(node **list, int value)
 {
     node *new_node = newNode(value);
     new_node->next = *list;
-    *list = newNode;
+    *list = new_node;
 }
 ```
 ![image](pic/insert-at-head.jpg)
@@ -89,7 +90,7 @@ void insertNode(node **list, int value)
     node *new_node = newNode(value);
     node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
     while(temp->next != NULL) temp = temp->next;  //會一直指向後面的 node 直到最後一個
-    temp->next = newNode;
+    temp->next = new_node;
 }
 ```
 ![image](pic/insert-at-tail.jpg)
@@ -101,7 +102,7 @@ void insertNode(node **list, int value, int position)
     node *new_node = newNode(value);
     for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
     new_node->next = temp->next;
-    temp->next = newNode;
+    temp->next = new_node;
 }
 ```
 而實作上可以考慮將插入函數寫成一個函數即可。
