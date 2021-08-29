@@ -72,7 +72,7 @@ int lenOfList(node *list)
 #### 1. 在首插入
 若有一個資料想放在 list 首，就先在裡面開一個新的 node 指標 newNode，將 data 放進去後，newNode 裡面的 next 指向原本的頭，最後再將 list 指向 newNode 即可。
 ```C
-void insertHead(node **list, int value)
+void insertNode(node **list, int value)
 {
     node *new_node = newNode(value);
     newNode->next = *list;
@@ -84,7 +84,7 @@ void insertHead(node **list, int value)
 #### 2. 在尾插入
 大部分的步驟一樣，只不過 newNode 最後要指向 NULL，然後另外開一個指標 temp 指向 list，找到目前存在 list 中最後一項物件，再把 temp 指向 newNode 即可。
 ```C
-void insertEnd(node **list, int value)
+void insertNode(node **list, int value)
 {
     node *new_node = newNode(value);
     node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
@@ -96,7 +96,7 @@ void insertEnd(node **list, int value)
 #### 3. 在其他地方插入 
 大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。在此是在第 n 個 node 後面插入，所以是將新的 node 插入在第 n+1 個 node。
 ```C
-void insertMiddle(node **list, int value, int position)
+void insertNode(node **list, int value, int position)
 {
     node *new_node = newNode(value);
     for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
