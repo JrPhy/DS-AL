@@ -100,7 +100,7 @@ void insertNode(node **list, int value, int position)
 {
     node *new_node = newNode(value);
     for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
-    newNode->next = temp->next;
+    new_node->next = temp->next;
     temp->next = newNode;
 }
 ```
@@ -125,7 +125,7 @@ void deleteNode(node **list, int position)
 void deleteNode(node **list, int position)
 {
     int length = lenOfList(*list);
-    //在此先計算 list 長度，若欲刪除之位置 > 長度，則直接刪除最後一個
+    //在此先計算 list 長度，若欲刪除之位置大於長度，則直接刪除最後一個
     for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
     //找到要刪除的位置的前一個
     if (temp == NULL || temp->next == NULL) return;
