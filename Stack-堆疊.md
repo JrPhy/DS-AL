@@ -1,7 +1,7 @@
 此堆疊與記憶體中的 stack 不同，堆疊是一種先進後出(First In Last Out, FILO)的資料結構，也就是出入口都是同一個，像打包裝箱就是堆疊的一種，在此會以 linked-list 與 dynamic array 做示範。
 
 ## 1. 使用 dynamic array 
-在此我們需要知道 stack 的容量和是否放滿，以及一個指標來指向動態陣列。其中 capacity 代表容量，top 是告訴我們是否還可以放東西進去，當 capacity == top 時表示容器已滿。接著就可以來創造容器
+在此我們需要知道 stack 的容量和是否放滿，以及一個指標來指向動態陣列。其中 capacity 代表容量，top 是告訴我們是否還可以放東西進去，當 capacity == top + 1 時表示容器已滿。接著就可以來創造容器
 ```C
 typedef struct _stack {
     int top;
