@@ -39,7 +39,7 @@ int dequeue(queue *buffer)
     {
         int _dequeue = buffer->array[0];
         --buffer->bottom;
-        for(int i = 0; i < buffer->bottom; i++) buffer->array[i] = buffer->array[i+1];
+        for(int i = 0; i < buffer->bottom+1; i++) buffer->array[i] = buffer->array[i+1];
         return _dequeue;
     }
     else return -999;
@@ -65,7 +65,7 @@ int main()
     enqueue(buffer, 30);
     printQueue(buffer);
  
-    printf("%d popped from stack\n", dequeue(buffer));
+    printf("%d dequeue from queue\n", dequeue(buffer));
  
     return 0;
 }
