@@ -4,7 +4,7 @@
 在此我們需要知道 stack 的容量和是否放滿，以及一個指標來指向動態陣列。其中 capacity 代表容量，top 是告訴我們是否還可以放東西進去，當 capacity == top 時表示容器已滿。接著就可以來創造容器
 ```C
 typedef struct _stack {
-    char top;
+    int top;
     unsigned int capacity;
     int *array;
 }stack;
