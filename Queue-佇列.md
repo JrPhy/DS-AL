@@ -100,7 +100,7 @@ int main()
 例如一長度為 5 的陣列，及 index 分別為 0, 1, 2, 3, 4，當長度為 n，陣列的 index 為 0, 1, ..., n-1，所以在 enquene 和 dequene 就可以利用這性質實作。
 
 #### enquene
-在環狀佇列中，如果佇列未滿，則可以直接放入新的元素。若佇列滿了，則需先執行 dequene 再將新的元素放入佇列中。而判斷佇列是否滿不像線性佇列這麼單純，因為 top 與 bottom 會經過任何一個 index，所以當 (bottom + 1) % capacity == top 時表示佇列已經放滿了。
+在環狀佇列中，如果佇列未滿，則可以直接放入新的元素。若佇列滿了，則需先執行 dequene 再將新的元素放入佇列中。而判斷佇列是否滿不像線性佇列這麼單純，因為 top 與 bottom 會經過任何一個 index，所以當 bottom % capacity == top 時表示佇列已經放滿了。
 ```C
 void enqueue(queue *buffer, int data)
 {
