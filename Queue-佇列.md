@@ -104,32 +104,13 @@ int main()
 ```C
 void enqueue(queue *buffer, int data)
 {
-    if ((buffer->bottom + 1) % capacity != buffer->top) 
-    {
-        buffer->array[buffer->bottom] = data;
-        ++buffer->bottom;
-    }
-    else
-    {
-        dequeue(buffer);
-        buffer->bottom = (buffer->bottom + 1) % buffer->capacity;
-    }
+
 }
 ```
 同 enqueue，若環狀佇列放滿了，此時要先將頭元素移出，然後將 top 往後移一格，且 bottom 也往後移一格，這樣才能達到排隊的效果。而如果沒放滿要出隊，則直接將 top 往後移一格即可。
 ```C
 int dequeue(queue *buffer)
 {
-    int _dequeue = buffer->array[buffer->top];
-    buffer->array[buffer->top] = -1;
-    if ((buffer->bottom + 1) % capacity != buffer->top) 
-    {
-        int _dequeue = buffer->array[buffer->top];
-        buffer->bottom = (buffer->bottom + 1) % capacity;
-        buffer->top = (buffer->top + 1) % capacity;
-        return _dequeue;
-    }
-    buffer->top = (buffer->top + 1) % capacity;
-    return _dequeue;
+
 }
 ```
