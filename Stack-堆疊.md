@@ -22,7 +22,7 @@ stack *newStack(unsigned int capacity)
     else return new_stack;
 }
 ```
-在 stack 中有兩個函數，分別是放入 push 與拿出 pop，
+在 stack 中主要有兩個函數，分別是放入 push 與拿出 pop，
 ```C
 void push(stack *buffer, int data)
 {
