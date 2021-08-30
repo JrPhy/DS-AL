@@ -35,10 +35,14 @@ void enqueue(queue *buffer, int data)
 
 int dequeue(queue *buffer)
 {
-    int _dequeue = buffer->array[0];
-    --buffer->bottom;
-    for(int i = 0; i < buffer->bottom; i++) buffer->array[i] = buffer->array[i+1];
-    return _dequeue;
+    if (buffer->bottom != - 1)
+    {
+        int _dequeue = buffer->array[0];
+        --buffer->bottom;
+        for(int i = 0; i < buffer->bottom; i++) buffer->array[i] = buffer->array[i+1];
+        return _dequeue;
+    }
+    else return -999;
 }
 
 void printQueue(queue *buffer)
