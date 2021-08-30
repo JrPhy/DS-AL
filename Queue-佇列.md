@@ -100,11 +100,11 @@ int main()
 例如一長度為 5 的陣列，及 index 分別為 0, 1, 2, 3, 4，當長度為 n，陣列的 index 為 0, 1, ..., n-1，所以在 enquene 和 dequene 就可以利用這性質實作。
 
 #### enquene
-在環狀佇列中，如果佇列未滿，則可以直接放入新的元素。若佇立滿了，則需先執行 dequene 再將新的元素放入佇列中。
+在環狀佇列中，如果佇列未滿，則可以直接放入新的元素。若佇列滿了，則需先執行 dequene 再將新的元素放入佇列中。而判斷佇列是否滿不像線性佇列這麼單純，因為 top 與 bottom 會經過任何一個 index，所以當 (bottom + 1) % capacity == top 時表示佇列已經放滿了。
 ```C
 void enqueue(queue *buffer, int data)
 {
-    if (buffer->bottom < buffer->capacity) 
+    if ((buffer->bottom + 1) % capacity != buffer->top) 
     {
         buffer->array[buffer->bottom] = data;
         ++buffer->bottom;
@@ -116,17 +116,20 @@ void enqueue(queue *buffer, int data)
     }
 }
 ```
-
+同 enqueue，若環狀佇列放滿了，此時要先將頭元素移出，然後將 top 往後移一格，且 bottom 也往後移一格，這樣才能達到排隊的效果。而如果沒放滿要出隊，則直接將 top 往後移一格即可。
 ```C
 int dequeue(queue *buffer)
 {
-    if (buffer->bottom != - 1)
+    int _dequeue = buffer->array[buffer->top];
+    buffer->array[buffer->top] = -1;
+    if ((buffer->bottom + 1) % capacity != buffer->top) 
     {
-        int _dequeue = buffer->array[0];
-        --buffer->bottom;
-        for(int i = 0; i < buffer->bottom+1; i++) buffer->array[i] = buffer->array[i+1];
+        int _dequeue = buffer->array[buffer->top];
+        buffer->bottom = (buffer->bottom + 1) % capacity;
+        buffer->top = (buffer->top + 1) % capacity;
         return _dequeue;
     }
-    else return -999;
+    buffer->top = (buffer->top + 1) % capacity;
+    return _dequeue;
 }
 ```
