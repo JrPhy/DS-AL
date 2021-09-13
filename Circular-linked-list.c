@@ -64,10 +64,10 @@ void insert(node **list, int value, int position)
     if(position < 1)
     {
         node *ptr = *list;
-        while(temp->next != ptr) temp = temp->next;//¦¹°j°é¬O²¾°Ê¨ì¥½¸`ÂI
+        while(temp->next != ptr) temp = temp->next;//æ­¤è¿´åœˆæ˜¯ç§»å‹•åˆ°æœ«ç¯€é»ž
 
-        temp->next = new_node; //±N¥½¸`ÂI»P·sªºÀY¸`ÂI±µ¤W
-        new_node->next = *list;//·sªº­º¸`ÂI±µ¤W­ì¥»ªº list
+        temp->next = new_node; //å°‡æœ«ç¯€é»žèˆ‡æ–°çš„é ­ç¯€é»žæŽ¥ä¸Š
+        new_node->next = *list;//æ–°çš„é¦–ç¯€é»žæŽ¥ä¸ŠåŽŸæœ¬çš„ list
         *list = new_node;
     }
 
@@ -127,8 +127,7 @@ node *hasCycle(node *head)
 
     while (fast != NULL && fast->next != NULL)
     {
-        //ÀË´ú¬O§_¦³Àô
-
+        //æª¢æ¸¬æ˜¯å¦æœ‰ç’°
         fast = fast->next->next;
         slow = slow->next;
         if(fast == slow)
@@ -139,8 +138,7 @@ node *hasCycle(node *head)
         }
 
     }
-
-    //­Y¦³Àô¡A­pºâÀôªºªø«×
+    //è‹¥æœ‰ç’°ï¼Œè¨ˆç®—ç’°çš„é•·åº¦
     if(cycle == 1)
     {
         slow = current->next;
@@ -150,7 +148,7 @@ node *hasCycle(node *head)
             slow = slow->next;
             ++count;
         }
-        //­Y¦³Àô¡A§ä¥X¶i¤JÀôªº¸`ÂI
+        //è‹¥æœ‰ç’°ï¼Œæ‰¾å‡ºé€²å…¥ç’°çš„ç¯€é»ž
         fast = head;
         while(fast != current)
         {
@@ -160,7 +158,6 @@ node *hasCycle(node *head)
         slow->data = count;
     }
     else slow = NULL;
-
     return slow;
 }
 
