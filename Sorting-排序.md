@@ -98,10 +98,9 @@ void mergeSort(int arr[], int length)
 ```
 
 ## 3. 快速排序法 Quick Sort
-不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而一般情況下則是需要 O(nlog<sub>2</sub>n)。\
+不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而一般情況下則是需要 O(nlog<sub>2</sub>n)。
 
 ```C
-#include <stdio.h>
 void swap(int* a, int* b)
 {
     int t = *a;
@@ -109,58 +108,57 @@ void swap(int* a, int* b)
     *b = t;
 }
   
-int partition(int arr[], int l, int h)
+int partition(int arr[], int head, int tail)
 {
-    int x = arr[h];
-    int i = (l - 1);
+    int x = arr[tail];
+    int i = (head - 1);
   
-    for (int j = l; j <= h - 1; j++) {
-        if (arr[j] <= x) {
+    for (int j = head; j <= tail - 1; j++) 
+    {
+        if (arr[j] <= x) 
+        {
             i++;
             swap(&arr[i], &arr[j]);
         }
     }
-    swap(&arr[i + 1], &arr[h]);
+    swap(&arr[i + 1], &arr[tail]);
     return (i + 1);
 }
   
-/* A[] --> Array to be sorted, 
-   l  --> Starting index, 
-   h  --> Ending index */
-void quickSortIterative(int arr[], int l, int h)
+void quickSort(int arr[], int length)
 {
-    // Create an auxiliary stack
-    int stack[h - l + 1];
-  
-    // initialize top of stack
-    int top = -1;
+    int head = 0, tail = length - 1, top = -1;
+    int stack[length];
   
     // push initial values of l and h to stack
-    stack[++top] = l;
-    stack[++top] = h;
+    stack[++top] = head;
+    stack[++top] = tail;
   
     // Keep popping from stack while is not empty
-    while (top >= 0) {
+    while (top >= 0) 
+    {
         // Pop h and l
-        h = stack[top--];
-        l = stack[top--];
+        tail = stack[top--];
+        head = stack[top--];
   
         // Set pivot element at its correct position
         // in sorted array
-        int p = partition(arr, l, h);
+        int p = partition(arr, head, tail);
   
         // If there are elements on left side of pivot,
         // then push left side to stack
-        if (p - 1 > l) {
-            stack[++top] = l;
+        if (p - 1 > head) 
+        {
+            stack[++top] = head;
             stack[++top] = p - 1;
         }
   
         // If there are elements on right side of pivot,
         // then push right side to stack
-        if (p + 1 < h) {
+        if (p + 1 < tail) 
+        {
             stack[++top] = p + 1;
-            stack[++top] = h;
+            stack[++top] = tail;
         }
     }
 }
@@ -168,6 +166,10 @@ void quickSortIterative(int arr[], int l, int h)
 
 最後可產生一亂數來比較各排序算法所需的時間
 ```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 int main()
 {
     int n = 20, a[20], b[20], i, x;
