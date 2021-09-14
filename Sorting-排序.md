@@ -24,15 +24,6 @@ void bubbleSort(int a[], int length)
         }
     }
 }
-
-int main()
-{
-    int n = 6, i;
-    int a[6] = {9, 7, 4, 5, 8, 6};
-    bubbleSort(a, 0, n);
-    for(i = 0; i < n; i++) printf("%d  ", a[i]);
-    return 0;
-}
 ```
 ```
 9  7  4  5  8  6  //一開始
@@ -103,14 +94,5 @@ void mergeSort(int arr[], int length)
             merge(arr, head, mid, tail);
         }
     }
-}
-
-int main()
-{
-    int n = 6, i;
-    int a[6] = {9, 7, 4, 5, 8, 6};
-    bubbleSort(a, 0, n);
-    for(i = 0; i < n; i++) printf("%d  ", a[i]);
-    return 0;
 }
 ```
