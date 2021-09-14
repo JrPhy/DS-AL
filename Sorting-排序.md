@@ -96,3 +96,40 @@ void mergeSort(int arr[], int length)
     }
 }
 ```
+
+最後可產生一亂數來比較各排序算法所需的時間
+```C
+int main()
+{
+    int n = 20, a[20], b[20], i, x;
+    srand( time(NULL) );
+    for(i = 0; i < n; i++)
+    {
+        x = rand()%300;
+        a[i] = x;
+        b[i] = x;
+    }
+
+    clock_t start, end;
+    start = clock();
+    
+    bubbleSort(a, n);
+    
+    end = clock();
+    double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("bubbleSort %g\n", cpu_time_used);
+
+    start = clock();
+    
+    mergeSort(b, n);
+    
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("mergeSort  %g\n", cpu_time_used);
+    
+    for(i = 0; i < n; i++) printf("%d, ", a[i]);
+    printf("\n");
+    for(i = 0; i < n; i++) printf("%d, ", b[i]);
+    return 0;
+}
+```
