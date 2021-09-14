@@ -6,12 +6,14 @@
 ## 1. 氣泡排序法 Bubble Sort
 氣泡排序法是最直覺可以想到的排序方法，主要就是將兩元素拿來做比較，先用一個 index 從頭開始掃，再用另外一個 index 與**相鄰**元素比較，此種作法在升序排列中，第一步會將最大值擺到最後，所以共需要  n(n+1)/2 步，時間複雜度為 O(n<sup>2</sup>)。其過程像是泡泡依樣從下面跑上來，故稱氣泡排序法。而在算法中僅需要多一個變數即可完成，故空間複雜度為 O(1)。若兩元素相等，則不執行交換，故為穩定的算法。
 ```C
-void bubbleSort(int a[], int n)
+#include <stdio.h>
+
+void bubbleSort(int a[], int length)
 {
     int i, j, temp;
-    for(i = 0; i < n; i++)
+    for(i = 0; i < length; i++)
     {
-        for(j = 0; j < n - 1 - i; j++)
+        for(j = 0; j < length - 1 - i; j++)
         {
             if(a[j] > a[j+1])
             {
@@ -21,6 +23,15 @@ void bubbleSort(int a[], int n)
             }
         }
     }
+}
+
+int main()
+{
+    int n = 6, i;
+    int a[6] = {9, 7, 4, 5, 8, 6};
+    bubbleSort(a, 0, n);
+    for(i = 0; i < n; i++) printf("%d  ", a[i]);
+    return 0;
 }
 ```
 ```
@@ -35,8 +46,71 @@ void bubbleSort(int a[], int n)
 ```
 
 ## 2. 合併排序法 Merge Sort
-從氣泡排序法可以看到，比較排序一定要將所有元素走訪一次，然後再讓元素倆倆比較，所以能改善的就是如何更有效率的比較兩元素。而合併排序法是將整個資料結構分成兩部分，一直分到每個部份僅有一個元素，然後倆倆比較後再合併。所以第一步是拆分，第二步是比較並合併，以下計算此算法所需要的步驟。
-1. 假設有 n 個元素且 n 為 2 的正整數次方，所以在拆分時至少需要 log<sub>2</sub>n 步。
-2. 因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步。\
-總費時 nlog<sub>2</sub>n + log<sub>2</sub>n，故時間複雜度為 O(nlog<sub>2</sub>n)
-若 n 為非 2 的正整數次方，例如 n = 3, 5, 6......，也是需要 log<sub>2</sub>n 步才能將資料分解成只有一個元素，故結果與 2 的正整數次方相同。
+從氣泡排序法可以看到，比較排序一定要將所有元素走訪一次，然後再讓元素倆倆比較，所以能改善的就是如何更有效率的比較兩元素。而合併排序法是將整個資料結構分成兩部分，一直分到每個部份僅有一個元素，然後倆倆比較後再合併，在比較過程中若兩元素相同則不會交換位置，固為穩定的排序算法。所以第一步是拆分，第二步是比較並合併。
+因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步，故時間複雜度為 O(nlog<sub>2</sub>n)。\
+而在合併的過程中需要額外相同長度的記憶體空間，故空間複雜度為 O(n)。
+```C
+#include<stdio.h>
+void merge(int arr[], int head, int mid, int tail) 
+{
+    int i, j, k;
+    int n1 = mid - head + 1;
+    int n2 = tail - mid;
+    int L[n1], R[n2];         //左右子陣列
+    for (i = 0; i < n1; i++) L[i] = arr[head + i];
+    for (j = 0; j < n2; j++) R[j] = arr[mid + 1+ j];
+    i = 0, j = 0, k = head;
+    while (i < n1 && j < n2)  //此迴圈將兩子陣列的元素倆倆比較並合併進原始陣列
+    {
+        if (L[i] <= R[j]) 
+        {
+            arr[k] = L[i];
+            i++;
+        } 
+        else 
+        {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    while (i < n1)           //若左陣列較長，則把多餘的元素放在原始陣列最末端
+    {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    while (j < n2)           //若右陣列較長，則把多餘的元素放在原始陣列最末端
+    {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+int min(int x, int y) { return (x < y) ? x : y;}
+ 
+void mergeSort(int arr[], int length)
+{
+    int curr_size;
+    int head; 
+    for (curr_size = 1; curr_size <= length - 1; curr_size = 2*curr_size)  //此迴圈用來合併子陣列用
+    {
+        for (head = 0; head < length - 1; head += 2*curr_size)  //此迴圈用來走訪陣列中的每個元素
+        {
+            int mid = min(head + curr_size - 1, length - 1);
+            int tail = min(head + 2*curr_size - 1, length - 1);
+            merge(arr, head, mid, tail);
+        }
+    }
+}
+
+int main()
+{
+    int n = 6, i;
+    int a[6] = {9, 7, 4, 5, 8, 6};
+    bubbleSort(a, 0, n);
+    for(i = 0; i < n; i++) printf("%d  ", a[i]);
+    return 0;
+}
+```
