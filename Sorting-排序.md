@@ -4,3 +4,34 @@
 在維基百科中有將多數排序算法的時間複雜度、空間複雜度、穩定性做整理。較常見的排序算法有 Quick Sort、Merge Sort、Heap Sort，在此會介紹以上所提到的算法與 Bubble Sort。 https://en.wikipedia.org/wiki/Sorting_algorithm
 
 ## 1. 氣泡排序法 Bubble Sort
+氣泡排序法是最直覺可以想到的排序方法，主要就是將兩元素拿來做比較，先用一個 index 從頭開始掃，再用另外一個 index 與**相鄰**元素比較，此種作法在升序排列中，第一步會將最大值擺到最後，所以共需要  n(n-1)/2 步，時間複雜度為 O(n<sup>2</sup>)。而在算法中僅需要多一個變數即可完成，故空間複雜度為 O(1)。若兩元素相等，則不執行交換，故為穩定的算法。
+```C
+void bubbleSort(int a[], int n)
+{
+	int i, j, temp;
+	for(i = 0; i < n; i++)
+	{
+		for(j = 0; j < n - 1 - i; j++)
+		{
+			if(a[j] > a[j+1])
+			{
+				temp = a[j];
+				a[j] = a[j+1];
+				a[j+1] = temp;
+			}
+		}
+	}
+}
+```
+```
+9  7  4  5  8  6  //一開始
+7  4  5  8  6  9  
+4  5  7  6  8  9  
+4  5  6  7  8  9  
+4  5  6  7  8  9  
+4  5  6  7  8  9  
+4  5  6  7  8  9  
+4  5  6  7  8  9
+```
+
+## 2. 合併排序法 Merge Sort
