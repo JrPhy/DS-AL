@@ -37,8 +37,8 @@ void bubbleSort(int a[], int length)
 ```
 
 ## 2. 合併排序法 Merge Sort
-從氣泡排序法可以看到，比較排序一定要將所有元素走訪一次，然後再讓元素倆倆比較，所以能改善的就是如何更有效率的比較兩元素。而合併排序法是將整個資料結構分成兩部分，一直分到每個部份僅有一個元素，然後倆倆比較後再合併，在比較過程中若兩元素相同則不會交換位置，固為穩定的排序算法。所以第一步是拆分，第二步是比較並合併。
-因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步，故時間複雜度為 O(nlog<sub>2</sub>n)。\
+1945 年由 John von Neumann 提出。從氣泡排序法可以看到，比較排序一定要將所有元素走訪一次，然後再讓元素倆倆比較，所以能改善的就是如何更有效率的比較兩元素。而合併排序法是將整個資料結構分成兩部分，一直分到每個部份僅有一個元素，然後倆倆比較後再合併，在比較過程中若兩元素相同則不會交換位置，固為穩定的排序算法。所以第一步是拆分，第二步是比較並合併。
+因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步，故時間複雜度為 O(nlog<sub>2</sub>n)，且因為是倆倆比較，所以不論是何種情況所需的時間複雜度為 O(nlog<sub>2</sub>n)。\
 而在合併的過程中最多需要額外相同長度的記憶體空間，故空間複雜度為 O(n)。
 ```C
 #include<stdio.h>
@@ -92,6 +92,75 @@ void mergeSort(int arr[], int length)
             int mid = min(head + curr_size - 1, length - 1);
             int tail = min(head + 2*curr_size - 1, length - 1);
             merge(arr, head, mid, tail);
+        }
+    }
+}
+```
+
+## 3. 快速排序法 Quick Sort
+不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而一般情況下則是需要 O(nlog<sub>2</sub>n)。\
+
+```C
+#include <stdio.h>
+void swap(int* a, int* b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+  
+int partition(int arr[], int l, int h)
+{
+    int x = arr[h];
+    int i = (l - 1);
+  
+    for (int j = l; j <= h - 1; j++) {
+        if (arr[j] <= x) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[h]);
+    return (i + 1);
+}
+  
+/* A[] --> Array to be sorted, 
+   l  --> Starting index, 
+   h  --> Ending index */
+void quickSortIterative(int arr[], int l, int h)
+{
+    // Create an auxiliary stack
+    int stack[h - l + 1];
+  
+    // initialize top of stack
+    int top = -1;
+  
+    // push initial values of l and h to stack
+    stack[++top] = l;
+    stack[++top] = h;
+  
+    // Keep popping from stack while is not empty
+    while (top >= 0) {
+        // Pop h and l
+        h = stack[top--];
+        l = stack[top--];
+  
+        // Set pivot element at its correct position
+        // in sorted array
+        int p = partition(arr, l, h);
+  
+        // If there are elements on left side of pivot,
+        // then push left side to stack
+        if (p - 1 > l) {
+            stack[++top] = l;
+            stack[++top] = p - 1;
+        }
+  
+        // If there are elements on right side of pivot,
+        // then push right side to stack
+        if (p + 1 < h) {
+            stack[++top] = p + 1;
+            stack[++top] = h;
         }
     }
 }
