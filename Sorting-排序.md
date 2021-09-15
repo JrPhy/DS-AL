@@ -126,30 +126,25 @@ void quickSort(int arr[], int length)
     int head = 0, tail = length - 1, top = -1;
     int stack[length];
   
-    // push initial values of l and h to stack
     stack[++top] = head;
     stack[++top] = tail;
-    // Keep popping from stack while is not empty
     while (top >= 0) 
     {
         // Pop h and l
         tail = stack[top--];
         head = stack[top--];
   
-        // Set pivot element at its correct position
-        // in sorted array
+        // Set pivot element at its correct position in sorted array
         int p = partition(arr, head, tail);
   
-        // If there are elements on left side of pivot,
-        // then push left side to stack
+        // If there are elements on left side of pivot, then push left side to stack
         if (p - 1 > head) 
         {
             stack[++top] = head;
             stack[++top] = p - 1;
         }
   
-        // If there are elements on right side of pivot,
-        // then push right side to stack
+        // If there are elements on right side of pivot, then push right side to stack
         if (p + 1 < tail) 
         {
             stack[++top] = p + 1;
