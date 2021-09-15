@@ -6,8 +6,6 @@
 ## 1. 氣泡排序法 Bubble Sort
 氣泡排序法是最直覺可以想到的排序方法，主要就是將兩元素拿來做比較，先用一個 index 從頭開始掃，再用另外一個 index 與**相鄰**元素比較，此種作法在升序排列中，第一步會將最大值擺到最後，所以共需要  n(n+1)/2 步，時間複雜度為 O(n<sup>2</sup>)。其過程像是泡泡依樣從下面跑上來，故稱氣泡排序法。而在算法中僅需要多一個變數即可完成，故空間複雜度為 O(1)。若兩元素相等，則不執行交換，故為穩定的算法。
 ```C
-#include <stdio.h>
-
 void bubbleSort(int a[], int length)
 {
     int i, j, temp;
@@ -41,7 +39,6 @@ void bubbleSort(int a[], int length)
 因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步，故時間複雜度為 O(nlog<sub>2</sub>n)，且因為是倆倆比較，所以不論是何種情況所需的時間複雜度為 O(nlog<sub>2</sub>n)。\
 而在合併的過程中最多需要額外相同長度的記憶體空間，故空間複雜度為 O(n)。
 ```C
-#include<stdio.h>
 void merge(int arr[], int head, int mid, int tail) 
 {
     int i, j, k;
@@ -98,30 +95,29 @@ void mergeSort(int arr[], int length)
 ```
 
 ## 3. 快速排序法 Quick Sort
-不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而一般情況下則是需要 O(nlog<sub>2</sub>n)。
-
+不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值(pivot)當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而平均情況下則是需要 O(nlog<sub>2</sub>n)。
+如同上面所提到的，因為是在資料中任選一個值，所以最差的情況需要 O(n) 的額外記憶體空間，而平均情況下則是需要 O(nlog<sub>2</sub>n)。
 ```C
 void swap(int* a, int* b)
 {
-    int t = *a;
+    int temp = *a;
     *a = *b;
-    *b = t;
+    *b = temp;
 }
   
 int partition(int arr[], int head, int tail)
 {
-    int x = arr[tail];
     int i = (head - 1);
   
     for (int j = head; j <= tail - 1; j++) 
     {
-        if (arr[j] <= x) 
+        if (arr[j] <= arr[tail])   //在此選定 arr[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
         {
             i++;
             swap(&arr[i], &arr[j]);
         }
     }
-    swap(&arr[i + 1], &arr[tail]);
+    swap(&arr[i + 1], &arr[tail]); //最後將 pivot 放到正確的位置，然後將 pivot 位置傳出來
     return (i + 1);
 }
   
@@ -133,7 +129,6 @@ void quickSort(int arr[], int length)
     // push initial values of l and h to stack
     stack[++top] = head;
     stack[++top] = tail;
-  
     // Keep popping from stack while is not empty
     while (top >= 0) 
     {
@@ -172,13 +167,14 @@ void quickSort(int arr[], int length)
 
 int main()
 {
-    int n = 20, a[20], b[20], i, x;
+    int n = 2000, a[2000], b[2000], c[2000], i, x;
     srand( time(NULL) );
     for(i = 0; i < n; i++)
     {
         x = rand()%300;
         a[i] = x;
         b[i] = x;
+        c[i] = x;
     }
 
     clock_t start, end;
@@ -198,9 +194,14 @@ int main()
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
     printf("mergeSort  %g\n", cpu_time_used);
     
-    for(i = 0; i < n; i++) printf("%d, ", a[i]);
-    printf("\n");
-    for(i = 0; i < n; i++) printf("%d, ", b[i]);
+    start = clock();
+    
+    quickSort(c, n);
+    
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("quickSort  %g\n", cpu_time_used);
+
     return 0;
 }
 ```
