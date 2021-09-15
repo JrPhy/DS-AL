@@ -50,30 +50,12 @@ void merge(int arr[], int head, int mid, int tail)
     i = 0, j = 0, k = head;
     while (i < n1 && j < n2)  //此迴圈將兩子陣列的元素倆倆比較並合併進原始陣列
     {
-        if (L[i] <= R[j]) 
-        {
-            arr[k] = L[i];
-            i++;
-        } 
-        else 
-        {
-            arr[k] = R[j];
-            j++;
-        }
+        if (L[i] <= R[j]) arr[k] = L[i++];
+        else arr[k] = R[j++];
         k++;
     }
-    while (i < n1)           //若左陣列較長，則把多餘的元素放在原始陣列最末端
-    {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-    while (j < n2)           //若右陣列較長，則把多餘的元素放在原始陣列最末端
-    {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
+    while (i < n1) arr[k++] = L[i++];//若左陣列較長，則把多餘的元素放在原始陣列最末端
+    while (j < n2) arr[k++] = R[j++];//若右陣列較長，則把多餘的元素放在原始陣列最末端
 }
 
 int min(int x, int y) { return (x < y) ? x : y;}
@@ -109,15 +91,8 @@ void swap(int* a, int* b)
 int partition(int arr[], int head, int tail)
 {
     int i = (head - 1);
-  
-    for (int j = head; j <= tail - 1; j++) 
-    {
-        if (arr[j] < arr[tail])   //在此選定 arr[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
-        {
-            i++;
-            swap(&arr[i], &arr[j]);
-        }
-    }
+    for (int j = head; j <= tail - 1; j++)  if (arr[j] < arr[tail]) swap(&arr[++i], &arr[j]);  
+    //在此選定 arr[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
     swap(&arr[i + 1], &arr[tail]); //最後將 pivot 放到正確的位置，然後將 pivot 位置傳出來
     return (i + 1);
 }
