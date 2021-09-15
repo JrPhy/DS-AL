@@ -130,6 +130,9 @@ void quickSort(int arr[], int length)
 ```
 由上面的合併排序和快速排序看下來，兩者都是用 Divide and Conquer 方法來實現，只是合併排序注重的是合併資料，而快速排序注重的是分割資料。然而在 C 的標準函示庫中也有 qsort，使用方式請參考 [模擬泛型函數](https://github.com/JrPhy/C_tutorial/blob/main/CH5-%E6%8C%87%E6%A8%99%E8%88%87%E5%AD%97%E4%B8%B2.md#5-%E6%A8%A1%E6%93%AC%E6%B3%9B%E5%9E%8B%E5%87%BD%E6%95%B8)
 
+## 4. 堆積排序法 Heap Sort
+
+
 最後可產生一亂數來比較各排序算法所需的時間
 ```C
 #include <stdio.h>
