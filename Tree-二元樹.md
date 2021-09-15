@@ -45,6 +45,16 @@ int main()
     root1_right->right = root2_right;
 }
 ```
+#### 1. 完滿二元樹 Full Binary Tree
+若一個二元樹滿足以下性質，則稱為完美二元樹
+1. 共有 2<sup>k</sup>-1 個節點
+2. 節點個數一定為奇數
+3. 第 i 層有 2<sup>i-1</sup> 個節點
+4. 有 2<sup>k-1</sup> 個葉子
+
+#### 2. 完全二元樹 Complete Binary Tree
+在一棵二元樹中，當所有節點都是滿的，或是當節點不滿，而葉子從最左邊的左節點開始放入，再放入右節點，而後往右一個節點再依序放，則稱為完全二元樹
+![image](pic/complete_full_binary_tree1.jpg)
 
 ## 3. 印出數中所有資料
 從根進入後可以分左右進入，所以印出所有元素共有四種組合
