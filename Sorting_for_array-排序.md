@@ -132,7 +132,45 @@ void quickSort(int arr[], int length)
 
 ## 4. 堆積排序法 Heap Sort
 
+```C
+void swap(int *a, int *b) 
+{
+    int temp = *b;
+    *b = *a;
+    *a = temp;
+}
 
+void max_heapify(int arr[], int head, int tail) 
+{
+    // 建立父節點指標和子節點指標
+    int dad = head;
+    int son = dad * 2 + 1;
+    while (son <= tail)          // 若子節點指標在範圍內才做比較
+    { 
+        if (son + 1 <= tail && arr[son] < arr[son + 1]) son++; // 先比較兩個子節點大小，選擇最大的
+        if (arr[dad] > arr[son]) return;                       //如果父節點大於子節點代表調整完畢，直接跳出函數
+        else 
+        {                     // 否則交換父子內容再繼續子節點和孫節點比较
+            swap(&arr[dad], &arr[son]);
+            dad = son;
+            son = dad * 2 + 1;
+        }
+    }
+}
+
+void HeapSort(int arr[], int len) 
+{
+    int i;
+    // 初始化，i從最後一個父節點開始調整
+    for (i = len / 2 - 1; i >= 0; i--) max_heapify(arr, i, len - 1);
+    // 先將第一個元素和已排好元素前一位做交換，再重新調整，直到排序完畢
+    for (i = len - 1; i > 0; i--) 
+    {
+        swap(&arr[0], &arr[i]);
+        max_heapify(arr, 0, i - 1);
+    }
+}
+```
 最後可產生一亂數來比較各排序算法所需的時間
 ```C
 #include <stdio.h>
@@ -141,7 +179,7 @@ void quickSort(int arr[], int length)
 
 int main()
 {
-    int n = 2000, a[2000], b[2000], c[2000], i, x;
+    int n = 200, a[200], b[200], c[200], d[200], i, x;
     srand( time(NULL) );
     for(i = 0; i < n; i++)
     {
@@ -149,6 +187,7 @@ int main()
         a[i] = x;
         b[i] = x;
         c[i] = x;
+        d[i] = x;
     }
 
     clock_t start, end;
@@ -175,6 +214,14 @@ int main()
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
     printf("quickSort  %g\n", cpu_time_used);
+    
+    start = clock();
+    
+    HeapSort(d, n);
+    
+    end = clock();
+    double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("HeapSort   %g\n", cpu_time_used);
 
     return 0;
 }
