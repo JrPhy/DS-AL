@@ -96,7 +96,8 @@ void mergeSort(int arr[], int length)
 
 ## 3. 快速排序法 Quick Sort
 不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值(pivot)當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而平均情況下則是需要 O(nlog<sub>2</sub>n)。
-如同上面所提到的，因為是在資料中任選一個值，所以最差的情況需要 O(n) 的額外記憶體空間，而平均情況下則是需要 O(nlog<sub>2</sub>n)。
+如同上面所提到的，因為是在資料中任選一個值，並利用一個相同長度的陣列存放，所以皆需要 O(n) 的額外記憶體空間。\
+而快速排序法僅會將小於/大於 pivot 放一邊，所以當與 pivot 相等時也會做交換，雖然下列程式碼中 partition 內的判斷是只有小於，但最後的 arr[i + 1] 與 arr[tail] 可能相等，固為不穩定的排序算法。
 ```C
 void swap(int* a, int* b)
 {
@@ -111,7 +112,7 @@ int partition(int arr[], int head, int tail)
   
     for (int j = head; j <= tail - 1; j++) 
     {
-        if (arr[j] <= arr[tail])   //在此選定 arr[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
+        if (arr[j] < arr[tail])   //在此選定 arr[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
         {
             i++;
             swap(&arr[i], &arr[j]);
@@ -125,26 +126,25 @@ void quickSort(int arr[], int length)
 {
     int head = 0, tail = length - 1, top = -1;
     int stack[length];
-  
+    //先將整段陣列複製出來，隨後任選一個值當作陣列 pivot 並做分段排序
     stack[++top] = head;
     stack[++top] = tail;
     while (top >= 0) 
     {
-        // Pop h and l
         tail = stack[top--];
         head = stack[top--];
   
-        // Set pivot element at its correct position in sorted array
+        //將陣列分段後在選出下一個子陣列的 pivot 重複做，直到排序完成為止。
         int p = partition(arr, head, tail);
   
-        // If there are elements on left side of pivot, then push left side to stack
+        //將 pivot 左邊的元素從左邊放入 stack
         if (p - 1 > head) 
         {
             stack[++top] = head;
             stack[++top] = p - 1;
         }
   
-        // If there are elements on right side of pivot, then push right side to stack
+        //將 pivot 左邊的元素從右邊放入 stack
         if (p + 1 < tail) 
         {
             stack[++top] = p + 1;
@@ -153,6 +153,7 @@ void quickSort(int arr[], int length)
     }
 }
 ```
+由上面的合併排序和快速排序看下來，兩者都是用 Divide and Conquer 方法來實現，只是合併排序注重的是合併資料，而快速排序注重的是分割資料。
 
 最後可產生一亂數來比較各排序算法所需的時間
 ```C
@@ -200,3 +201,5 @@ int main()
     return 0;
 }
 ```
+
+在英文維基百科中的排序算法條目中，整理了各排序算法的時間與空間複雜度和是否穩定，也可點進去各算法條目有詳盡的解釋與視覺化圖片。 https://en.wikipedia.org/wiki/Sorting_algorithm
