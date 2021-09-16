@@ -173,6 +173,14 @@ void HeapSort(int arr[], int len)
     }
 }
 ```
+Ref:
+[1]. https://www.youtube.com/watch?v=j-DqQcNPGbE \
+[2]. https://www.zhihu.com/question/20842649 \
+[3]. https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F#C%E8%AF%AD%E8%A8%80
+
+## 5. 三種排序法的比較
+不論是 Merge Sort、Quick Sort、Heap Sort，三者的平均時間複雜度皆為 O(nlogn)，且 Quick Sort 的最壞情況甚至要 O(n<sup>2</sup>)，那為什麼 Quick Sort 仍是最被泛用的排序算法呢？
+
 最後可產生一亂數來比較各排序算法所需的時間
 ```C
 #include <stdio.h>
