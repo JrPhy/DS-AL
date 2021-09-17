@@ -79,7 +79,7 @@ void mergeSort(int arr[], int length)
 ## 3. 快速排序法 Quick Sort
 不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值(pivot)當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而平均情況下則是需要 O(nlog<sub>2</sub>n)。\
 如同上面所提到的，因為是在資料中任選一個值，並利用一個相同長度的陣列存放，所以皆需要 O(n) 的額外記憶體空間。\
-而快速排序法僅會將小於/大於 pivot 放一邊，所以當與 pivot 相等時也會做交換，雖然下列程式碼中 partition 內的判斷是只有小於，但最後的 arr[i + 1] 與 arr[tail] 可能相等，固為不穩定的排序算法。
+而快速排序法僅會將小於/大於 pivot 放一邊，所以當與 pivot 相等時也會做交換，雖然下列程式碼中 partition 內的判斷是只有小於，但最後的 arr[i+1] 與 arr[tail] 可能相等，固為不穩定的排序算法。
 ```C
 void swap(int* a, int* b)
 {
@@ -173,13 +173,19 @@ void HeapSort(int arr[], int len)
     }
 }
 ```
-Ref:
+Ref: \
 [1]. https://www.youtube.com/watch?v=j-DqQcNPGbE \
 [2]. https://www.zhihu.com/question/20842649 \
 [3]. https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F#C%E8%AF%AD%E8%A8%80
 
-## 5. 三種排序法的比較
-不論是 Merge Sort、Quick Sort、Heap Sort，三者的平均時間複雜度皆為 O(nlogn)，且 Quick Sort 的最壞情況甚至要 O(n<sup>2</sup>)，那為什麼 Quick Sort 仍是最被泛用的排序算法呢？
+## 5. 三種排序法的適用情境
+不論是 Merge Sort、Quick Sort、Heap Sort，三者的平均時間複雜度皆為 O(nlogn)，且 Quick Sort 的最壞情況甚至要 O(n<sup>2</sup>)。對於陣列排序較常使用 Quick sort，原因是因為陣列是連續的記憶體，且若資料為雜亂無章的，Quick Sort 比較的步驟少於其他兩種方法，故在要排列陣列的情況使用 Quick sort 速度會較快。\
+而 Merge sort 對於 linked list 的排列速度較快，原因是 linked list 牽扯到非連續記憶體與指標操作，所以此種情況下使用 Merge sort 速度會較快。
+
+Ref: \
+[1]. https://www.geeksforgeeks.org/why-quick-sort-preferred-for-arrays-and-merge-sort-for-linked-lists/ \
+[2]. https://stackoverflow.com/questions/1525117/whats-the-fastest-algorithm-for-sorting-a-linked-list \
+
 
 最後可產生一亂數來比較各排序算法所需的時間
 ```C
