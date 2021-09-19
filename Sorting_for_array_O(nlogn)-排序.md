@@ -3,38 +3,7 @@
 ``` (101, 60)、(102, 50)、(103, 60)、(104, 66)、(105, 58)、(106, 40)``` --> 排序後 ---> ``` (104, 66)、(103, 60)、(101, 60)、(105, 58)、(102, 50)、(106, 40)```\
 在[維基百科](https://en.wikipedia.org/wiki/Sorting_algorithm)中有將多數排序算法的時間複雜度、空間複雜度、穩定性做整理。較常見的排序算法有 Quick Sort、Merge Sort、Heap Sort，在此會介紹以上所提到的算法與 Bubble Sort。 
 
-## 1. 氣泡排序法 Bubble Sort
-氣泡排序法是最直覺可以想到的排序方法，主要就是將兩元素拿來做比較，先用一個 index 從頭開始掃，再用另外一個 index 與**相鄰**元素比較，此種作法在升序排列中，第一步會將最大值擺到最後，所以共需要  n(n+1)/2 步，時間複雜度為 O(n<sup>2</sup>)。其過程像是泡泡依樣從下面跑上來，故稱氣泡排序法。而在算法中僅需要多一個變數即可完成，故空間複雜度為 O(1)。若兩元素相等，則不執行交換，故為穩定的算法。也可看到 bubbleSort 的程式碼非常短，故在欲排序的資料非常少時可以考慮使用。
-```C
-void bubbleSort(int a[], int length)
-{
-    int i, j, temp;
-    for(i = 0; i < length; i++)
-    {
-        for(j = 0; j < length - 1 - i; j++)
-        {
-            if(a[j] > a[j+1])
-            {
-                temp = a[j];
-                a[j] = a[j+1];
-                a[j+1] = temp;
-            }
-        }
-    }
-}
-```
-```
-9  7  4  5  8  6  //一開始
-7  4  5  8  6  9  
-4  5  7  6  8  9  
-4  5  6  7  8  9  
-4  5  6  7  8  9  
-4  5  6  7  8  9  
-4  5  6  7  8  9  
-4  5  6  7  8  9
-```
-
-## 2. 合併排序法 Merge Sort
+## 1. 合併排序法 Merge Sort
 1945 年由 John von Neumann 提出。從氣泡排序法可以看到，比較排序一定要將所有元素走訪一次，然後再讓元素倆倆比較，所以能改善的就是如何更有效率的比較兩元素。而合併排序法是將整個資料結構分成兩部分，一直分到每個部份僅有一個元素，然後倆倆比較後再合併，在比較過程中若兩元素相同則不會交換位置，固為穩定的排序算法。所以第一步是拆分，第二步是比較並合併。
 因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步，故時間複雜度為 O(nlog<sub>2</sub>n)，且因為是倆倆比較，所以不論是何種情況所需的時間複雜度為 O(nlog<sub>2</sub>n)。\
 而在合併的過程中最多需要額外相同長度的記憶體空間，故空間複雜度為 O(n)。
@@ -76,7 +45,7 @@ void mergeSort(int arr[], int length)
 }
 ```
 
-## 3. 快速排序法 Quick Sort
+## 2. 快速排序法 Quick Sort
 不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值(pivot)當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而平均情況下則是需要 O(nlog<sub>2</sub>n)。\
 如同上面所提到的，因為是在資料中任選一個值，並利用一個相同長度的陣列存放，所以皆需要 O(n) 的額外記憶體空間。\
 而快速排序法僅會將小於/大於 pivot 放一邊，所以當與 pivot 相等時也會做交換，雖然下列程式碼中 partition 內的判斷是只有小於，但最後的 arr[i+1] 與 arr[tail] 可能相等，固為不穩定的排序算法。
@@ -130,7 +99,7 @@ void quickSort(int arr[], int length)
 ```
 由上面的合併排序和快速排序看下來，兩者都是用 Divide and Conquer 方法來實現，只是合併排序注重的是合併資料，而快速排序注重的是分割資料。然而在 C 的標準函示庫中也有 qsort，使用方式請參考 [模擬泛型函數](https://github.com/JrPhy/C_tutorial/blob/main/CH5-%E6%8C%87%E6%A8%99%E8%88%87%E5%AD%97%E4%B8%B2.md#5-%E6%A8%A1%E6%93%AC%E6%B3%9B%E5%9E%8B%E5%87%BD%E6%95%B8)
 
-## 4. 堆積排序法 Heap Sort
+## 3. 堆積排序法 Heap Sort
 不同於前面兩種排序法，堆積排序是利用[完全二元樹](https://github.com/JrPhy/DS-AL/blob/master/Tree-%E4%BA%8C%E5%85%83%E6%A8%B9.md#2-%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%85%83%E6%A8%B9-complete-binary-tree)，將陣列轉化成堆積(Heap)的概念來做排序。若為升序則稱最大堆積，降序則稱最小堆積，在此以升序排列為例。根節點為最大值且任一父節點的直皆大於子節點。\
 在陣列中第一個位置(index = 0)為根，父節點 i 的左子節點在位置 2i+1，右子節點在位置 2i+2，子節點i的父節點在位置 floor((i-1)/2)，用此方式模擬樹狀結構。從根出發，在樹中比較每個子樹的父節點與子節點，將子樹中最小的值放到父節點，最大的值放在右子節點，並從最下面、最右邊的子樹開始，依序往左再往上，直到每個節點的葉子即完成排序，圖中每一個紅框為一個子樹。
 ![img](pic/heap.jpg)\
@@ -178,9 +147,10 @@ Ref: \
 [2]. https://www.zhihu.com/question/20842649 \
 [3]. https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F#C%E8%AF%AD%E8%A8%80
 
-## 5. 兩種排序法的適用情境
+## 4. 三種排序法的適用情境與比較
 Merge Sort、Quick Sort 和 Heap Sort、的平均時間複雜度皆為 O(nlogn)，且 Quick Sort 的最壞情況甚至要 O(n<sup>2</sup>)。對於陣列排序較常使用 Quick sort，原因是因為陣列是連續的記憶體，且若資料為雜亂無章的，Quick Sort 比較的步驟少於其他兩種方法，故在要排列陣列的情況使用 Quick sort 速度會較快。\
 而 Merge sort 對於 linked list 的排列速度較快，原因是 linked list 牽扯到非連續記憶體與指標操作，所以此種情況下使用 Merge sort 速度會較快。而 Heap Sort 則是適用於 Priority Queue。\
+![img](pic/nlogn.jpg)\
 Ref: \
 [1]. https://www.geeksforgeeks.org/why-quick-sort-preferred-for-arrays-and-merge-sort-for-linked-lists/ \
 [2]. https://stackoverflow.com/questions/1525117/whats-the-fastest-algorithm-for-sorting-a-linked-list \
