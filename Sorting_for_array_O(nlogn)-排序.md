@@ -130,9 +130,57 @@ void quickSort(int arr[], int length)
 ```
 由上面的合併排序和快速排序看下來，兩者都是用 Divide and Conquer 方法來實現，只是合併排序注重的是合併資料，而快速排序注重的是分割資料。然而在 C 的標準函示庫中也有 qsort，使用方式請參考 [模擬泛型函數](https://github.com/JrPhy/C_tutorial/blob/main/CH5-%E6%8C%87%E6%A8%99%E8%88%87%E5%AD%97%E4%B8%B2.md#5-%E6%A8%A1%E6%93%AC%E6%B3%9B%E5%9E%8B%E5%87%BD%E6%95%B8)
 
-## 4. 兩種排序法的適用情境
-\Merge Sort、Quick Sort、的平均時間複雜度皆為 O(nlogn)，且 Quick Sort 的最壞情況甚至要 O(n<sup>2</sup>)。對於陣列排序較常使用 Quick sort，原因是因為陣列是連續的記憶體，且若資料為雜亂無章的，Quick Sort 比較的步驟少於其他兩種方法，故在要排列陣列的情況使用 Quick sort 速度會較快。\
-而 Merge sort 對於 linked list 的排列速度較快，原因是 linked list 牽扯到非連續記憶體與指標操作，所以此種情況下使用 Merge sort 速度會較快。\
+## 4. 堆積排序法 Heap Sort
+不同於前面兩種排序法，堆積排序是利用[完全二元樹](https://github.com/JrPhy/DS-AL/blob/master/Tree-%E4%BA%8C%E5%85%83%E6%A8%B9.md#2-%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%85%83%E6%A8%B9-complete-binary-tree)，將陣列轉化成堆積(Heap)的概念來做排序。若為升序則稱最大堆積，降序則稱最小堆積，在此以升序排列為例。根節點為最大值且任一父節點的直皆大於子節點。\
+在陣列中第一個位置(index = 0)為根，父節點 i 的左子節點在位置 2i+1，右子節點在位置 2i+2，子節點i的父節點在位置 floor((i-1)/2)，用此方式模擬樹狀結構。從根出發，在樹中比較每個子樹的父節點與子節點，將子樹中最小的值放到父節點，最大的值放在右子節點，並從最下面、最右邊的子樹開始，依序往左再往上，直到每個節點的葉子即完成排序，圖中每一個紅框為一個子樹。
+![img](pic/heap.jpg)\
+在此算法中一樣要遍歷所有元素，然後每次建立堆積需要 O(logn) 的時間，故時間複雜度為 O(nlogn)。\
+然而此堆積方式是利用欲排序的陣列模擬樹狀結構，故不再需要額外的陣列，空間複雜度為 O(1)。\
+但是因為陣列中可能會有相同的值，有可能最末的葉子與根的值相同，故為非穩定排序算法。
+```C
+void swap(int *a, int *b) 
+{
+    int temp = *b;
+    *b = *a;
+    *a = temp;
+}
+
+void heapify(int arr[], int head, int tail)   //建立堆用
+{
+    int dad = head;
+    int son = dad * 2 + 1;
+    while (son <= tail)          // 若子節點指標在範圍內才做比較
+    { 
+        if (son + 1 <= tail && arr[son] < arr[son + 1]) son++; // 先比較兩個子節點大小，選擇最大的
+        if (arr[dad] > arr[son]) return;                       // 如果父節點大於子節點代表調整完畢，直接跳出函數
+        else                                                   // 否則交換父子內容再繼續子節點和孫節點比較
+        {
+            swap(&arr[dad], &arr[son]);
+            dad = son;
+            son = dad * 2 + 1;
+        }
+    }
+}
+
+void HeapSort(int arr[], int len) 
+{
+    int i;
+    for (i = len / 2 - 1; i >= 0; i--) heapify(arr, i, len - 1);  // 建立 heap
+    for (i = len - 1; i > 0; i--) 
+    {
+        swap(&arr[0], &arr[i]);  // 先將第一個元素和已排好元素前一位做交換
+        heapify(arr, 0, i - 1);  // 再重新調整，直到排序完畢
+    }
+}
+```
+Ref: \
+[1]. https://www.youtube.com/watch?v=j-DqQcNPGbE \
+[2]. https://www.zhihu.com/question/20842649 \
+[3]. https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F#C%E8%AF%AD%E8%A8%80
+
+## 5. 兩種排序法的適用情境
+Merge Sort、Quick Sort 和 Heap Sort、的平均時間複雜度皆為 O(nlogn)，且 Quick Sort 的最壞情況甚至要 O(n<sup>2</sup>)。對於陣列排序較常使用 Quick sort，原因是因為陣列是連續的記憶體，且若資料為雜亂無章的，Quick Sort 比較的步驟少於其他兩種方法，故在要排列陣列的情況使用 Quick sort 速度會較快。\
+而 Merge sort 對於 linked list 的排列速度較快，原因是 linked list 牽扯到非連續記憶體與指標操作，所以此種情況下使用 Merge sort 速度會較快。而 Heap Sort 則是適用於 Priority Queue。\
 Ref: \
 [1]. https://www.geeksforgeeks.org/why-quick-sort-preferred-for-arrays-and-merge-sort-for-linked-lists/ \
 [2]. https://stackoverflow.com/questions/1525117/whats-the-fastest-algorithm-for-sorting-a-linked-list \
@@ -146,7 +194,7 @@ Ref: \
 
 int main()
 {
-    int n = 200, a[200], b[200], c[200], d[200], i, x;
+    int n = 200, a[200], b[200], c[200], i, x;
     srand( time(NULL) );
     for(i = 0; i < n; i++)
     {
@@ -154,13 +202,12 @@ int main()
         a[i] = x;
         b[i] = x;
         c[i] = x;
-        d[i] = x;
     }
 
     clock_t start, end;
     start = clock();
     
-    bubbleSort(a, n);
+    HeapSort(a, n);
     
     end = clock();
     double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
