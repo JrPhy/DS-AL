@@ -151,5 +151,5 @@ Merge Sort、Quick Sort 和 Heap Sort、的平均時間複雜度皆為 O(nlogn)�
 Ref: \
 [1]. https://www.geeksforgeeks.org/why-quick-sort-preferred-for-arrays-and-merge-sort-for-linked-lists/ \
 [2]. https://stackoverflow.com/questions/1525117/whats-the-fastest-algorithm-for-sorting-a-linked-list \
-[3]. http://www-cs-students.stanford.edu/~rashmi/projects/Sorting 
-在英文維基百科中的排序算法條目中，整理了各排序算法的時間與空間複雜度和是否穩定，也可點進去各算法條目有詳盡的解釋與視覺化圖片。 https://en.wikipedia.org/wiki/Sorting_algorithm
+[3]. http://www-cs-students.stanford.edu/~rashmi/projects/Sorting \
+在[英文維基百科](https://en.wikipedia.org/wiki/Sorting_algorithm)中的排序算法條目中，整理了各排序算法的時間與空間複雜度和是否穩定，也可點進去各算法條目有詳盡的解釋與視覺化圖片。 
