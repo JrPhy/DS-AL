@@ -3,7 +3,7 @@
 ## 1. 合併排序法 Merge Sort
 1945 年由 John von Neumann 提出。從氣泡排序法可以看到，比較排序一定要將所有元素走訪一次，然後再讓元素倆倆比較，所以能改善的就是如何更有效率的比較兩元素。而合併排序法是將整個資料結構分成兩部分，一直分到每個部份僅有一個元素，然後倆倆比較後再合併，因為是與鄰近的相對極小值做比較，故兩值相同時不會交換相對位置，為穩定的排序算法。所以第一步是拆分，第二步是比較並合併。
 因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步，故時間複雜度為 O(nlog<sub>2</sub>n)，且因為是倆倆比較，所以不論是何種情況所需的時間複雜度為 O(nlog<sub>2</sub>n)。\
-而在合併的過程中最多需要額外相同長度的記憶體空間，故空間複雜度為 O(n)。
+而在合併的過程中最多需要額外相同長度的記憶體空間，故空間複雜度為 Θ(n)。
 ```C
 void merge(int arr[], int head, int mid, int tail) 
 {
@@ -44,7 +44,7 @@ void mergeSort(int arr[], int length)
 
 ## 2. 快速排序法 Quick Sort
 不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值(pivot)當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而平均情況下則是需要 O(nlog<sub>2</sub>n)。\
-如同上面所提到的，因為是在資料中任選一個值，並利用一個相同長度的陣列存放，所以皆需要 O(n) 的額外記憶體空間。\
+如同上面所提到的，因為是在資料中任選一個值，並利用一個相同長度的陣列存放，所以皆需要 Θ(n) 的額外記憶體空間。\
 而快速排序法僅會將小於/大於 pivot 放一邊，所以當與 pivot 相等時也會做交換，雖然下列程式碼中 partition 內的判斷是只有小於，但最後的 arr[i+1] 與 arr[tail] 可能相等，固為不穩定的排序算法。
 ```C
 void swap(int* a, int* b)
@@ -101,7 +101,7 @@ void quickSort(int arr[], int length)
 在陣列中第一個位置(index = 0)為根，父節點 i 的左子節點在位置 2i+1，右子節點在位置 2i+2，子節點i的父節點在位置 floor((i-1)/2)，用此方式模擬樹狀結構。從根出發，在樹中比較每個子樹的父節點與子節點，將子樹中最小的值放到父節點，最大的值放在右子節點，並從最下面、最右邊的子樹開始，依序往左再往上，直到每個節點的葉子即完成排序，圖中每一個紅框為一個子樹。
 ![img](pic/heap.jpg)\
 在此算法中一樣要遍歷所有元素，然後每次建立堆積需要 O(logn) 的時間，故時間複雜度為 O(nlogn)。\
-然而此堆積方式是利用欲排序的陣列模擬樹狀結構，故不再需要額外的陣列，空間複雜度為 O(1)。\
+然而此堆積方式是利用欲排序的陣列模擬樹狀結構，故不再需要額外的陣列，空間複雜度為 Θ(1)。\
 但是因為陣列中可能會有相同的值，有可能最末的葉子與根的值相同，故為非穩定排序算法。
 ```C
 void swap(int *a, int *b) 
@@ -152,52 +152,4 @@ Ref: \
 [1]. https://www.geeksforgeeks.org/why-quick-sort-preferred-for-arrays-and-merge-sort-for-linked-lists/ \
 [2]. https://stackoverflow.com/questions/1525117/whats-the-fastest-algorithm-for-sorting-a-linked-list \
 [3]. http://www-cs-students.stanford.edu/~rashmi/projects/Sorting 
-
-最後可產生一亂數來比較各排序算法所需的時間
-```C
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-int main()
-{
-    int n = 200, a[200], b[200], c[200], i, x;
-    srand( time(NULL) );
-    for(i = 0; i < n; i++)
-    {
-        x = rand()%300;
-        a[i] = x;
-        b[i] = x;
-        c[i] = x;
-    }
-
-    clock_t start, end;
-    start = clock();
-    
-    HeapSort(a, n);
-    
-    end = clock();
-    double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("bubbleSort %g\n", cpu_time_used);
-
-    start = clock();
-    
-    mergeSort(b, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("mergeSort  %g\n", cpu_time_used);
-    
-    start = clock();
-    
-    quickSort(c, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("quickSort  %g\n", cpu_time_used);
-
-    return 0;
-}
-```
-
 在英文維基百科中的排序算法條目中，整理了各排序算法的時間與空間複雜度和是否穩定，也可點進去各算法條目有詳盡的解釋與視覺化圖片。 https://en.wikipedia.org/wiki/Sorting_algorithm
