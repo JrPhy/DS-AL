@@ -100,7 +100,7 @@ void shellSort(int a[], int n)
     {
         for (i = gap; i < n; i += 1)
         {
-            temp = a[i], j;           
+            temp = a[i];           
             for (j = i; j >= gap && a[j - gap] > temp; j -= gap) a[j] = a[j - gap];
             a[j] = temp;
         }
