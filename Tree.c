@@ -23,9 +23,9 @@ node* newNode(int value)
 void inorder(node *root)
 {
     printf("%d, ", root->data);
-    if (root->left != NULL)  //­Y¨ä¤¤¤@°¼ªº¤l¾ğ«DªÅ«h·|Åª¨ú¨ä¤l¾ğ
+    if (root->left != NULL)  //è‹¥å…¶ä¸­ä¸€å´çš„å­æ¨¹éç©ºå‰‡æœƒè®€å–å…¶å­æ¨¹
         inorder(root->left);
-    if (root->right != NULL) //¥t¤@°¼ªº¤l¾ğ¤]°µ¬Û¦P¨Æ
+    if (root->right != NULL) //å¦ä¸€å´çš„å­æ¨¹ä¹Ÿåšç›¸åŒäº‹
         inorder(root->right);
 
 }
@@ -35,8 +35,8 @@ node *search(node *root, int key)
     node *current = root;
     while(current != NULL && key != current->data)
     {
-        if(key > root->data) current = current->right; //­Y¤ñ¸û¤j«h©¹¥k¨«
-        else current  = current->left;                 //§_«h©¹¥ª¨«
+        if(key > root->data) current = current->right; //è‹¥æ¯”è¼ƒå¤§å‰‡å¾€å³èµ°
+        else current  = current->left;                 //å¦å‰‡å¾€å·¦èµ°
     }
     if(current != NULL) return current;
     else return NULL;
@@ -50,9 +50,9 @@ void insert(node **root, int value)
         prevNode = current;
         if(prevNode->data > value && value > current->data) break;
         if(current->data > value && value > prevNode->data) break;
-        //·í­n´¡¤Jªº­È¤¶©ó¨â¸`ÂI¤§¶¡´N¸õ²æ°j°é
-        if(value > current->data)  current = current->right; //­Y¤ñ¸û¤j«h©¹¥k¨«
-        else current  = current->left;                       //§_«h©¹¥ª¨«
+        //ç•¶è¦æ’å…¥çš„å€¼ä»‹æ–¼å…©ç¯€é»ä¹‹é–“å°±è·³è„«è¿´åœˆ
+        if(value > current->data)  current = current->right; //è‹¥æ¯”è¼ƒå¤§å‰‡å¾€å³èµ°
+        else current  = current->left;                       //å¦å‰‡å¾€å·¦èµ°
     }
 
     if(prevNode == NULL) prevNode = newNode(value);
@@ -78,9 +78,9 @@ void deleteNode(node **root, int value)
         prevNode = current;
         if(prevNode->data > value && value > current->data) break;
         if(current->data > value && value > prevNode->data) break;
-        //·í­n´¡¤Jªº­È¤¶©ó¨â¸`ÂI¤§¶¡´N¸õ²æ°j°é
-        if(value > current->data)  current = current->right; //­Y¤ñ¸û¤j«h©¹¥k¨«
-        else current  = current->left;                       //§_«h©¹¥ª¨«
+        //ç•¶è¦æ’å…¥çš„å€¼ä»‹æ–¼å…©ç¯€é»ä¹‹é–“å°±è·³è„«è¿´åœˆ
+        if(value > current->data)  current = current->right; //è‹¥æ¯”è¼ƒå¤§å‰‡å¾€å³èµ°
+        else current  = current->left;                       //å¦å‰‡å¾€å·¦èµ°
     }
     printf("\n%d\n", current->data);
 
