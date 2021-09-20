@@ -137,4 +137,4 @@ int dequeue(queue *buffer)
 ```
 
 ## 3. Priority Queue
-在工作中事情會一直來，且有些急迫性高的事情會在較晚的時間近來，若急迫性一樣則會依照先來後到的順序解決，但是若有優先序更高的就會將該任務移到最前面解決，這就是 Priority Queue。
+在工作中事情會一直來，且有些急迫性高的事情會在較晚的時間近來，若急迫性一樣則會依照先來後到的順序解決，但是若有優先序更高的就會將該任務移到最前面解決，這就是 Priority Queue，也就是對樹狀結構進行排序。而此排序算法通常會使用 [Heap Sort](https://github.com/JrPhy/DS-AL/blob/master/Sorting_for_array_O(nlogn)-%E6%8E%92%E5%BA%8F.md#3-%E5%A0%86%E7%A9%8D%E6%8E%92%E5%BA%8F%E6%B3%95-heap-sort)，
