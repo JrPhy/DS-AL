@@ -93,7 +93,7 @@ Shell Sort 為 Insertion Sort 的改良版，由 Donald Shell 在 1959 年提出
 由上可知在第三次交換時，原本末端的 5 跑到了中間，故為不穩定的算法。而在算法中僅需要多兩個變數即可完成，故空間複雜度為 Θ(1)。\
 然而時間複雜度分析就較為困難，可參考[此篇論文](https://www.cs.princeton.edu/~rs/shell/paperF.pdf)，為 O(nlog<sup>2</sup>n)，
 ```C
-int shellSort(int a[], int n)
+void shellSort(int a[], int n)
 {
     int i, j, temp, gap;
     for (gap = n/2; gap > 0; gap /= 2)
@@ -105,7 +105,6 @@ int shellSort(int a[], int n)
             a[j] = temp;
         }
     }
-    return 0;
 }
 ```
 此算法的重點在於 gap 的選取，而也有許多人對於此[做了研究](https://en.wikipedia.org/wiki/Shellsort#Gap_sequences)。Shell Sort 在資料較少的情況下甚至會比 Quick Sort 還快，且其 Code size 小，又為 Θ(1) 的算法，且可使用迭代方式實作，故有些 embedded system 中的排序算法會使用 Shell Sort。\
