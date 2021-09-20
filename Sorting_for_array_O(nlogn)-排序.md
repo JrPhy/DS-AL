@@ -111,31 +111,31 @@ void swap(int *a, int *b)
     *a = temp;
 }
 
-void heapify(int arr[], int head, int tail)   //建立堆用
+void heapify(int a[], int head, int tail)   //建立堆用
 {
     int dad = head;
     int son = dad * 2 + 1;
     while (son <= tail)          // 若子節點指標在範圍內才做比較
     { 
-        if (son + 1 <= tail && arr[son] < arr[son + 1]) son++; // 先比較兩個子節點大小，選擇最大的
-        if (arr[dad] > arr[son]) return;                       // 如果父節點大於子節點代表調整完畢，直接跳出函數
-        else                                                   // 否則交換父子內容再繼續子節點和孫節點比較
+        if (son + 1 <= tail && a[son] < a[son + 1]) son++; // 先比較兩個子節點大小，選擇最大的
+        if (a[dad] > a[son]) return;                       // 如果父節點大於子節點代表調整完畢，直接跳出函數
+        else                                               // 否則交換父子內容再繼續子節點和孫節點比較
         {
-            swap(&arr[dad], &arr[son]);
+            swap(&a[dad], &a[son]);
             dad = son;
             son = dad * 2 + 1;
         }
     }
 }
 
-void HeapSort(int arr[], int len) 
+void HeapSort(int a[], int len) 
 {
     int i;
-    for (i = len / 2 - 1; i >= 0; i--) heapify(arr, i, len - 1);  // 建立 heap
+    for (i = len / 2 - 1; i >= 0; i--) heapify(a, i, len - 1);  // 建立 heap
     for (i = len - 1; i > 0; i--) 
     {
-        swap(&arr[0], &arr[i]);  // 先將第一個元素和已排好元素前一位做交換
-        heapify(arr, 0, i - 1);  // 再重新調整，直到排序完畢
+        swap(&a[0], &a[i]);  // 先將第一個元素和已排好元素前一位做交換
+        heapify(a, 0, i - 1);  // 再重新調整，直到排序完畢
     }
 }
 ```
