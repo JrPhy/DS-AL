@@ -11,22 +11,22 @@ void merge(int arr[], int head, int mid, int tail)
     int n1 = mid - head + 1;
     int n2 = tail - mid;
     int L[n1], R[n2];         //左右子陣列
-    for (i = 0; i < n1; i++) L[i] = arr[head + i];
-    for (j = 0; j < n2; j++) R[j] = arr[mid + 1+ j];
+    for (i = 0; i < n1; i++) L[i] = a[head + i];
+    for (j = 0; j < n2; j++) R[j] = a[mid + 1+ j];
     i = 0, j = 0, k = head;
     while (i < n1 && j < n2)  //此迴圈將兩子陣列的元素倆倆比較並合併進原始陣列
     {
-        if (L[i] <= R[j]) arr[k] = L[i++];
-        else arr[k] = R[j++];
+        if (L[i] <= R[j]) a[k] = L[i++];
+        else a[k] = R[j++];
         k++;
     }
-    while (i < n1) arr[k++] = L[i++];//若左陣列較長，則把多餘的元素放在原始陣列最末端
-    while (j < n2) arr[k++] = R[j++];//若右陣列較長，則把多餘的元素放在原始陣列最末端
+    while (i < n1) a[k++] = L[i++];//若左陣列較長，則把多餘的元素放在原始陣列最末端
+    while (j < n2) a[k++] = R[j++];//若右陣列較長，則把多餘的元素放在原始陣列最末端
 }
 
 int min(int x, int y) { return (x < y) ? x : y;}
  
-void mergeSort(int arr[], int length)
+void mergeSort(int a[], int length)
 {
     int curr_size;
     int head; 
@@ -36,7 +36,7 @@ void mergeSort(int arr[], int length)
         {
             int mid = min(head + curr_size - 1, length - 1);
             int tail = min(head + 2*curr_size - 1, length - 1);
-            merge(arr, head, mid, tail);
+            merge(a, head, mid, tail);
         }
     }
 }
@@ -54,16 +54,16 @@ void swap(int* a, int* b)
     *b = temp;
 }
   
-int partition(int arr[], int head, int tail)
+int partition(int a[], int head, int tail)
 {
     int i = (head - 1);
-    for (int j = head; j <= tail - 1; j++)  if (arr[j] < arr[tail]) swap(&arr[++i], &arr[j]);  
-    //在此選定 arr[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
-    swap(&arr[i + 1], &arr[tail]); //最後將 pivot 放到正確的位置，然後將 pivot 位置傳出來
+    for (int j = head; j <= tail - 1; j++)  if (a[j] < a[tail]) swap(&a[++i], &a[j]);  
+    //在此選定 a[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
+    swap(&a[i + 1], &a[tail]); //最後將 pivot 放到正確的位置，然後將 pivot 位置傳出來
     return (i + 1);
 }
   
-void quickSort(int arr[], int length)
+void quickSort(int a[], int length)
 {
     int head = 0, tail = length - 1, top = -1;
     int stack[length];
@@ -76,7 +76,7 @@ void quickSort(int arr[], int length)
         head = stack[top--];
   
         //將陣列分段後在選出下一個子陣列的 pivot 重複做，直到排序完成為止。
-        int p = partition(arr, head, tail);
+        int p = partition(a, head, tail);
   
         //將 pivot 左邊的元素從左邊放入 stack
         if (p - 1 > head) 
