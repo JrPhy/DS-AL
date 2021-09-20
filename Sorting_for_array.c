@@ -44,7 +44,7 @@ void insertionSort(int a[], int n)
     }
 }
 
-int shellSort(int a[], int n)
+void shellSort(int a[], int n)
 {
     int i, j, temp, gap;
     for (gap = n/2; gap > 0; gap /= 2)
@@ -56,7 +56,6 @@ int shellSort(int a[], int n)
             a[j] = temp;
         }
     }
-    return 0;
 }
 
 void heapify(int a[], int head, int tail)   //建立堆用
@@ -138,8 +137,8 @@ void merge(int a[], int head, int mid, int tail)
     i = 0, j = 0, k = head;
     while (i < n1 && j < n2)  //此迴圈將兩子陣列的元素倆倆比較並合併進原始陣列
     {
-        if (L[i] <= R[j]) arr[k] = L[i++];
-        else arr[k] = R[j++];
+        if (L[i] <= R[j]) a[k] = L[i++];
+        else a[k] = R[j++];
         k++;
     }
     while (i < n1) a[k++] = L[i++];//若左陣列較長，則把多餘的元素放在原始陣列最末端
@@ -188,67 +187,21 @@ int main()
         f[i] = x;
         g[i] = x;
     }
-
-    clock_t start, end;
-    double cpu_time_used;
-    start = clock();
-    
-    heapSort(a, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("HeapSort %g\n", cpu_time_used);
-
-    start = clock();
-    
-    mergeSort(b, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("mergeSort  %g\n", cpu_time_used);
-    
-    start = clock();
-    
-    quickSort(c, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("quickSort  %g\n", cpu_time_used);
-    
-    cpu_time_used;
-    start = clock();
-    
-    bubbleSort(d, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("bubbleSort %g\n", cpu_time_used);
-
-    start = clock();
-    
-    selectionSort(e, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("selectionSort  %g\n", cpu_time_used);
-    
-    start = clock();
-    
-    insertionSort(f, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("insertionSort  %g\n", cpu_time_used);
-    
-    start = clock();
-    
-    shellSort(g, n);
-    
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("shellSort  %g\n", cpu_time_used);
-  
-    cpu_time_used = sortTime(b, n, bubbleSort)
+    double timeUsage;
+    timeUsage = sortTime(a, n, bubbleSort);
+    printf("bubbleSort %g\n", timeUsage);
+    timeUsage = sortTime(b, n, selectionSort);
+    printf("selectionSort %g\n", timeUsage);
+    timeUsage = sortTime(c, n, insertionSort);
+    printf("insertionSortn %g\n", timeUsage);
+    timeUsage = sortTime(d, n, shellSort);
+    printf("shellSort %g\n", timeUsage);
+    timeUsage = sortTime(e, n, mergeSort);
+    printf("mergeSort %g\n", timeUsage);
+    timeUsage = sortTime(f, n, quickSort);
+    printf("quickSort %g\n", timeUsage);
+    timeUsage = sortTime(g, n, heapSort);
+    printf("heapSort %g\n", timeUsage);
 
     return 0;
 }
