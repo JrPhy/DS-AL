@@ -51,7 +51,7 @@ void shellSort(int a[], int n)
     {
         for (i = gap; i < n; i += 1)
         {
-            temp = a[i], j;           
+            temp = a[i];           
             for (j = i; j >= gap && a[j - gap] > temp; j -= gap) a[j] = a[j - gap];
             a[j] = temp;
         }
@@ -175,6 +175,7 @@ double sortTime(int a[], int length, void (*sort)(int a[], int length))
 int main()
 {
     int n = 200, a[200], b[200], c[200], d[200], e[200], f[200], g[200], i, x;
+    double timeUsage;
     srand( time(NULL) );
     for(i = 0; i < n; i++)
     {
@@ -187,7 +188,7 @@ int main()
         f[i] = x;
         g[i] = x;
     }
-    double timeUsage;
+    
     timeUsage = sortTime(a, n, bubbleSort);
     printf("bubbleSort %g\n", timeUsage);
     timeUsage = sortTime(b, n, selectionSort);
