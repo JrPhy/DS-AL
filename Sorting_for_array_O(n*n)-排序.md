@@ -30,18 +30,18 @@ a[6] = {5, 3, 4, 5, 1, 8} 使用選擇排序法做升序排列，在此先找到
 ```C
 void selection_sort(int a[], int len) 
 {
-	int i, j, temp;
-	for (i = 0 ; i < len - 1 ; i++) 
+    int i, j, temp;
+    for (i = 0 ; i < len - 1 ; i++)
     {
         int min = i;
-		for (j = i + 1; j < len; j++) if (a[j] < a[min])  min = j;  //走訪未排序的元素，找到並紀錄最小值
-		if(min != i)
-		{
+        for (j = i + 1; j < len; j++) if (a[j] < a[min])  min = j;  //走訪未排序的元素，找到並紀錄最小值
+        if(min != i)
+        {
             temp = a[min];  //交換兩個變數
             a[min] = a[i];
             a[i] = temp;
-		}
-	}
+        }
+    }
 }
 ```
 ## 3. 插入排序法 Insertion Sort
@@ -95,12 +95,12 @@ Shell Sort 為 Insertion Sort 的改良版，由 Donald Shell 在 1959 年提出
 ```C
 int shellSort(int a[], int n)
 {
-	int i, j, temp, gap;
+    int i, j, temp, gap;
     for (gap = n/2; gap > 0; gap /= 2)
     {
         for (i = gap; i < n; i += 1)
         {
-            int temp = a[i], j;           
+            temp = a[i], j;           
             for (j = i; j >= gap && a[j - gap] > temp; j -= gap) a[j] = a[j - gap];
             a[j] = temp;
         }
