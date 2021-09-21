@@ -146,6 +146,8 @@ Ref: \
 
 ## 4. 三種排序法的適用情境與比較
 Merge Sort、Quick Sort 和 Heap Sort、的平均時間複雜度皆為 O(nlogn)，且 Quick Sort 的最壞情況甚至要 O(n<sup>2</sup>)。對於陣列排序較常使用 Quick sort，原因是因為陣列是連續的記憶體，且若資料為雜亂無章的，Quick Sort 比較的步驟少於其他兩種方法，故在要排列陣列的情況使用 Quick sort 速度會較快。\
+Merge Sort 和 Quick Sort 都是利用分治法來實現，只是一個重分割，一個重合併，可參考以下網頁來看出兩者差異。 \
+https://www.cyut.edu.tw/~ckhung/b/al/sort1.php \
 而 Merge sort 對於 linked list 的排列速度較快，原因是 linked list 牽扯到非連續記憶體與指標操作，所以此種情況下使用 Merge sort 速度會較快。而 Heap Sort 則是適用於 Priority Queue。\
 ![img](pic/nlogn.jpg)\
 Ref: \
