@@ -86,16 +86,16 @@ void heapSort(int a[], int len)
     }
 }
 
-int partition(int arr[], int head, int tail)
+int partition(int a[], int head, int tail)
 {
     int i = (head - 1);
-    for (int j = head; j <= tail - 1; j++)  if (arr[j] < arr[tail]) swap(&arr[++i], &arr[j]);  
-    //在此選定 arr[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
-    swap(&arr[i + 1], &arr[tail]); //最後將 pivot 放到正確的位置，然後將 pivot 位置傳出來
+    for (int j = head; j <= tail - 1; j++)  if (a[j] < a[tail]) swap(&a[++i], &a[j]);  
+    //在此選定 a[tail] 為 pivot，小於 pivot 放左邊，其餘放右邊
+    swap(&a[i + 1], &a[tail]); //最後將 pivot 放到正確的位置，然後將 pivot 位置傳出來
     return (i + 1);
 }
   
-void quickSort(int arr[], int length)
+void quickSort(int a[], int length)
 {
     int head = 0, tail = length - 1, top = -1;
     int stack[length];
@@ -108,7 +108,7 @@ void quickSort(int arr[], int length)
         head = stack[top--];
   
         //將陣列分段後在選出下一個子陣列的 pivot 重複做，直到排序完成為止。
-        int p = partition(arr, head, tail);
+        int p = partition(a, head, tail);
   
         //將 pivot 左邊的元素從左邊放入 stack
         if (p - 1 > head) 
@@ -179,7 +179,7 @@ int main()
     srand( time(NULL) );
     for(i = 0; i < n; i++)
     {
-        x = rand()%300;
+        x = rand();
         a[i] = x;
         b[i] = x;
         c[i] = x;
