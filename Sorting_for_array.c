@@ -174,7 +174,7 @@ double sortTime(int a[], int length, void (*sort)(int a[], int length))
 
 int main()
 {
-    int n = 200, a[200], b[200], c[200], d[200], e[200], f[200], g[200], i, x;
+    int n = 200, a[n], b[n], c[n], d[n], e[n], f[n], g[n], i, x;
     double timeUsage;
     srand( time(NULL) );
     for(i = 0; i < n; i++)
