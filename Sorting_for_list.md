@@ -93,3 +93,5 @@ void mergeSortL(node **list)
     *list = preList->next;
 }
 ```
+![img](pic/MERGE.jpg)
+![img](pic/MERGE-sort.jpg)
