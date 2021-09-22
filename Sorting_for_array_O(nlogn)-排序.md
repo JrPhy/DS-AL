@@ -30,7 +30,7 @@ void mergeSort(int a[], int length)
 {
     int curr_size;
     int head; 
-    for (curr_size = 1; curr_size <= length - 1; curr_size = 2*curr_size)  //此迴圈用來合併子陣列用
+    for (curr_size = 1; curr_size < length; curr_size = 2*curr_size)  //此迴圈用來合併子陣列用
     {
         for (head = 0; head < length - 1; head += 2*curr_size)  //此迴圈用來走訪陣列中的每個元素
         {
