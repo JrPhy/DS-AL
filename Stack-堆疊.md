@@ -5,11 +5,11 @@
 ```C
 typedef struct _stack {
     int top;
-    unsigned int capacity;
+    int capacity;
     int *array;
 }stack;
 
-stack *newStack(unsigned int capacity)
+stack *newStack(int capacity)
 {
     stack *new_stack = malloc(sizeof(stack));
     if(new_stack != NULL)
