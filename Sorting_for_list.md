@@ -34,8 +34,6 @@ node *next(node *a, int size)
 
 node *merge(node *prel1, node *prel2, node *prenextlist)
 {
-    if(prel2->data <= prel2->next->data) return prenextlist;
-
     node *l1, *l2, *nextlist, *ptr1, *ptr2, *curr;
     l1 = prel1->next;  //左子 list
     l2 = prel2->next;  //右子 list
