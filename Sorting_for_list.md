@@ -1,4 +1,5 @@
-因為 linked list 不是 C 語言內建的資料結構，故 C 中的 qsort 並不支援 list 的排序，需要自己寫。而兩者的差異在於 array 可以直接使用 index 做操作，list 沒辦法，所以在 list 寫法上會比較複雜。但 可以藉由末節點指向 NULL 來計算長度。當然也可以將 list 裡面的元素用 array 儲存起來，在對 array 排序完後就放進 list 中。
+因為 linked list 不是 C 語言內建的資料結構，故 C 中的 qsort 並不支援 list 的排序，需要自己寫。而兩者的差異在於 array 可以直接使用 index 做操作，list 沒辦法，所以在 list 寫法上會比較複雜。但可以藉由末節點指向 NULL 來計算長度。當然也可以將 list 裡面的元素用 array 儲存起來，在對 array 排序完後就放進 list 中。\
+而排序僅是交換結構中 data 的位置，並不會改變鏈結的串接順序，但鏈結無法像陣列一樣直接取用位置，故兩者差異在於如何走訪所有元素。
 
 ## 1. 氣泡排序法
 氣泡排序法因為是與鄰近的元素倆倆比較，所以在實作上幾乎與 array 版本無差別。
@@ -24,7 +25,7 @@ void bubbleSort(node **list)
 ```
 
 ## 2. 合併排序法
-此寫法也與陣列版差異不大，只是要將陣列操作改成 list 操作
+此寫法也與陣列版差異不大，只是要將陣列操作改成 list 操作。
 ```c
 node *next(node *a, int size)
 {  
@@ -77,18 +78,18 @@ void mergeSortL(node **list)
     node *preList = newNode(0);
     preList->next = *list;
 
-    node *prel1, *prel2, *prenextlist;
-    prel1 = preList;
-    while((prel2 = next(prel1, size)))
+    node *head, *tail, *mid;
+    head = preList;
+    while((tail = next(head, size)))
     {
-        while(prel2 && prel2 -> next)
+        while(head && tail -> next)
         {
-            prenextlist = next(prel2, size);
-            prel1 = merge(prel1, prel2, prenextlist);
-            prel2 = next(prel1, size);
+            mid = next(tail, size);
+            head = merge(head, tail, mid);
+            tail = next(head, size);
         }
         size +=size;  //1, 2, 4, ... --> O(nlogn)
-        prel1 = preList;
+        head = preList;
     }
     *list = preList->next;
 }
