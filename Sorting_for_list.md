@@ -82,7 +82,7 @@ void mergeSortL(node **list)
     head = preList;
     while((tail = next(head, size)))
     {
-        while(head && tail -> next)
+        while(tail && tail -> next)
         {
             mid = next(tail, size);
             head = merge(head, tail, mid);
