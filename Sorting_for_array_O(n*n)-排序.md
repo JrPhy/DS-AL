@@ -107,4 +107,4 @@ void shellSort(int a[], int n)
     }
 }
 ```
-此算法的重點在於 gap 的選取，而也有許多人對於此[做了研究](https://en.wikipedia.org/wiki/Shellsort#Gap_sequences)。Shell Sort 在資料較少的情況下甚至會比 Quick Sort 還快，且其 Code size 小，又為 Θ(1) 的算法，且可使用迭代方式實作，故有些 embedded system 中的排序算法會使用 Shell Sort。
+此算法的重點在於 gap 的選取，而也有許多人對於此[做了研究](https://en.wikipedia.org/wiki/Shellsort#Gap_sequences)。Shell Sort 在資料較少的情況下甚至會比 Quick Sort 還快，且其 Code size 小，又為 Θ(1) 的算法，且可使用迭代方式實作，故有些 embedded system 中的排序算法會使用 Shell/Insertion Sort。
