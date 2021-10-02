@@ -46,13 +46,8 @@ skipList *newSkipList()
         free(skipList);
         return NULL;
     }
-    skipList->head = tmpNode;
-    int i;
-	  //將頭節點的都先指向 NULL
-    for(i=0; i<MAX_L; ++i)
-    {
-        tmpNode->next[i] = NULL;
-    }
+    skipList->head = tmpNode; //將頭節點的都先指向 NULL
+    for(int i=0; i<MAX_L; ++i) tmpNode->next[i] = NULL;
     return skipList;
 }
 ```
