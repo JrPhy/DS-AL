@@ -8,9 +8,10 @@
 因為此算法使用了 Quick Sort，固為不穩定算法，空間複雜度為 Θ(nlog<sub>2</sub>n)，而在最差情況使用 Heap Sort 取代，故時間複雜度為 O(nlog<sub>2</sub>n)。而此算法可以再進一步做修改成[pdqsort](https://github.com/orlp/pdqsort)，其效能又比 Introsort 更好。
 
 ## 2. Timsort
-此算法由Tim Peters 在 2002 年提出，其混用了 Insertion Sort 和 Merge Sort，且在 Python、Java 中使用。Tim 觀察到現實中的資料是有部分排序的，在算法中稱為 run，故會使用 Merge Sort 來合併這些 run 來達到加速的效果。其中 run 可能是升序或倒序的，若是要升序排列，則會直接將倒序的 run 排成升序。\
+此算法由Tim Peters 在 2002 年提出，其混用了 Insertion Sort 和 Merge Sort，且在 Python、Java 中使用。Tim 觀察到現實中的資料是有部分排序的，在算法中稱為 run，故會使用 Merge Sort 來合併這些 run 來達到加速的效果。其中 run 可能是升序或倒序的，若是要升序排列，則會直接將倒序的 run 排成升序。
 ```
 [1, 2, 3, 2] --> [[1, 2, 3], [2]]  被分成 2 runs
 [3, 2, 1, 2] --> [[1, 2, 3], [2]]  被分成 2 runs
 ```
-同樣的，在資料量不大時也是使用 Insertion Sort，在 python 中大約是 n < 32 或 n < 64，
+在 Timsort 中會從最小的兩 run 開始找，然後去做合併，小的 run 要另外開空間來存放 (不開的話效率太差)。同樣的，在資料量不大時也是使用 Insertion Sort，在 python 中大約是 n < 32 或 n < 64。\
+但是在合併過程中可成會產生一個 [bug](http://www.envisage-project.eu/proving-android-java-and-python-sorting-algorithm-is-broken-and-how-to-fix-it/)，若是陣列太長會造成 stack overflow，但原作表示這個不會出現在真實的 case 中，但實作還是有將此問題修正。
