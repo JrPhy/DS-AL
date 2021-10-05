@@ -2,6 +2,7 @@ list 雖然在新增與刪除給予了很大的彈性，但是必須要先走訪
 Skip list 是基於**排序過的** list 加以改善，所以在插入或刪除時不會改變元素的順序，並利用樹中**層**的概念來實現。通常會先訂一個最高的層數，而哪一個資料有幾層完全是亂數決定，用此來達到更快速的找查。而因為多了一個成員，故記憶體空間會多使用。\
 此種資料結構在資料庫中會使用到，如[Redis](https://zh.wikipedia.org/wiki/Redis)。而在資料庫中通常會多一個 key 來增加尋找效率，在此並未多加入此成員。\
 http://www2.ee.unsw.edu.au/~vijay/research/smallbuffersCode/skiplist/skiplist.c
+https://github.com/ustcdane/skiplist/blob/master/skiplist.cpp
 ## 1. 結構
 在跳躍連結中引入了層的概念，也就是一個元素有多一個層的元素，最底層才存放資料，如同城市中高矮不一的房子一樣，可參考[維基百科的圖](https://en.wikipedia.org/wiki/File:Skip_list_add_element-en.gif)。元素也是照順序放，但是最頂層並不會連接到所有元素，而是只會連結部分元素，越底層連結的元素越多，所以在尋找的時候可以降低複雜度，但是會增加記憶體使用量。
 ```C
