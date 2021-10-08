@@ -35,7 +35,7 @@ int main()
     three->next = one;
 }
 ```
-![image](pic/Circle-linked-list.jpg) \
+![image](../pic/Circle-linked-list.jpg) \
 除了最後要將最末端的節點指回頭，其他都與單向鏈結一樣。
 
 ## 2. 印出 list 中的資料
