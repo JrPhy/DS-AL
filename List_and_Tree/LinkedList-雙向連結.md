@@ -43,7 +43,7 @@ int main()
     node *head = one, *tail = three;
 }
 ```
-![image](pic/Double-linked-list.jpg)
+![image](../pic/Double-linked-list.jpg)
 
 ## 2. 印出 list 中的資料
 雙向連結因為多了一個 prev 所以可以從後面往前印。
@@ -102,7 +102,7 @@ void insertMiddle(node **list, int value, int position)
 }
 ```
 temp->next->prev 是指原本的第 n+1 個 node 的 prev。其中而實作上可以考慮將插入函數寫成一個函數即可。
-![image](pic/DLL-insert-in-middle.jpg)
+![image](../pic/DLL-insert-in-middle.jpg)
 
 ## 5. 刪除 list 中某位置資料
 在此我們會先從頭開始尋找資料在 list 中哪個位置，然後再把那筆資料移除，如同插入一樣分成三種情況
@@ -155,7 +155,7 @@ void deleteNode(node **list, int position)
     free(nodeToBeDel);
 }
 ```
-![image](pic/DLL-delete.jpg)
+![image](../pic/DLL-delete.jpg)
 
 ## 6. 雙向 list 反轉
 雙向 list 反轉比單向單純，可以想成只是 prev 與 next 做交換而已。
