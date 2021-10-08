@@ -64,7 +64,7 @@ void insertionSort(int a[], int n)
 }
 ```
 雖然以上三種算法在時間複雜度上皆為 O(n<sup>2</sup>)，但實際上還是有些許差異，下表給出此三種算法在給定相同的資料量下，Insertion Sort 所花費的時間最少。原因是因為 InsertionSort 並非真的會走訪到 i-1 次，從 while 迴圈來看是有機會提早結束迴圈，且是一邊紀錄位置一邊交換，所以整體來說所花費的時間較少。
-![img](pic/nn.jpg) \
+![img](../pic/nn.jpg) \
 Ref: http://www-cs-students.stanford.edu/~rashmi/projects/Sorting 
 
 ## 4. 希爾排序法 Shell Sort
