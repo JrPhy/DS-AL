@@ -36,7 +36,7 @@ int main()
     three->next = NULL;
 }
 ```
-![image](pic/list-hooked.jpg)
+![image](../pic/list-hooked.jpg)
 上面宣告了一個結構，裡面有一個整數變數的成員，與一個指標結構成員 * next，* next 即為用來與其他資料連結的鉤環。在此我們先宣告三個型別為 node 的指標並先指向 NULL，接著分別要了 node 大小的記憶體給三個指標。接著將裡面的資料賦值然後將其串起來，如此一來就完成了 Linked list 的串接。
 
 ## 2. 印出 list 中的資料
@@ -80,7 +80,7 @@ void insertNode(node **list, int value)
     *list = new_node;
 }
 ```
-![image](pic/insert-at-head.jpg)
+![image](../pic/insert-at-head.jpg)
 與 printList 不同，在此傳入一個指標的指標，是因為要改變原本的指標，故必須要先宣告一個指標指向傳入的 list。若是直接傳入指標 list，則因為是指向 list 了所以可以直接操作。
 #### 2. 在尾插入
 大部分的步驟一樣，只不過 newNode 最後要指向 NULL，然後另外開一個指標 temp 指向 list，找到目前存在 list 中最後一項物件，再把 temp 指向 newNode 即可。
@@ -93,7 +93,7 @@ void insertNode(node **list, int value)
     temp->next = new_node;
 }
 ```
-![image](pic/insert-at-tail.jpg)
+![image](../pic/insert-at-tail.jpg)
 #### 3. 在其他地方插入 
 大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。在此是在第 n 個 node 後面插入，所以是將新的 node 插入在第 n+1 個 node。
 ```C
@@ -106,7 +106,7 @@ void insertNode(node **list, int value, int position)
 }
 ```
 而實作上可以考慮將插入函數寫成一個函數即可。
-![image](pic/insert-in-middle.jpg)
+![image](../pic/insert-in-middle.jpg)
 ## 5. 刪除 list 中某位置資料
 在此我們會先從頭開始尋找資料在 list 中哪個位置，然後再把那筆資料移除，如同插入一樣分成三種情況
 #### 1. 刪除首位資料
@@ -119,7 +119,7 @@ void deleteNode(node **list, int position)
     free(temp);
 }
 ```
-![image](pic/delete-head.jpg)
+![image](../pic/delete-head.jpg)
 #### 2. 刪除其餘資料
 刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把倒數第二個的節點存下來，將最後一個節點 free 調，並把原先倒數第二的 next 指向 NULL 即可。
 ```C
@@ -139,7 +139,7 @@ void deleteNode(node **list, int position)
 }
 ```
 倒數第三行為儲存倒數第二個資料勾環的位置，下一行則是把 temp->next 指向末位資料的鉤環，也就是指向 NULL 的鉤環，所以將最末位的資料刪除後仍是指向 NULL。如果 nodeToBeDel->next 不是 NULL，則非刪除最後一個節點。
-![image](pic/delete-else.jpg)
+![image](../pic/delete-else.jpg)
 
 ## 6. list 反轉
 list 反轉需要另外開三個 node 才能完成，current 是要做移動，next 則是要存取移動中下一個指標，prev 則是指向前一個 node。
@@ -162,4 +162,4 @@ void reverse(node **list)
     *list = prevNode;
 }
 ```
-![image](pic/reverse.jpg)
+![image](../pic/reverse.jpg)
