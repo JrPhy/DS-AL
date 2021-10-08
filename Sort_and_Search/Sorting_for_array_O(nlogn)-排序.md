@@ -99,7 +99,7 @@ void quickSort(int a[], int length)
 ## 3. 堆積排序法 Heap Sort
 不同於前面兩種排序法，堆積排序是利用[完全二元樹](https://github.com/JrPhy/DS-AL/blob/master/Tree-%E4%BA%8C%E5%85%83%E6%A8%B9.md#2-%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%85%83%E6%A8%B9-complete-binary-tree)，將陣列轉化成堆積(Heap)的概念來做排序。若為升序則稱最大堆積，降序則稱最小堆積，在此以升序排列為例。根節點為最大值且任一父節點的直皆大於子節點。\
 在陣列中第一個位置(index = 0)為根，父節點 i 的左子節點在位置 2i+1，右子節點在位置 2i+2，子節點i的父節點在位置 floor((i-1)/2)，用此方式模擬樹狀結構。從根出發，在樹中比較每個子樹的父節點與子節點，將子樹中最小的值放到父節點，最大的值放在右子節點，並從最下面、最右邊的子樹開始，依序往左再往上，直到每個節點的葉子即完成排序，圖中每一個紅框為一個子樹。
-![img](pic/heap.jpg)\
+![img](../pic/heap.jpg)\
 在此算法中一樣要遍歷所有元素，然後每次建立堆積需要 O(logn) 的時間，故時間複雜度為 O(nlogn)。\
 然而此堆積方式是利用欲排序的陣列模擬樹狀結構，故不再需要額外的陣列，空間複雜度為 Θ(1)。\
 但是因為陣列中可能會有相同的值，有可能最末的葉子與根的值相同，故為非穩定排序算法。
@@ -149,7 +149,7 @@ Merge Sort、Quick Sort 和 Heap Sort、的平均時間複雜度皆為 O(nlogn)�
 Merge Sort 和 Quick Sort 都是利用分治法來實現，只是一個重分割，一個重合併，可參考以下網頁來看出兩者差異。 \
 https://www.cyut.edu.tw/~ckhung/b/al/sort1.php \
 而 Merge sort 對於 linked list 的排列速度較快，原因是 linked list 牽扯到非連續記憶體與指標操作，所以此種情況下使用 Merge sort 速度會較快。而 Heap Sort 則是適用於 Priority Queue。\
-![img](pic/nlogn.jpg)\
+![img](../pic/nlogn.jpg)\
 Ref: \
 [1]. https://www.geeksforgeeks.org/why-quick-sort-preferred-for-arrays-and-merge-sort-for-linked-lists/ \
 [2]. https://stackoverflow.com/questions/1525117/whats-the-fastest-algorithm-for-sorting-a-linked-list \
