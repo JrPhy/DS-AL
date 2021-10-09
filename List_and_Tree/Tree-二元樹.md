@@ -104,13 +104,13 @@ void postorder(node *root)
 ```C
 void morrisTraversalPreorder(node* root)
 {
-    node *current
+    node *current;
     while (root)
     {
         //如果左子樹走到 NULL 就往右走
         if (root->left == NULL)
         {
-            printf( "%d ", root->data );
+            printf("root->left == NULL\n");
             root = root->right;
         }
         else
@@ -120,12 +120,13 @@ void morrisTraversalPreorder(node* root)
  
             if (current->right == root)
             {
+                printf("current->right == root\n");
                 current->right = NULL;
                 root = root->right;
             }
             else
             {
-                printf("%d ", root->data);
+                printf("current->right != root\n");
                 current->right = root;
                 root = root->left;
             }
