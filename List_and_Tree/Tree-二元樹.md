@@ -101,11 +101,6 @@ void postorder(node *root)
 雖然使用遞迴(Recursive)寫法能讓 code 看起來非常簡潔，且能明確地看出以上三種寫法的差異，但是在空間與時間效率上皆不如迭代法，且太深層時容易造成 stack overflow，故實務上較少會使用遞迴法。在此以 preorder 為例，不論是哪一種寫法都是先走到左子樹的 NULL 再往右走。此方法利用一個多的節點 current 來當作 recursive 的 stack，記錄當下節點的左子節點，當左邊的節點走到 NULL 後再跳回 root 節點，並先往右節點走，然後再重複前一步，也就是當 root != NULL 時
 1. 如果 root->left == NULL 則印出資料，並往 root->right 走。
 2. 如果 root->left != NULL，利用 current 節點往 root->left 右子節點走。
-2.1 如果current->right = NULL，将它的右孩子设置为当前节点。当前节点更新为当前节点的左孩子。
-
-   b) 如果前驱节点的右孩子为当前节点，将它的右孩子重新设为空（恢复树的形状）。输出当前节点。当前节点更新为当前节点的右孩子。
-
-3. 重复以上1、2直到当前节点为空。
 ```C
 void morrisTraversalPreorder(node* root)
 {
