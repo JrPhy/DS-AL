@@ -101,9 +101,11 @@ void postorder(node *root)
 雖然使用遞迴(Recursive)寫法能讓 code 看起來非常簡潔，且能明確地看出以上三種寫法的差異，但是在空間與時間效率上皆不如迭代法，且太深層時容易造成 stack overflow，故實務上較少會使用遞迴法。在此以 preorder 為例，不論是哪一種寫法都是先走到左子樹的 NULL 再往右走。此方法利用一個多的節點 current 來當作 recursive 的 stack，記錄當下節點的左子節點，當左邊的節點走到 NULL 後再跳回 root 節點，並先往右節點走，然後再重複前一步，也就是當 root != NULL 時
 1. 若 root->left == NULL 則印出資料，並往 root->right 走。
 2. 若 root->left != NULL，利用 current 節點往 root 左子樹的最大值，並將該葉子的 right 指向 root，然後 root 再往走向左子節點。
-3. 若 current->right == root，表示 root 也走到葉子了，此時將 current->right 還原為 NULL，root 再往回走像上一層節點。
-因為 preorder 是先將 root 左子樹整個走訪後再往 root 右子樹走，所以利用葉子的 right 指向上層的 root，如此一來只須用到多一個 node 即可走訪整個二元樹。以此樹為例，第一次會將 root 左子樹的葉子 9 的右節點指向 11，然後 root 往左走向左節點，再來將 root 左子樹的左子樹的葉子 4 的右節點指向 5，以此類推。
-[!image](../pic/morrisTraversalPreorder.jpg)
+3. 若 current->right == root，表示 root 也走到葉子了，此時將 current->right 還原為 NULL，root 再往回走像上一層節點。\
+因為 preorder 是先將 root 左子樹整個走訪後再往 root 右子樹走，所以利用葉子的 right 指向上層的 root，如此一來只須用到多一個 node 即可走訪整個二元樹。以此樹為例，第一次會將 root 左子樹的葉子 9 的右節點指向 11，然後 root 往左走向左節點，再來將 root 左子樹的左子樹的葉子 4 的右節點指向 5，以此類推。\
+
+
+![image](../pic/morrisTraversalPreorder.jpg)
 ```C
 void morrisTraversalPreorder(struct node* root)
 {
