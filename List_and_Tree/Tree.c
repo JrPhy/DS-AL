@@ -35,8 +35,8 @@ node *search(node *root, int key)
     node *current = root;
     while(current != NULL && key != current->data)
     {
-        if(key > root->data) current = current->right; //若比較大則往右走
-        else current  = current->left;                 //否則往左走
+        if(key > current->data) current = current->right; //若比較大則往右走
+        else current = current->left;                 //否則往左走
     }
     if(current != NULL) return current;
     else return NULL;
