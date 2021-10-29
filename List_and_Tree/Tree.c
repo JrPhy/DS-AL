@@ -81,7 +81,7 @@ void deleteNode(node **root, int value)
         //當要插入的值介於兩節點之間就跳脫迴圈
         if(value > current->data)  current = current->right; //若比較大則往右走
         else current  = current->left;                       //否則往左走
-        if(current == NULL) return root;
+        if(current == NULL) return;                          //表示此樹中沒有要刪除的值
     }
     printf("\n%d\n", current->data);
 
@@ -93,7 +93,7 @@ void deleteNode(node **root, int value)
     }
     else if(current->left != NULL && current->right != NULL)
     {
-        node *tempNode = current->right, *prevTemp;
+        node *tempNode = current->right, *prevTemp = NULL;
         while(tempNode->left != NULL)
         {
             prevTemp = tempNode;
@@ -110,13 +110,13 @@ void deleteNode(node **root, int value)
         {
             if(current->right != NULL) 
             {
-                root->data = current->right->data;
-                root->right = NULL;
+                (*root)->data = current->right->data;
+                (*root)->right = NULL;
             }
             else 
             {
-                root->data = current->left->data;
-                root->left = NULL;
+                (*root)->data = current->left->data;
+                (*root)->left = NULL;
             }
         }
         else
