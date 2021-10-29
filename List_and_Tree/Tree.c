@@ -81,6 +81,7 @@ void deleteNode(node **root, int value)
         //當要插入的值介於兩節點之間就跳脫迴圈
         if(value > current->data)  current = current->right; //若比較大則往右走
         else current  = current->left;                       //否則往左走
+        if(current == NULL) return root;
     }
     printf("\n%d\n", current->data);
 
@@ -98,21 +99,38 @@ void deleteNode(node **root, int value)
             prevTemp = tempNode;
             tempNode = tempNode->left;
         }
+        if (prevTemp != NULL) prevTemp->left = tempNode->right;
+        else current->right = tempNode->right;
         current->data = tempNode->data;
-        prevTemp->left = NULL;
         free(tempNode);
     }
     else
     {
-        if (prevNode->data > current->data)
+        if (prevNode == NULL)
         {
-            if (current->left != NULL) prevNode->left = current->left;
-            else prevNode->left = current->right;
+            if(current->right != NULL) 
+            {
+                root->data = current->right->data;
+                root->right = NULL;
+            }
+            else 
+            {
+                root->data = current->left->data;
+                root->left = NULL;
+            }
         }
         else
         {
-            if (current->left != NULL) prevNode->right = current->left;
-            else prevNode->right = current->right;
+            if (prevNode->data > current->data)
+            {
+                if (current->left != NULL) prevNode->left = current->left;
+                else prevNode->left = current->right;
+            }
+            else
+            {
+                if (current->left != NULL) prevNode->right = current->left;
+                else prevNode->right = current->right;
+            }
         }
     }
 }
