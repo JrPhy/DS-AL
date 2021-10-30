@@ -191,7 +191,20 @@ void insert(node **root, int value)
 ```
 
 #### 3. 刪除
-在此可搭配 seach 做使用，將樹與欲刪除的直傳入函數中並直接修改該樹，宣告為```void deleteNode(node **root, int value) ```，會有以下三種情況發生
+在此可搭配 search 做使用，將樹與欲刪除的直傳入函數中並直接修改該樹，宣告為```void deleteNode(node **root, int value) ```。在此會先去尋找該資料是否在此樹內，若沒有則直接返回，若有責分以下三種情況
+```C
+node *current = *root, *prevNode = NULL;
+while(current->data != value)
+{
+    prevNode = current;
+    if(prevNode->data > value && value > current->data) break;
+    if(current->data > value && value > prevNode->data) break;
+    //當要插入的值介於兩節點之間就跳脫迴圈
+    if(value > current->data)  current = current->right; //若比較大則往右走
+    else current  = current->left;                       //否則往左走
+    if(current == NULL) return;                          //表示此樹中沒有要刪除的值
+}
+```
 #### 刪除葉子
 因為是刪除葉子，所以直接將葉子節點 free 掉即可，然後要記得將該節點設為 NULL。
 ```C
@@ -207,15 +220,31 @@ if(current->left == NULL && current->right == NULL)
 ```C
 else
 {
-    if (prevNode->data > current->data)
+    if (prevNode == NULL)  //若移除的為根結點
     {
-        if (current->left != NULL) prevNode->left = current->left;
-        else prevNode->left = current->right;
+        if(current->right != NULL) 
+        {
+            (*root)->data = current->right->data;
+            (*root)->right = NULL;
+        }
+        else 
+        {
+            (*root)->data = current->left->data;
+            (*root)->left = NULL;
+        }
     }
     else
     {
-        if (current->left != NULL) prevNode->right = current->left;
-        else prevNode->right = current->right;
+        if (prevNode->data > current->data)
+        {
+            if (current->left != NULL) prevNode->left = current->left;
+            else prevNode->left = current->right;
+        }
+        else
+        {
+            if (current->left != NULL) prevNode->right = current->left;
+            else prevNode->right = current->right;
+        }
     }
 }
 ```
@@ -226,14 +255,15 @@ else
 ```C
 else if(current->left != NULL && current->right != NULL)
 {
-    node *tempNode = current->right, *prevTemp;
+    node *tempNode = current->right, *prevTemp = NULL;
     while(tempNode->left != NULL)
     {
         prevTemp = tempNode;
         tempNode = tempNode->left;
     }
+    if (prevTemp != NULL) prevTemp->left = tempNode->right;
+    else current->right = tempNode->right;
     current->data = tempNode->data;
-    prevTemp->left = NULL;
     free(tempNode);
 }
 ```
