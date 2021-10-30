@@ -6,8 +6,8 @@
 ```C
 void bubbleSort(node **list)
 {
-    int i, j, a;
-    node *temp1 = NULL, *temp = NULL;
+    int a;
+    node *temp1 = NULL, *temp2 = NULL;
 
     for(temp1 = *list; temp1 != NULL; temp1 = temp1->next)
     {
@@ -24,7 +24,29 @@ void bubbleSort(node **list)
 }
 ```
 
-## 2. 合併排序法
+## 2. 插入排序法
+在陣列的本版可以由後往前，但是在單向鏈結中只能由前往後，所以實作上是先移動到某個節點，在去比較此節點之前的值做排序。
+```C
+void insertionSortList(node **list)
+{
+    node *head = (node*)malloc(sizeof(node));
+	head->next = NULL;
+	node *current = *list, *prev = head, *nextNode = NULL;
+	while (current) 
+    {
+		while (prev->next && prev->next->data < current->data) prev = prev->next;
+		nextNode = current->next;
+		current->next = prev->next;
+		prev->next = current;
+		current = nextNode;
+		
+		prev = head;
+	}
+	*list = head->next;
+}
+```
+
+## 3. 合併排序法
 此寫法也與陣列版差異不大，只是要將陣列操作改成 list 操作。
 ```c
 node *next(node *a, int size)
