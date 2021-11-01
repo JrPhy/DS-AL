@@ -191,7 +191,7 @@ void insert(node **root, int value)
 ```
 
 #### 3. 刪除
-在此可搭配 search 做使用，將樹與欲刪除的直傳入函數中並直接修改該樹，宣告為```void deleteNode(node **root, int value) ```。在此會先去尋找該資料是否在此樹內，若沒有則直接返回，若有責分以下三種情況
+在此可搭配 search 做使用，將樹與欲刪除的直傳入函數中並直接修改該樹，宣告為```void deleteNode(node **root, int value) ```。在此會先去尋找該資料是否在此樹內，若沒有則直接返回，若有則分以下三種情況
 ```C
 node *current = *root, *prevNode = NULL;
 while(current->data != value)
