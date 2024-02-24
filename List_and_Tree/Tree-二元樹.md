@@ -54,7 +54,20 @@ int main()
 
 #### 2. 完全二元樹 Complete Binary Tree
 在一棵二元樹中，當所有節點都是滿的，或是當節點不滿，而葉子從最左邊的左節點開始放入，再放入右節點，而後往右一個節點再依序放，則稱為完全二元樹
-![image](../pic/complete_full_binary_tree1.jpg)
+![image](../pic/complete_full_binary_tree1.jpg)\
+
+#### 3. 計算樹的高度
+對於一棵二元樹來說，每往下走一次高度就會 +1，所以只要一直走並走到葉子，那就可以知道這棵樹的高度了
+```C
+int height(struct TreeNode* node) {
+    if (node == NULL) {
+        return -1;
+    }
+    int left_height = height(node->left);
+    int right_height = height(node->right);
+    return 1 + (left_height > right_height ? left_height : right_height);
+}
+```
 
 ## 3. 印出數中所有資料
 從根進入後可以分左右進入，所以印出所有元素共有四種組合
@@ -97,6 +110,27 @@ void postorder(node *root)
 ```
 可發現此三個函數幾乎一樣，只差在印出資料的程式碼位置不同。
 
+#### 4. Level-order Traversal 順序遍歷
+從根開始，每一層的節點由左至右印出。
+```C
+void printLevel(node* root, int level)
+{
+    if (root == NULL) return;
+    if (level == 1) printf("%d->"root->data);
+    else if (level > 1) {
+        printLevel(root->left, level - 1);
+        printLevel(root->right, level - 1);
+    }
+}
+
+void Levelorder(node *root) 
+{
+    int h = height(root);
+    printf("%d", root->data);
+    for (int i = 1; i < h; i++) {
+        printLevel(root, h-1);
+}
+```
 ## 4. 二元搜尋樹
 ![image](../pic/BST.jpg) \
 若樹中的資料都是同一種類，且按序排放，則稱為二元搜尋樹，其定義如下
