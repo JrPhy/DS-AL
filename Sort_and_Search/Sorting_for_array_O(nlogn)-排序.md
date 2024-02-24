@@ -5,7 +5,7 @@
 因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步，故時間複雜度為 O(nlog<sub>2</sub>n)，且因為是倆倆比較，所以不論是何種情況所需的時間複雜度為 O(nlog<sub>2</sub>n)。\
 而在合併的過程中最多需要額外相同長度的記憶體空間，故空間複雜度為 Θ(n)。
 ```C
-void merge(int arr[], int head, int mid, int tail) 
+void merge(int a[], int head, int mid, int tail) 
 {
     int i, j, k;
     int n1 = mid - head + 1;
