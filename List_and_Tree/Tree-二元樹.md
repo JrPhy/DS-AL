@@ -131,6 +131,7 @@ void Levelorder(node *root)
         printLevel(root, h-1);
 }
 ```
+除了利用樹的高度來做 LEVEL-ORDER 外，也可以直接使用 queue 來將走訪過的 node 存進去，要印的時候再拿出來。(實作)[]
 ## 4. 二元搜尋樹
 ![image](../pic/BST.jpg) \
 若樹中的資料都是同一種類，且按序排放，則稱為二元搜尋樹，其定義如下
