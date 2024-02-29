@@ -35,11 +35,77 @@ int Insert_to_map(int map[], int len, int key) {
     return in_map;
 }
 ```
-雖然這個方法可以解決 Collision 與 Overflow 的問題，但是卻無法知道該組 (key, value) 是否真的存在於 map 中。例如 h(x) = x mod 10，(8, 15), (18, 2)，h(8) = h(18) = 8。如果 (8, 15) 在而 (18, 2) 不在，但是因為 h(18) = 8，所以 Is_in_map(map, 10, 18) 會返回 15，就不是返回正確的值，所以還需要再多放一些資料才能夠找到正確的值，不過這個的問題有很多例子，例如 (8, 15), (9, 6), (18, 2)，當前面兩組資料已放在 map 裡後，h(18) = 8，所以會找到第九個位置，但是 h(9) = 9 也已經被佔用了，所以還需要往後移動，所以以這個例子來說，至少還要再多個欄位去處理往後找了幾次。在設計上就需要開個多維陣，也可在後面去**串接 list**，此方法稱為 Chaining。
 ```C
 int len = 10, map[len] = {0};
 int Is_in_map(int map[], int len, int key) {
     return in_map[key];
 }
 ```
+雖然這個方法可以解決 Collision 與 Overflow 的問題，但是卻無法知道該組 (key, value) 是否真的存在於 map 中。例如 h(x) = x mod 10，(8, 15), (18, 2)，h(8) = h(18) = 8。如果 (8, 15) 在而 (18, 2) 不在，但是因為 h(18) = 8，所以 Is_in_map(map, 10, 18) 會返回 15，就不是返回正確的值，所以還需要再多放一些資料才能夠找到正確的值，不過這個的問題有很多例子，例如 (8, 15), (9, 6), (18, 2)，當前面兩組資料已放在 map 裡後，h(18) = 8，所以會找到第九個位置，但是 h(9) = 9 也已經被佔用了，所以還需要往後移動，所以以這個例子來說，至少還要再多個欄位去處理往後找了幾次。在設計上就需要開個多維陣，也可在後面去**串接 list**，此方法稱為 Chaining。
+![image](../pic/hash_collision.jpg)
 #### 2. 串鍊 Chaining
+串鍊的資料結構可看成 linked-list of array，也就是開一個 n 為的 node array，然後前面存 key，如果發生碰撞，那就直接在首加入資料。在此我們只需要在首加入即可，這樣可以省下走訪的時間，其餘的尋找與刪除和 linked-list 的尋找與刪除一樣。 
+```C
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct _node
+{
+    int data;
+    struct _node *next;
+}node;
+
+node* newNode(int value)
+{
+    node *tmpNode = malloc(sizeof(node));
+    if(tmpNode!=NULL) {
+        tmpNode->data = value;
+        tmpNode->next = NULL;
+    }
+    return tmpNode;
+}
+
+void insertNode(node **list, int value, int position)
+{
+    node *temp = *list;
+    int length = lenOfList(temp);
+    
+    /* insert at the beginning*/
+    node *new_node = newNode(value);
+    if(position < 1)
+    {
+        new_node->next = *list;
+        *list = new_node;
+    }
+}
+
+void deleteNode(node **list, int position) 
+{
+    int length;
+    node *temp = *list;
+    if (position <= 0) 
+    {
+        *list = temp->next;
+        free(temp);
+    }
+    else
+    {
+        length = lenOfList(*list);
+        if (position >= length) position = length - 1;
+    }
+    
+    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    
+    if (temp == NULL || temp ->next == NULL) return;
+
+    node *nodeToBeDel = temp->next;
+    temp->next = nodeToBeDel->next;
+
+    free(nodeToBeDel);
+}
+
+int main() {
+    node map[10]; 
+    // ...
+    return 0;
+}
+```
