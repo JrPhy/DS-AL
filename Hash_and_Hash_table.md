@@ -1,6 +1,6 @@
 ## 1. 介紹
 
-Hash table 是一種輸入 key 得到 value 的資料結構，最簡單的 Hash table 就是 array，key 就是 index，所以我們可以透過 key 來取得對應位置的資料。而在其他語言中常見的字典 (Dictionary) 也是一種 Hash table，在 C++ 中也有 unorder_map 可以使用。
+Hash table 是一種輸入 key 得到 value 的資料結構，最簡單的 Hash table 就是 array，key 就是 index，所以我們可以透過 key 來取得對應位置的資料。而在其他語言中常見的字典 (Dictionary) 也是一種 Hash table，在 C++ 中也有 unorder_map 可以使用，而 map 在 C++ 中則是用紅黑樹實作。
 
 所以想要知道一個陣列中的某些元素出現過幾次，那就可以用最簡單的 Hash table，也就是 array 來實作。例如有一陣列 A = {1, 2, 6, 4, 8, 9, 7, 6, 3, 999}
 ```C
