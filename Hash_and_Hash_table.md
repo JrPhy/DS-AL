@@ -16,4 +16,21 @@ for (int i = 0; i < 10; i++) map[A[i]]++;
 3. 計算宜簡單，不然效能會降低
 4. 盡量平均分配在容器中
 
+最主要的是 Overflow 與 Collision 這兩個問題，key 如果超過容器大小會造成 runtime crash，通常可以使用模數 (mod %) 來簡單的處理，而 Collision 則會使得原本的值被覆蓋造成值被取錯，以下會介紹一些方法來避免這兩個問題。\
+假設容器的容量為 0 ~ m-1，值的範圍在 0 ~ n-1，
 #### 1. 線性探測 Linear probing
+先將值的範圍藉由 mod 映射到 0 ~ m-1，也就是 h(x) = x mod m，如果有另一個值也被映射到同個 key，也就是 h(x<sub>1</sub>) = h(x<sub>2</sub>)，那就在這個映射值後往後找空位，找到後就可以放入。所以算法即為 
+```C
+int len = 10, map[len] = {0};
+int Insert_to_map(int map[], int len, int key, int value) {
+    int in_map = 0;
+    for (int i = 0; i < len; i++ ) {
+        if (0 == map[key%len+i]) {
+            map[key%len+i] = value;
+            in_map = 1;
+            break;
+        }
+    }
+    return in_map;
+}
+```
