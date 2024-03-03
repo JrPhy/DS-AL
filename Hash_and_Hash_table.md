@@ -44,68 +44,129 @@ int Is_in_map(int map[], int len, int key) {
 雖然這個方法可以解決 Collision 與 Overflow 的問題，但是卻無法知道該組 (key, value) 是否真的存在於 map 中。例如 h(x) = x mod 10，(8, 15), (18, 2)，h(8) = h(18) = 8。如果 (8, 15) 在而 (18, 2) 不在，但是因為 h(18) = 8，所以 Is_in_map(map, 10, 18) 會返回 15，就不是返回正確的值，所以還需要再多放一些資料才能夠找到正確的值，不過這個的問題有很多例子，例如 (8, 15), (9, 6), (18, 2)，當前面兩組資料已放在 map 裡後，h(18) = 8，所以會找到第九個位置，但是 h(9) = 9 也已經被佔用了，所以還需要往後移動，所以以這個例子來說，至少還要再多個欄位去處理往後找了幾次。在設計上就需要開個多維陣，也可在後面去**串接 list**，此方法稱為 Chaining。\
 ![image](https://github.com/JrPhy/DS-AL/blob/master/pic/hash_collision.jpg)
 #### 2. 串鍊 Chaining
-串鍊的資料結構可看成 linked-list of array，也就是開一個 n 為的 node array，然後前面存 key，如果發生碰撞，那就直接在首加入資料。在此我們只需要在首加入即可，這樣可以省下走訪的時間，其餘的尋找與刪除和 linked-list 的尋找與刪除一樣。 
+串鍊的資料結構可看成 linked-list of array，也就是開一個 n 為的 node array，然後前面存 key，如果發生碰撞，那就直接在首加入資料。在此我們只需要在首加入即可，這樣可以省下走訪的時間，其餘的尋找與刪除和 [linked-list](https://github.com/JrPhy/DS-AL/blob/master/List_and_Tree/LinkedList-%E5%96%AE%E5%90%91%E9%80%A3%E7%B5%90.md) 的尋找與刪除一樣。 
 ```C
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 typedef struct _node
 {
+    int key;
     int data;
     struct _node *next;
 }node;
 
-node* newNode(int value)
+node* newNode(int key, int value)
 {
     node *tmpNode = malloc(sizeof(node));
     if(tmpNode!=NULL) {
+        tmpNode->key = key;
         tmpNode->data = value;
         tmpNode->next = NULL;
     }
     return tmpNode;
 }
 
-void insertNode(node **list, int value, int position)
+int lenOfList(node *list)
 {
-    node *temp = *list;
-    int length = lenOfList(temp);
-    
-    /* insert at the beginning*/
-    node *new_node = newNode(value);
-    if(position < 1)
+    int length = 0;
+    while(list != NULL)
     {
-        new_node->next = *list;
-        *list = new_node;
+        ++length;
+        list = list->next;
     }
+    return length;
 }
 
-void deleteNode(node **list, int position) 
+void insertNode(node **list, int key, int value)
 {
-    int length;
-    node *temp = *list;
-    if (position <= 0) 
-    {
-        *list = temp->next;
-        free(temp);
-    }
-    else
-    {
-        length = lenOfList(*list);
-        if (position >= length) position = length - 1;
-    }
-    
-    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
-    
-    if (temp == NULL || temp ->next == NULL) return;
+    node *new_node = newNode(key, value);
+    new_node->next = *list;
+    *list = new_node;
+}
 
+bool deleteNode(node **list, int key) 
+{
+    int position = 0;
+    node *temp = *list;
+    while(temp != NULL)
+    {
+        if (key == temp->key && 0 == position) {
+            *list = temp->next;
+            free(temp);
+            return true;
+        }
+        else if (temp->next != NULL && key == temp->next->key && temp->next->data) break;
+        ++position;
+        temp = temp->next;
+    }
+    //temp = *list;
+    //for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    
+    if (temp == NULL || temp->next == NULL) return false;
+    
     node *nodeToBeDel = temp->next;
     temp->next = nodeToBeDel->next;
 
     free(nodeToBeDel);
+    return true;
+}
+
+void push_into_map(node *map[], int n, int key, int value) {
+    insertNode(&map[key%n], key, value);
+}
+
+bool del_from_map(node *map[], int n, int key) {
+    if (0 == key) return deleteNode(&map[0], 0);
+    else return deleteNode(&map[key%n], key);
+}
+
+void print_map(node *map[], int key) {
+    node *list = map[key];
+    printf("%d->", key);
+    while(list != NULL)
+    {
+        printf("(%d, %d)->", list->key, list->data);
+        list = list->next;
+    }
+    printf("\n");
+}
+
+bool is_in_map(node *map[], int n, int key) {
+    node *list = map[key%n];
+    while(list != NULL)
+    {
+        if (key == list->key && list->data) return true;
+        list = list->next;
+    }
+    return false;
 }
 
 int main() {
-    node map[10]; 
-    // ...
+    int n = 10;
+    node *map[n]; 
+    for (int i = 0; i < n; i++) {
+        map[i] = newNode(i, i);
+    }
+    push_into_map(map, n, 39, 28);
+    push_into_map(map, n, 29, 11);
+    push_into_map(map, n, 99, 2);
+    push_into_map(map, n, 33, 22);
+    for (int i = 0; i < n; i++) {
+        print_map(map, i);
+    }
+    printf("============\n");
+    is_in_map(map, n, 40);
+    del_from_map(map, n, 33);
+    del_from_map(map, n, 45);
+    del_from_map(map, n, 9);
+    del_from_map(map, n, 8);
+    del_from_map(map, n, 8);
+    del_from_map(map, n, 0);
+    for (int i = 0; i < n; i++) {
+        print_map(map, i);
+    }
     return 0;
 }
 ```
+![image](https://github.com/JrPhy/DS-AL/blob/master/pic/hash_chain.jpg)
