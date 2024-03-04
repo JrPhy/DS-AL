@@ -53,43 +53,41 @@ void inorder(node *root)
 ```
 #### 3. 旋轉
 若是原本有一棵樹高度為 1 且為左 node 如圖二，則插入 5 以後就會變成高度為 2 的樹，此時就不是平衡二元樹了。這時我們只要將原本的根放到右節點即可滿足平衡二元樹的定義，此稱為右旋，也就是把 root 的位置放到左子節點的右邊，此時左此節點就變成新的根，反之為左旋(圖三)。
-![右旋](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_right_rotation.jpg.jpg)
-![左旋](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_left_rotation.jpg.jpg)
+![右旋](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_right_rotation.jpg)
+![左旋](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_left_rotation.jpg)
 ```C
 int max(int a, int b) { return (a > b)? a : b; } 
+/*
+      10 (y)                           8  (new y)
+     /                               /   \ x->right
+    8 *x = y->left                  5    10 (old y)
+   / \                    -->
+  5   *T2 = x->right
+*/
 
-node *rightRotate(node *n)  
-{  
-    node *x = n->left; // 左子節點
+node *rightRotate(node *y) 
+{ 
+    node *x = y->left; // 左子節點 8
     node *T2 = x->right; // 左子節點的右邊
   
-    // Perform rotation  
-    x->right = n; // 放到左子節點的右邊
-    n->left = T2;  
-  
-    // Update heights  
-    n->height = max(height(n->left), height(n->right)) + 1;  
-    x->height = max(height(x->left), height(x->right)) + 1;  
-    // Return new root  
-    return x;  
-}  
+    x->right = y; // 左子節點的放原本的 y
+    y->left = T2; // y 的左邊放原本 x 的右邊
+    // x 的左邊都沒動到
+    // Update heights 
+    y->height = max(height(y->left), height(y->right)) + 1; 
+    x->height = max(height(x->left), height(x->right)) + 1; 
+    return x; 
+}
  
 node *leftRotate(node *x)  
-{  
+{
+    // 反過來想即可
     node *y = x->right;  
     node *T2 = y->left;  
-  
-    // Perform rotation  
     y->left = x;  
     x->right = T2;  
-  
-    // Update heights  
-    x->height = max(height(x->left),     
-                    height(x->right)) + 1;  
-    y->height = max(height(y->left),  
-                    height(y->right)) + 1;  
-  
-    // Return new root  
+    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
     return y;  
 }  
 ```
