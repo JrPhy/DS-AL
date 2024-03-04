@@ -77,6 +77,7 @@ void deleteNode(node **list, int position)
     {
         *list = temp->next;
         free(temp);
+        return ;
     }
     else
     {
