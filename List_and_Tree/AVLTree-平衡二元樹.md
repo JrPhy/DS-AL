@@ -1,4 +1,4 @@
-對於一棵二元數來說，有可能在插入或刪除的過程中，讓整棵樹退化成 [linked-list](https://github.com/JrPhy/DS-AL/blob/master/List_and_Tree/LinkedList-%E5%96%AE%E5%90%91%E9%80%A3%E7%B5%90.md)，做插入與搜尋時的 TC 就會到 O(n)，為了讓整體的效能更好，會希望根的左右兩邊節點數量差不多，所以就有平衡二元樹這個概念。
+對於一棵二元樹來說，有可能在插入或刪除的過程中，讓整棵樹退化成 [linked-list](https://github.com/JrPhy/DS-AL/blob/master/List_and_Tree/LinkedList-%E5%96%AE%E5%90%91%E9%80%A3%E7%B5%90.md)，做插入與搜尋時的 TC 就會到 O(n)，為了讓整體的效能更好，會希望根的左右兩邊節點數量差不多，所以就有平衡二元樹這個概念。
 ![圖一Bad Tree](https://github.com/JrPhy/DS-AL/blob/master/pic/bad_tree.jpg)
 
 ## 1. AVLTree-平衡二元樹
@@ -83,7 +83,7 @@ node *leftRotate(node *x)
 ![右旋 LL，偏左邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_LR.jpg)
 ![左旋 RR，偏右邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_RL.jpg)
 ```C
-void insert(node *n, int key)
+node* insert(node *n, int key)
 {
     if (n == NULL) return(newNode(key)); 
     if (key < n->key) n->left = insert(n->left, key); 
