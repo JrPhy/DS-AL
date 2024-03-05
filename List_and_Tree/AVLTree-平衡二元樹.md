@@ -40,21 +40,9 @@ int get_bf(node *N)
 }  
 ```
 #### 2. 平衡調整
-實作時一般會先設定這棵樹為平衡二元樹，當資料插入樹之後會去做**動態**調整。做調整時會要求 in-order traversal 結果不變，此調整稱為**旋轉 rotation**，並且保持二元樹的性質，也就是右節點的數值 > 左節點
-```C
-void inorder(node *root) 
-{
-    if (root->left != NULL)  //若其中一側的子樹非空則會讀取其子樹
-        inorder(root->left);
-    printf("%d", root->data);
-    if (root->right != NULL) //另一側的子樹也做相同事
-        inorder(root->right);
-}
-```
-#### 3. 旋轉
-若是原本有一棵樹高度為 1 且為左 node 如圖二，則插入 5 以後就會變成高度為 2 的樹，此時就不是平衡二元樹了。這時我們只要將原本的根放到右節點即可滿足平衡二元樹的定義，此稱為右旋，也就是把 root 的位置放到左子節點的右邊，此時左此節點就變成新的根，反之為左旋(圖三)。
-![右旋](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_right_rotation.jpg)
-![左旋](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_left_rotation.jpg)
+實作時一般會先設定這棵樹為平衡二元樹，當資料插入樹之後會去做**動態**調整，稱此調整稱為**旋轉 rotation**，並且保持二元樹的性質，也就是右節點的數值 > 左節點。若是原本有一棵樹高度為 1 且為左 node 如圖二，則插入 5 以後就會變成高度為 2 的樹，此時就不是平衡二元樹了。這時我們只要將原本的根放到右節點即可滿足平衡二元樹的定義，此稱為右旋 (LL，偏左邊)，也就是把 root 的位置放到左子節點的右邊，此時左此節點就變成新的根，反之為左旋 (RR，偏右邊)(圖三)。
+![右旋 LL，偏左邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_right_rotation.jpg)
+![左旋 RR，偏右邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_left_rotation.jpg)
 ```C
 int max(int a, int b) { return (a > b)? a : b; } 
 /*
@@ -90,4 +78,43 @@ node *leftRotate(node *x)
     y->height = max(height(y->left), height(y->right)) + 1;
     return y;  
 }  
+```
+而另外兩種狀況是 LR 跟 RL，LR 可以先將此情況轉為 LL，然後做 LL 的操作，RL 則是做 RR 的操作即可
+![右旋 LL，偏左邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_LR.jpg)
+![左旋 RR，偏右邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_RL.jpg)
+```C
+void insert(node *n, int key)
+{
+    if (n == NULL) return(newNode(key)); 
+    if (key < n->key) n->left = insert(n->left, key); 
+    else if (key > node->key) n->right = insert(n->right, key); 
+    else return n; // 已存在於樹中
+
+    // 計算插入後的高度
+    n->height = 1 + max(height(n->left), height(n->right)); 
+  
+    // 檢查是否平衡
+    int balance = getBalance(n);
+  
+    // LL
+    if (balance > 1 && key < n->left->key) return rightRotate(n); 
+  
+    // RR
+    if (balance < -1 && key > n->right->key) return leftRotate(n); 
+  
+    // LR
+    if (balance > 1 && key > n->left->key) 
+    { 
+        node->left =  leftRotate(n->left); 
+        return rightRotate(n); 
+    } 
+  
+    // RL
+    if (balance < -1 && key < n->right->key) 
+    { 
+        n->right = rightRotate(n->right); 
+        return leftRotate(n); 
+    } 
+    return node;
+}
 ```
