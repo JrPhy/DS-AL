@@ -39,10 +39,10 @@ int get_bf(node *N)
     return height(N->left) - height(N->right);  
 }  
 ```
-#### 2. 平衡調整
+#### 2. 插入
 實作時一般會先設定這棵樹為平衡二元樹，當資料插入樹之後會去做**動態**調整，稱此調整稱為**旋轉 rotation**，並且保持二元樹的性質，也就是右節點的數值 > 左節點。若是原本有一棵樹高度為 1 且為左 node 如圖二，則插入 5 以後就會變成高度為 2 的樹，此時就不是平衡二元樹了。這時我們只要將原本的根放到右節點即可滿足平衡二元樹的定義，此稱為右旋 (LL，偏左邊)，也就是把 root 的位置放到左子節點的右邊，此時左此節點就變成新的根，反之為左旋 (RR，偏右邊)(圖三)。
-![右旋 LL，偏左邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_right_rotation.jpg)
-![左旋 RR，偏右邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_left_rotation.jpg)
+![右旋 LL，偏左邊](https://github.com/JrPhy/DS-AL/blob/master/pic/AVL_TREE_R_rotation.jpg)
+![左旋 RR，偏右邊](https://github.com/JrPhy/DS-AL/blob/master/pic/AVL_TREE_L_rotation.jpg)
 ```C
 int max(int a, int b) { return (a > b)? a : b; } 
 /*
@@ -80,8 +80,8 @@ node *leftRotate(node *x)
 }  
 ```
 而另外兩種狀況是 LR 跟 RL，LR 可以先將左子節點當作 RR 做左旋轉成 LL，然後做 LL 的操作，RL 則是反過來
-![右旋 LL，偏左邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_LR.jpg)
-![左旋 RR，偏右邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_RL.jpg)
+![右旋 LL，偏左邊](https://github.com/JrPhy/DS-AL/blob/master/pic/AVL_TREE_LR.jpg)
+![左旋 RR，偏右邊](https://github.com/JrPhy/DS-AL/blob/master/pic/AVL_TREE_RL.jpg)
 ```C
 node* insert(node *n, int key)
 {
@@ -117,4 +117,135 @@ node* insert(node *n, int key)
     } 
     return node;
 }
+```
+#### 3. 尋找
+與二元樹尋找無差異，不再贅述
+
+#### 4. 刪除
+刪除的情況會比插入在複雜一點，除了上述的情況外還多了兩種，也就是被刪除的兩個節點下面都還有非葉子的節點，在此就只多討論這兩種情況，其餘情況都只要照著插入的情況處理即可。而在[二元樹刪除](https://github.com/JrPhy/DS-AL/blob/master/List_and_Tree/Tree-%E4%BA%8C%E5%85%83%E6%A8%B9.md#3-%E5%88%AA%E9%99%A4)的情況，如果被刪除的節點的左右節點都有值，那會造成新的樹不唯一，在此為了讓樹還是唯一的，故會照著 **in-order traversal** 的順序擺放，之後就看是哪種情況在做操作即可。
+![AVL_Tree_delete](https://github.com/JrPhy/DS-AL/blob/master/pic/AVL_TREE_delete.jpg)
+在上述例子中，刪除 12 後 in-order 為 15，故將 15 換上去，此時就不滿足 AVL 的平衡條件，所以就需要最該棵子樹做平衡。該棵子樹同時滿足 LL 與 LR 的情況，但是因為 LR 也是轉成 LL 後操作，所以這邊就直接做 LL 操作，操作後發現 9 會完全斷開，此時再藉由二元樹的定義接回去即可。
+```C
+/* Given a non-empty binary search tree, 
+return the node with minimum key value 
+found in that tree. Note that the entire 
+tree does not need to be searched. */
+Node * minValueNode(Node* node) 
+{ 
+    Node* current = node; 
+ 
+    /* loop down to find the leftmost leaf */
+    while (current->left != NULL) 
+        current = current->left; 
+ 
+    return current; 
+} 
+ 
+// Recursive function to delete a node 
+// with given key from subtree with 
+// given root. It returns root of the 
+// modified subtree. 
+Node* deleteNode(Node* root, int key) 
+{ 
+     
+    // STEP 1: PERFORM STANDARD BST DELETE 
+    if (root == NULL) 
+        return root; 
+ 
+    // If the key to be deleted is smaller 
+    // than the root's key, then it lies
+    // in left subtree 
+    if ( key < root->key ) 
+        root->left = deleteNode(root->left, key); 
+ 
+    // If the key to be deleted is greater 
+    // than the root's key, then it lies 
+    // in right subtree 
+    else if( key > root->key ) 
+        root->right = deleteNode(root->right, key); 
+ 
+    // if key is same as root's key, then 
+    // This is the node to be deleted 
+    else
+    { 
+        // node with only one child or no child 
+        if( (root->left == NULL) ||
+            (root->right == NULL) ) 
+        { 
+            Node *temp = root->left ? 
+                         root->left : 
+                         root->right; 
+ 
+            // No child case 
+            if (temp == NULL) 
+            { 
+                temp = root; 
+                root = NULL; 
+            } 
+            else // One child case 
+            *root = *temp; // Copy the contents of 
+                           // the non-empty child 
+            free(temp); 
+        } 
+        else
+        { 
+            // node with two children: Get the inorder 
+            // successor (smallest in the right subtree) 
+            Node* temp = minValueNode(root->right); 
+ 
+            // Copy the inorder successor's 
+            // data to this node 
+            root->key = temp->key; 
+ 
+            // Delete the inorder successor 
+            root->right = deleteNode(root->right, 
+                                     temp->key); 
+        } 
+    } 
+ 
+    // If the tree had only one node
+    // then return 
+    if (root == NULL) 
+    return root; 
+ 
+    // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE 
+    root->height = 1 + max(height(root->left), 
+                           height(root->right)); 
+ 
+    // STEP 3: GET THE BALANCE FACTOR OF 
+    // THIS NODE (to check whether this 
+    // node became unbalanced) 
+    int balance = getBalance(root); 
+ 
+    // If this node becomes unbalanced, 
+    // then there are 4 cases 
+ 
+    // Left Left Case 
+    if (balance > 1 && 
+        getBalance(root->left) >= 0) 
+        return rightRotate(root); 
+ 
+    // Left Right Case 
+    if (balance > 1 && 
+        getBalance(root->left) < 0) 
+    { 
+        root->left = leftRotate(root->left); 
+        return rightRotate(root); 
+    } 
+ 
+    // Right Right Case 
+    if (balance < -1 && 
+        getBalance(root->right) <= 0) 
+        return leftRotate(root); 
+ 
+    // Right Left Case 
+    if (balance < -1 && 
+        getBalance(root->right) > 0) 
+    { 
+        root->right = rightRotate(root->right); 
+        return leftRotate(root); 
+    } 
+ 
+    return root; 
+} 
 ```
