@@ -79,7 +79,7 @@ node *leftRotate(node *x)
     return y;  
 }  
 ```
-而另外兩種狀況是 LR 跟 RL，LR 可以先將此情況轉為 LL，然後做 LL 的操作，RL 則是做 RR 的操作即可
+而另外兩種狀況是 LR 跟 RL，LR 可以先將左子節點當作 RR 做左旋轉成 LL，然後做 LL 的操作，RL 則是反過來
 ![右旋 LL，偏左邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_LR.jpg)
 ![左旋 RR，偏右邊](https://github.com/JrPhy/DS-AL/blob/master/pic/TREE_RL.jpg)
 ```C
