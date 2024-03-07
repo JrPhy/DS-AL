@@ -34,3 +34,22 @@ EngMap[15] = "O";
 ```cpp
 EngMap[1] = "a"; 把 "A" 覆蓋掉
 ```
+## 2. 印出
+印出 map 裡面的值，其中 first 成員為 key，second 成員為 value。
+```cpp
+for (const auto& x : EngMap) {
+    std::cout << x.first << ": " << x.second << "\n";
+}
+```
+## 3. 尋找
+在 map 中會使用 find(key) 跟 end() 來搭配使用，若 map.find(key) != map.end() 則表示該 key 存在於 map 中，反之則沒有
+```cpp
+if (EngMap.find(1) != map.end()) cout << "found\n";
+else cout << "not found\n";
+```
+
+## 4. 其他用法
+```cpp
+EngMap.size() // 返回大小
+
+```
