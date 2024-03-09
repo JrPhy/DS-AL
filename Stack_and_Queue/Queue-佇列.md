@@ -34,11 +34,7 @@ void enqueue(queue *buffer, int data)
         buffer->array[buffer->bottom] = data;
         ++buffer->bottom;
     }
-    else
-    {
-        printf("queue is full");
-        exit(0);
-    }
+    else printf("queue is full");
 }
 
 int dequeue(queue *buffer)
@@ -50,11 +46,7 @@ int dequeue(queue *buffer)
         for(int i = 0; i < buffer->bottom+1; i++) buffer->array[i] = buffer->array[i+1];
         return _dequeue;
     }
-    else
-    {
-        printf("queue is empty");
-        exit(0);
-    }
+    else printf("queue is empty");
 }
 
 void printQueue(queue *buffer)
@@ -78,7 +70,7 @@ int main()
     enqueue(buffer, 30);
     enqueue(buffer, 40);
     enqueue(buffer, 50);
-    enqueue(buffer, 60); //會 exit
+    enqueue(buffer, 60);
     printQueue(buffer);
     dequeue(buffer);
     printQueue(buffer);
