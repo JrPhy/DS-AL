@@ -102,11 +102,7 @@ void enqueue(queue *buffer, int data)
         buffer->bottom = (buffer->bottom+1) % buffer->capacity;
         buffer->array[buffer->bottom] = data;
     }
-    else
-    {
-        printf("queue is full");
-        exit(0);
-    }
+    else printf("queue is full");
 }
 ```
 #### dequeue
@@ -120,11 +116,7 @@ int dequeue(queue *buffer)
         buffer->top = (buffer->top+1) % buffer->capacity;
         return _dequeue;
     }
-    else
-    {
-        printf("queue is empty");
-        exit(0);
-    }
+    else printf("queue is empty");
 }
 ```
 
