@@ -16,8 +16,8 @@
 ```cpp
 std::map<int, std::string> EngMap; // 宣告一個 map，key 為整數，value 為字串
 EngMap.insert(std::pair<int, std::string>(1, "A"));
-EngMap.insert(std::pair<int, std::string>(7, "G"));
 EngMap.insert(std::pair<int, std::string>(15, "O"));
+EngMap.insert(std::pair<int, std::string>(7, "G"));
 ```
 也可以像陣列或是結構那樣初始化
 ```cpp
@@ -42,14 +42,18 @@ EngMap[1] = "a"; 把 "A" 覆蓋掉
 for (const auto& x : EngMap) {
     std::cout << x.first << ": " << x.second << "\n";
 }
+// 1: A
+// 7: G
+// 15: O
 ```
+印出來後會發現會照著 key 的順序作排列，即便插入時是 15 比 7 先插入。
 #### 3. 尋找
 在 map 中會使用 find(key) 跟 end() 來搭配使用，若 map.find(key) != map.end() 則表示該 key 存在於 map 中，反之則沒有
 ```cpp
 if (EngMap.find(1) != map.end()) cout << "found\n";
 else cout << "not found\n";
 ```
-
+找到後就會返回該節點的指標。
 #### 4. 刪除
 使用 erase(key) 成員函數來刪除該 key 與 value，如果 key 不存在於 map 中並不會造成 crash。
 ```cpp
@@ -60,6 +64,7 @@ EngMap.erase(2); // 不會發生什麼事
 #### 5. 其他用法
 ```cpp
 EngMap.size() // 返回大小
+EngMap.empty() // 是否為空
 EngMap.clear() // 清除所有 key 與 value
 ```
 
@@ -112,4 +117,58 @@ int main ()
 }
 ```
 
-## 2. set
+## 2. set 使用
+與 map 的主要差異就是 key 即為 value 且不能修改只能刪除，而且因為 key 不能重複，所以相同的資料只會有一組。
+#### 1. 初始化
+```cpp
+std::set<int> myset = {3, 1, 2, 8, 5, 2};
+```
+或是先開一個 set 然後用 insert
+```cpp
+std::set<int> myset;
+myset.insert(3);
+myset.insert(1);
+myset.insert(2);
+myset.insert(8);
+myset.insert(5);
+myset.insert(2);
+```
+也可以開一個 array 來做初始化
+```cpp
+int arr[] = {3, 1, 2, 8, 5, 2};
+std::set<int> myset(arr, arr+5);
+```
+#### 2. 印出
+印出 map 裡面的值。
+```cpp
+for (const auto& x : myset) {
+    std::cout << x << ", ";
+}
+// 1, 2, 3, 5, 8
+```
+印出來後會發現會照著 key 的順序作排列，即便初始化是無序的。其中 2 出現了兩次，但是印出來也只有一個 2。
+#### 3. 尋找
+在 map 中會使用 find(key) 跟 end() 來搭配使用，若 map.find(key) != map.end() 則表示該 key 存在於 map 中，反之則沒有
+```cpp
+if (myset.find(1) != myset.end()) cout << "found\n";
+else cout << "not found\n";
+```
+找到後就會返回該節點的指標。而相同的 key 在 set 中只會出現一次，所以也可以只用 count(key) == 1 來做判斷
+```cpp
+if (myset.count(1)) cout << "found\n";
+else cout << "not found\n";
+```
+count 可以當作是返回一個 bool，與 find 的回傳值不同。
+#### 4. 刪除
+使用 erase(key) 成員函數來刪除該 key 與 value，如果 key 不存在於 map 中並不會造成 crash。
+```cpp
+myset.erase(1); // {1, "A"} 被刪除
+myset.erase(4); // 不會發生什麼事
+```
+
+#### 5. 其他用法
+```cpp
+myset.size() // 返回大小
+myset.empty() // 是否為空
+myset.clear() // 清除所有 key 與 value
+```
