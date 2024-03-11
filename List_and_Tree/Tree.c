@@ -10,7 +10,7 @@ typedef struct _node
 
 node* newNode(int value)
 {
-    node *tmpNode = malloc(sizeof(node));
+    node *tmpNode = (node*) malloc(sizeof(node));
     if(tmpNode!=NULL)
     {
         tmpNode->data = value;
@@ -132,6 +132,7 @@ void deleteNode(node **root, int value)
                 else prevNode->right = current->right;
             }
         }
+        free(current);
     }
 }
 
