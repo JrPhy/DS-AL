@@ -8,7 +8,7 @@ typedef struct _node
 
 node* newNode(int value)
 {
-    node *tmpNode = malloc(sizeof(node));
+    node *tmpNode = (node *) malloc(sizeof(node));
     if(tmpNode!=NULL) {
         tmpNode->data = value;
         tmpNode->next = NULL;
@@ -44,25 +44,23 @@ void insertNode(node **list, int value, int position)
     
     /* insert at the beginning*/
     node *new_node = newNode(value);
-    if(position < 1)
-    {
+    if(position < 1) {
         new_node->next = *list;
         *list = new_node;
     }
     /* insert at the beginning*/
     /* insert at the ending*/
-    else if (position > length)
-    {
+    else if (position > length) {
         node *temp = *list;
         while(temp->next != NULL) temp = temp->next;
         temp->next = new_node;
     }
     /* insert at the ending*/
     /* insert at the middle*/
-    else
-    {
-        node *new_node = newNode(value);
-        for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
+    else {
+        node *temp = *list;
+        for (int i = 1; i < position; i++) 
+            {if (temp->next != NULL) temp = temp->next;}
         new_node->next = temp->next;
         temp->next = new_node;
     }
@@ -73,26 +71,19 @@ void deleteNode(node **list, int position)
 {
     int length;
     node *temp = *list;
-    if (position <= 0) 
-    {
-        *list = temp->next;
-        free(temp);
-        return ;
+    if (position <= 0) {
+        node *toBeDel = *list;
+        *list = toBeDel->next;
+        free(toBeDel);
     }
-    else
-    {
-        length = lenOfList(*list);
-        if (position >= length) position = length - 1;
-    }
+    else if (position >= length) position = length - 1;
     
-    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
-    
-    if (temp == NULL || temp ->next == NULL) return;
-
-    node *nodeToBeDel = temp->next;
-    temp->next = nodeToBeDel->next;
-
-    free(nodeToBeDel);
+    temp = *list;
+    for (int i = 1; i < position; i++) 
+        {if (temp->next != NULL) temp = temp->next;}
+    node *toBeDel = temp->next;
+    temp->next = toBeDel->next;
+    free(toBeDel);
 }
 
 void reverse(node **list)
