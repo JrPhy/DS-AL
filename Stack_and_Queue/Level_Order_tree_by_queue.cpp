@@ -1,49 +1,65 @@
-#include <queue>
 #include <iostream>
- 
-struct Node {
-    int data;
-    struct Node *left, *right;
-};
- 
-void printLevelOrder(Node* root)
+#include <queue>
+// A Binary Tree Node
+typedef struct _node {
+	struct _node* left;
+	int data;
+	struct _node* right;
+}node;
+
+// Iterative method to do level order traversal
+// line by line
+void printLevelOrder(node* root)
 {
-    // Base Case
-    if (root == nullptr) return;
-    std::queue<Node*> q;
-    // 先把要印的節點放進隊列中
-    q.push(root);
- 
-    while (q.empty()) {
-        Node* node = q.front();
-        std::cout << node->data << " ";
-        q.pop();
-        // 印完之後把節點丟出來
-        if (node->left != nullptr) q.push(node->left);
-        if (node->right != nullptr) q.push(node->right);
-        // 分別把左右節點放入隊列中
-    }
+	if (root == NULL) return;
+
+	// Create an empty queue for level order traversal
+	std::queue<node*> q;
+
+	// Enqueue Root and initialize height
+	q.push(root);
+
+	while (q.empty() == false) {
+		// nodeCount (queue size) indicates number
+		// of nodes at current level.
+		int nodeCount = q.size();
+
+		// Dequeue all nodes of current level and
+		// Enqueue all nodes of next level
+		while (nodeCount > 0) {
+			node* node = q.front();
+			std::cout << node->data << " ";
+			q.pop();
+			if (node->left != NULL)
+				q.push(node->left);
+			if (node->right != NULL)
+				q.push(node->right);
+			nodeCount--;
+		}
+		std::cout << std::endl;
+	}
 }
 
-Node* newNode(int data)
+// Utility function to create a new tree node
+node* newNode(int data)
 {
-    Node* temp = new Node;
-    temp->data = data;
-    temp->left = temp->right = nullptr;
-    return temp;
+	node* temp = new node;
+	temp->data = data;
+	temp->left = NULL;
+	temp->right = NULL;
+	return temp;
 }
- 
+
 // Driver program to test above functions
 int main()
 {
-    // Let us create binary tree shown in above diagram
-    Node* root = newNode(1);
-    root->left = newNode(2);
-    root->right = newNode(3);
-    root->left->left = newNode(4);
-    root->left->right = newNode(5);
- 
-    std::cout << "Level Order traversal of binary tree is \n";
-    printLevelOrder(root);
-    return 0;
+	// Let us create binary tree shown above
+	node* root = newNode(1);
+	root->left = newNode(2);
+	root->right = newNode(3);
+	root->left->left = newNode(4);
+	root->left->right = newNode(5);
+
+	printLevelOrder(root);
+	return 0;
 }
