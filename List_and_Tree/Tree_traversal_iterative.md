@@ -1,4 +1,4 @@
-雖然 recursive 的寫法很簡潔，但是若太多層，則可能會造成 stack overflow，所以來改寫成 iterative 的寫法，可以利用 stack 跟 queue 的資料結構，在此直接使用 c++ 中的 stl。stack 是一種 FILO 的資料結構，主要靠 push 跟 pop 來將資料放入跟移出
+雖然 recursive 的寫法很簡潔，但是若太多層，則可能會造成 stack overflow，所以來改寫成 iterative 的寫法，可以利用 stack 跟 queue 的資料結構，在此直接使用 c++ 中的 stl。stack 是一種 FILO 的資料結構，主要靠 push 跟 pop 來將資料放入跟移出，queue 則是 FIFO。
 ## 1. preorder
 ```cpp
 void preorder(node *root) 
@@ -71,3 +71,22 @@ void postorder(node *root)
 }
 ```
 postorder 也是從下到上，從左到右印出。但印出左節點後，會先到上一個節點然後印出來，再走到右節點印出，重複此步驟。
+## 4. levelorder
+```cpp
+void printLevelOrder(node* root){
+    std::queue<node*> q;
+    q.push(root);
+    while (!q.empty()){
+        node *current = q.front();      // 取出先進入queue的node
+        q.pop();                          
+        std::cout << current->data << ", ";   // 走訪
+        if (current->left != NULL){    // 若 left 有資料則放進queue
+            q.push(current->left);
+        }
+        if (current->right != NULL){  // 若 right 有資料則放進queue
+            q.push(current->right);
+        }
+    }
+}
+```
+雖然 levelorder 也是從上到下再從左到右，但是 preorder 是先把從上到下左邊印完再印右邊，levelorder 則是先把該層的資料印完，所以要先進先出。
