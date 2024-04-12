@@ -51,17 +51,18 @@ void postorder(node *root)
     std::vector<int> res;
     
     std::stack<node*> s;
-    node *last;  // node 指向最上面的節點
+    node *last = root;  // node 指向最上面的節點
+    node *n = root;
     while (root || !s.empty()) {
         if (root) {
             s.push(root);
-            root = root -> left;
+            root = root->left;
         } else {
-            node *n = s.top();
-            if (n -> right && last != n -> right) {
-                root = n -> right;
+            n = s.top();
+            if (n->right && last != n->right) {
+                root = n->right;
             } else {
-                res.push_back(n -> data);
+                res.push_back(n->data);
                 last = n;
                 s.pop();
             }
@@ -77,13 +78,13 @@ void printLevelOrder(node* root){
     std::queue<node*> q;
     q.push(root);
     while (!q.empty()){
-        node *current = q.front();      // 取出先進入queue的node
+        node *current = q.front();      // 取出先進 queue 的node
         q.pop();                          
         std::cout << current->data << ", ";   // 走訪
-        if (current->left != NULL){    // 若 left 有資料則放進queue
+        if (current->left != NULL){    // 若 left 有資料則放進 queue
             q.push(current->left);
         }
-        if (current->right != NULL){  // 若 right 有資料則放進queue
+        if (current->right != NULL){  // 若 right 有資料則放進 queue
             q.push(current->right);
         }
     }
