@@ -1,4 +1,4 @@
-雖然 recursive 的寫法很簡潔，但是若太多層，則可能會造成 stack overflow，所以來改寫成 iterative 的寫法，可以利用 stack 跟 queue 的資料結構，在此直接使用 c++ 中的 stl。stack 是一種 FILO 的資料結構，主要靠 push 跟 pop 來將資料放入跟移出，queue 則是 FIFO。
+雖然 recursive 的寫法很簡潔，但是若太多層，則可能會造成 stack overflow，所以來改寫成 iterative 的寫法，可以利用 stack 跟 queue 的資料結構，在此直接使用 c++ 中的 stl。[stack](https://github.com/JrPhy/DS-AL/blob/master/Stack_and_Queue/Stack-%E5%A0%86%E7%96%8A.md) 是一種 FILO 的資料結構，[queue](https://github.com/JrPhy/DS-AL/blob/master/Stack_and_Queue/Queue-%E4%BD%87%E5%88%97.md) 則是 FIFO，兩者主要靠 push 跟 pop 來將資料放入跟移出。
 ## 1. preorder
 ```cpp
 void preorder(node *root) 
@@ -42,7 +42,7 @@ void inorder(node *root)
     for(const auto &i : res) std::cout << i << ", ";
 }
 ```
-inorder 是從下到上，從左到右印出。所以會先走到樹的最左邊，印出最左邊的左右葉子，然後移到上一個節點，再走到右節點，重複此步驟。
+inorder 是從下到上，從左到右印出。所以會先走到樹的最左邊，印出最左邊最下層的左右節點，然後移到上一個節點，再走到右節點，重複此步驟。
 ## 3. postorder
 ```cpp
 void postorder(node *root) 
