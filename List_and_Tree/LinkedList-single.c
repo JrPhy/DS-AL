@@ -69,7 +69,7 @@ void insertNode(node **list, int value, int position)
 
 void deleteNode(node **list, int position) 
 {
-    int length;
+    int length = lenOfList(*list);
     node *temp = *list;
     if (position <= 0) {
         node *toBeDel = *list;
@@ -78,12 +78,11 @@ void deleteNode(node **list, int position)
     }
     else if (position >= length) position = length - 1;
     
-    temp = *list;
-    for (int i = 1; i < position; i++) 
-        {if (temp->next != NULL) temp = temp->next;}
-    node *toBeDel = temp->next;
-    temp->next = toBeDel->next;
-    free(toBeDel);
+    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    if (temp == NULL || temp->next == NULL) return;
+    node *nodeToBeDel = temp->next;
+    temp->next = nodeToBeDel->next;
+    free(nodeToBeDel);
 }
 
 void reverse(node **list)
