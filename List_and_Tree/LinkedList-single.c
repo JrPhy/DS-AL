@@ -75,6 +75,7 @@ void deleteNode(node **list, int position)
         node *toBeDel = *list;
         *list = toBeDel->next;
         free(toBeDel);
+        return;
     }
     else if (position >= length) position = length - 1;
     
