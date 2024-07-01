@@ -13,8 +13,8 @@ queue *newQueue(unsigned int capacity)
     if(new_queue != NULL)
     {
         new_queue->capacity = capacity;
-        new_queue->top = -1;
-        new_queue->bottom = -1;
+        new_queue->top = 0;
+        new_queue->bottom = 0;
         new_queue->array = (int*)malloc(new_queue->capacity * sizeof(int));
     }
     if(new_queue->array == NULL) return NULL;
@@ -24,15 +24,11 @@ queue *newQueue(unsigned int capacity)
 void enqueue(queue *buffer, int data)
 {
     if ((buffer->bottom + 1) % buffer->capacity == buffer->top)
-    {
-        printf("queue is full");
-        exit(0);
-    }
+    {printf("queue is full");}
     else
     {
         ++buffer->bottom;
         buffer->array[buffer->bottom] = data;
-
     }
 }
 
@@ -45,11 +41,7 @@ int dequeue(queue *buffer)
         for(int i = 0; i < buffer->bottom+1; i++) buffer->array[i] = buffer->array[i+1];
         return _dequeue;
     }
-    else
-    {
-        printf("queue is empty");
-        exit(0);
-    }
+    else printf("queue is empty");
 }
 
 void printQueue(queue *buffer)
