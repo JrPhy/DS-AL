@@ -8,7 +8,7 @@
 #include <stdlib.h>
 typedef struct _queue 
 {
-    int top, bottom;
+    int top, bottom, size;
     int capacity;
     int *array;
 }queue;
@@ -21,6 +21,7 @@ queue *newQueue(int capacity)
         new_queue->capacity = capacity;
         new_queue->top = 0;
         new_queue->bottom = 0;
+        new_queue->size = 0;
         new_queue->array = (int*)malloc(new_queue->capacity * sizeof(int));
     }
     if(new_queue->array == NULL) return NULL;
@@ -93,28 +94,28 @@ int main()
 例如一長度為 5 的陣列，及 index 分別為 0, 1, 2, 3, 4，當長度為 n，陣列的 index 為 0, 1, ..., n-1，所以在 enqueue 和 dequeue 就可以利用這性質實作。
 
 #### enqueue
-在環狀佇列中，如果佇列未滿，則可以直接放入新的元素。若佇列滿了，則需先執行 dequeue 再將新的元素放入佇列中。而判斷佇列是否滿不像線性佇列這麼單純，因為 top 與 bottom 會經過任何一個 index，所以當 (bottom + 1) % capacity == top 時表示佇列已經放滿了，反之當 bottom == top 表示為空。
+在環狀佇列中，如果佇列未滿，則可以直接放入新的元素。若佇列滿了，則需先執行 dequeue 再將新的元素放入佇列中。而判斷佇列是否滿不像線性佇列這麼單純，因為 top 與 bottom 會經過任何一個 index，所以當 (bottom + 1) % capacity == top 時表示佇列已經放滿了，反之當 bottom == top 表示為空。在環狀佇列中可以另外加上一個 size 來方便使用。
 ```C
 void enqueue(queue *buffer, int data)
 {
-    if ((buffer->bottom+1) % buffer->capacity != buffer->capacity) 
+    if (buffer->size == buffer->capacity) printf("queue is full");
+    else
     {
-        buffer->bottom = (buffer->bottom+1) % buffer->capacity;
-        buffer->array[buffer->bottom] = data;
+        ++buffer->size;
+        buffer->array[buffer->bottom] = value;
+        buffer->bottom = (buffer->bottom+1)%buffer->capacity;
     }
-    else printf("queue is full");
 }
 ```
 #### dequeue
 同 enqueue，若環狀佇列放滿了，此時要先將頭元素移出，然後將 top 往後移一格，且 bottom 也往後移一格，這樣才能達到排隊的效果。而如果沒放滿要出隊，則直接將 top 往後移一格即可。
 ```C
-int dequeue(queue *buffer)
+void dequeue(queue *buffer)
 {
-    if (buffer->bottom != buffer->top)
+    if (obj->size != 0;)
     {
-        int _dequeue = buffer->array[0];
-        buffer->top = (buffer->top+1) % buffer->capacity;
-        return _dequeue;
+        --buffer->size;
+        buffer->top = (buffer->top + 1) % buffer->capacity;
     }
     else printf("queue is empty");
 }
