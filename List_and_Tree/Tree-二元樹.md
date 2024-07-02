@@ -60,9 +60,7 @@ int main()
 對於一棵二元樹來說，每往下走一次高度就會 +1，所以只要一直走並走到葉子，那就可以知道這棵樹的高度了
 ```C
 int height(struct TreeNode* node) {
-    if (node == NULL) {
-        return -1;
-    }
+    if (node) return -1;
     int left_height = height(node->left);
     int right_height = height(node->right);
     return 1 + (left_height > right_height ? left_height : right_height);
@@ -77,9 +75,9 @@ int height(struct TreeNode* node) {
 void preorder(node *root) 
 {
     printf("%d", root->data);
-    if (root->left != NULL)  //若其中一側的子樹非空則會讀取其子樹
+    if (root->left)  //若其中一側的子樹非空則會讀取其子樹
         preorder(root->left);
-    if (root->right != NULL) //另一側的子樹也做相同事
+    if (root->right) //另一側的子樹也做相同事
         preorder(root->right);
 }
 ```
@@ -89,10 +87,10 @@ void preorder(node *root)
 ```C
 void inorder(node *root) 
 {
-    if (root->left != NULL)  //若其中一側的子樹非空則會讀取其子樹
+    if (root->left)  //若其中一側的子樹非空則會讀取其子樹
         inorder(root->left);
     printf("%d", root->data);
-    if (root->right != NULL) //另一側的子樹也做相同事
+    if (root->right) //另一側的子樹也做相同事
         inorder(root->right);
 }
 ```
@@ -101,9 +99,9 @@ void inorder(node *root)
 ```C
 void postorder(node *root) 
 {
-    if (root->left != NULL)  //若其中一側的子樹非空則會讀取其子樹
+    if (root->left)  //若其中一側的子樹非空則會讀取其子樹
         postorder(root->left);
-    if (root->right != NULL) //另一側的子樹也做相同事
+    if (root->right) //另一側的子樹也做相同事
         postorder(root->right);
     printf("%d", root->data);
 }
@@ -185,7 +183,8 @@ node *search(node *root, int key)
     node *current = root;
     while(current != NULL && key != current->data)
     {
-        if(key > current->data) current = current->right; //若比較大則往右走
+        if(key > current->data)
+        {current = current->right;} //若比較大則往右走
         else current = current->left;                 //否則往左走
     }
     if(current != NULL) return current;
@@ -205,7 +204,7 @@ void insert(node **root, int value)
         if(prevNode->data > value && value > current->data) break;
         if(current->data > value && value > prevNode->data) break;
         //當要插入的值介於兩節點之間就跳脫迴圈
-        if(value > current->data)  current = current->right; //若比較大則往右走
+        if(value > current->data) current = current->right; //若比較大則往右走
         else current  = current->left;                 //否則往左走
     }
     
@@ -243,9 +242,9 @@ while(current->data != value)
 #### 刪除葉子
 因為是刪除葉子，所以直接將葉子節點 free 掉即可，然後要記得將該節點設為 NULL。
 ```C
-if(current->left == NULL && current->right == NULL)
+if(!current->left && !current->right)
 {
-    if (prevNode->left == current)  prevNode->left = NULL;
+    if (prevNode->left == current) prevNode->left = NULL;
     else prevNode->right = NULL;
     free(current);
 }
@@ -255,9 +254,9 @@ if(current->left == NULL && current->right == NULL)
 ```C
 else
 {
-    if (prevNode == NULL)  //若移除的為根結點
+    if (!prevNode)  //若移除的為根結點
     {
-        if(current->right != NULL) 
+        if(current->right) 
         {
             (*root)->data = current->right->data;
             (*root)->right = NULL;
@@ -272,12 +271,12 @@ else
     {
         if (prevNode->data > current->data)
         {
-            if (current->left != NULL) prevNode->left = current->left;
+            if (current->left) prevNode->left = current->left;
             else prevNode->left = current->right;
         }
         else
         {
-            if (current->left != NULL) prevNode->right = current->left;
+            if (current->left) prevNode->right = current->left;
             else prevNode->right = current->right;
         }
     }
@@ -288,15 +287,15 @@ else
 ![image](../pic/BST_delete.jpg) \
 這種情況比較複雜，我們可以看圖來討論狀況。若是要刪除 5 這個節點，則在以 5 為 root 下的子樹有兩個選擇，4 與 7。若是要刪除 15 這個節點，則在以 15 為 root 下的子樹有兩個選擇，13 與 17，所以選擇非唯一。但是根據二元搜尋樹的定義，該值就是在子樹中最和**欲刪除點值最接近**的，所以在找的時候可以找右子樹的最小值或左子樹的最大值，所以經過此操作的二元搜尋樹不唯一。
 ```C
-else if(current->left != NULL && current->right != NULL)
+else if(current->left&& current->right)
 {
     node *tempNode = current->right, *prevTemp = NULL;
-    while(tempNode->left != NULL)
+    while(tempNode->left)
     {
         prevTemp = tempNode;
         tempNode = tempNode->left;
     }
-    if (prevTemp != NULL) prevTemp->left = tempNode->right;
+    if (prevTemp) prevTemp->left = tempNode->right;
     else current->right = tempNode->right;
     current->data = tempNode->data;
     free(tempNode);
