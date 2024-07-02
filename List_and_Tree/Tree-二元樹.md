@@ -21,7 +21,7 @@ typedef struct _node
 node* newNode(int value)
 {
     node *tmpNode = malloc(sizeof(node));
-    if(tmpNode!=NULL) 
+    if(tmpNode) 
     {
         tmpNode->data = value;
         tmpNode->left = NULL;
@@ -150,7 +150,7 @@ typedef struct _node
 node* newNode(int value)
 {
     node *tmpNode = malloc(sizeof(node));
-    if(tmpNode!=NULL) 
+    if(tmpNode) 
     {
         tmpNode->data = value;
         tmpNode->left = NULL;
@@ -181,13 +181,13 @@ int main()
 node *search(node *root, int key) 
 {
     node *current = root;
-    while(current != NULL && key != current->data)
+    while(current && key != current->data)
     {
         if(key > current->data)
         {current = current->right;} //若比較大則往右走
         else current = current->left;                 //否則往左走
     }
-    if(current != NULL) return current;
+    if(current) return current;
     else return NULL;
 }
 ```
@@ -198,7 +198,7 @@ node *search(node *root, int key)
 void insert(node **root, int value) 
 {
     node *current = *root, *prevNode = NULL;
-    while(current != NULL)
+    while(current)
     {
         prevNode = current;
         if(prevNode->data > value && value > current->data) break;
@@ -208,7 +208,7 @@ void insert(node **root, int value)
         else current  = current->left;                 //否則往左走
     }
     
-    if(prevNode == NULL) prevNode = newNode(value);
+    if(!prevNode) prevNode = newNode(value);
     else if (value < prevNode->data)
     {
         prevNode->left = newNode(value);
