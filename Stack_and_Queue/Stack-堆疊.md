@@ -26,17 +26,20 @@ stack *newStack(int capacity)
 ```C
 void push(stack *buffer, int data)
 {
-    if (buffer->top != buffer->capacity - 1) buffer->array[++buffer->top] = data;
+    if (buffer->top != buffer->capacity - 1)
+    {buffer->array[++buffer->top] = data;}
 }
 
 int pop(stack *buffer)
 {
-    if (buffer->top != - 1) return buffer->array[buffer->top--];
+    if (buffer->top != - 1)
+    {return buffer->array[buffer->top--];}
 }
 
 void printStack(stack *buffer)
 {
-    for(int i = 0; i < buffer->top+1; i++) printf("%d  ", buffer->array[i]);
+    for(int i = 0; i < buffer->top+1; i++)
+    {printf("%d  ", buffer->array[i]);}
 }
 
 void delStack(stack *buffer)
