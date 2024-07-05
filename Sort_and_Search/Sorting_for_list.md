@@ -30,19 +30,18 @@ void bubbleSort(node **list)
 void insertionSortList(node **list)
 {
     node *head = (node*)malloc(sizeof(node));
-	head->next = NULL;
-	node *current = *list, *prev = head, *nextNode = NULL;
-	while (current) 
+    head->next = NULL;
+    node *current = *list, *prev = head, *nextNode = NULL;
+    while (current) 
     {
-		while (prev->next && prev->next->data < current->data) prev = prev->next;
-		nextNode = current->next;
-		current->next = prev->next;
-		prev->next = current;
-		current = nextNode;
-		
-		prev = head;
-	}
-	*list = head->next;
+        while (prev->next && prev->next->data < current->data) prev = prev->next;
+        nextNode = current->next;
+        current->next = prev->next;
+        prev->next = current;
+        current = nextNode;
+        prev = head;
+    }
+    *list = head->next;
 }
 ```
 
