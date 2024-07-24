@@ -8,7 +8,7 @@ int compare(const void * a, const void * b)
 
 qsort(base, nitems, size, compare(const void * a, const void * b));
 ```
-上述就是一個對於 int 陣列且由小到大的排列，若返回值為 ```( *(int*)a - *(int*)b );``` 則反過來。在 C++ 中則是使用 sort，需要 ```#include <algorithm>```，預設由小到大，若要由大到小可以在第三個參數傳入 ```std::greater<int>()```。
+上述就是一個對於 int 陣列且由小到大的排列，若返回值為 ```( *(int*)b - *(int*)a );``` 則反過來。在 C++ 中則是使用 sort，需要 ```#include <algorithm>```，預設由小到大，若要由大到小可以在第三個參數傳入 ```std::greater<int>()```。
 ```c++
 #include <vector>
 #include <algorithm>  // sort
