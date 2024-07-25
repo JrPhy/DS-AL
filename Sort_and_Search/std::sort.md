@@ -65,7 +65,7 @@ int main()
 可以看出對於字串陣列排列，依然是依照 ascii code 的順序。
 
 ## 3. 多維陣列針對某個 key 排列
-在 C++ 中常常使用 unordered_map，為一個無序的 key-value 資料結構，而 sort 並不支援 unordered_map，所以須將其轉成兩個一維陣列或是多維陣列。例如有個 unordered_map 中放 <std::string, int>，若想要對此 unordered_map 排序，則需另外宣告一個 std::vector<std::pair<std::string, int>>
+在 C++ 中常常使用 unordered_map，為一個無序的 key-value 資料結構，而 sort 並不支援 unordered_map，所以須將其轉成兩個一維陣列或是多維陣列，在 C++ 中可以使用 std::pair<int, int> 這個資料結構，且預設是以第一個參數進行排序。例如有個 unordered_map 中放 <std::string, int>，若想要對此 unordered_map 排序，則需另外宣告一個 std::vector<std::pair<std::string, int>>
 ```cpp
 #include <iostream>
 #include <vector>
@@ -75,7 +75,7 @@ int main()
 #include <unordered_map>
 using namespace std;
 
-bool comp(pair<char, int> a, pair<char, int> b) {
+bool comp(pair<string, int> a, pair<string, int> b) {
     return a.second == b.second ? a.first < b.first : a.second < b.second;
     // 如果 value 值一樣，則依照前面的字母順序排列
 }
@@ -91,6 +91,13 @@ int main()
     
     vector<pair<string, int>> arr;
     for(auto it : mp) arr.emplace_back(it);
+    sort(arr.begin(), arr.end());
+    // 自訂比較函數
+    for(auto [key, value]: arr) cout << key << ' ' << value << endl;
+    /*ace 5
+    apple 3
+    bird 5
+    cats 4*/
     sort(arr.begin(), arr.end(), comp);
     // 自訂比較函數
     for(auto [key, value]: arr) cout << key << ' ' << value << endl;
