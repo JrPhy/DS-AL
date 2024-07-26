@@ -68,7 +68,8 @@ void dfs(unordered_map<int, vector<int>>& graph,
 ## 3. 最小生成樹 Minimum-Spanning Tree
 若是每個邊的**權重**不一，例如每個村莊到其他村莊的距離會有不同，就是權重不同的一種，走訪全部村莊的路徑也不只一種。如果希望每個村莊只經過一次，並走訪每個村莊，而且不限定走訪方向，那麼就會生成一棵樹，若再要求走的距離是最短的，那麼此時生成的樹就稱為最小生成樹 MST，如下圖所示。
 ![image](https://github.com/JrPhy/DS-AL/blob/master/pic/MST.jpg)\
-當然根據不同的權重不同，也有可能產生不同的最小生成樹，所以並不保證此種樹只有一顆。而最小生成樹一般有兩種算法，分別是 Kruskal 與 Prim 算法。所以最小生成樹的條件為**有權重、互相連接的無向圖**
+當然根據不同的權重不同，也有可能產生不同的最小生成樹，所以並不保證此種樹只有一顆。而最小生成樹一般有兩種算法，分別是 Kruskal 與 Prim 算法。所以最小生成樹的條件為**有權重、互相連接的無向圖**。\
+可參考[此網站](https://visualgo.net/en/mst)看看各種 MST 是怎麼生成的
 #### 1. Kruskal 算法 O(ElogE + ElogV)
 [程式碼參考此篇](https://www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/)。從直覺上來想，我們只要將每個邊權重最小的值找出來在連起來就好了。所以算法一開始我們先對權重做排列，再來判斷兩個頂點是否直接或間接相連，即是否**連通(connected)**，如果有的話就將他連起來即可得到所求。
 ```cpp
