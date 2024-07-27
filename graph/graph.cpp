@@ -55,7 +55,7 @@ public:
     void addEdge(int x, int y, int w) 
     {edgelist.push_back({ w, x, y });} 
   
-    void kruskals_mst() { 
+    void kruskalsMST() { 
         // Sort all edges 
         sort(edgelist.begin(), edgelist.end()); 
         // Initialize the DSU 
@@ -76,7 +76,51 @@ public:
             } 
         } 
         cout << "Minimum Cost Spanning Tree: " << ans; 
-    } 
+    }
+    
+    void primMST() {  
+        vector<int> parent(V, -1); // To store the parent of each vertex in the MST  
+        vector<int> key(V, INT_MAX); // To store the minimum key value for each vertex  
+        vector<bool> inMST(V, false); // To track whether a vertex is included in MST  
+      
+        // Create a priority queue (min-heap) to select edges with minimum weight  
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;  
+      
+        // Start with the first vertex (vertex 0) as the initial vertex  
+        key[0] = 0;  
+        pq.push({0, 0});  
+      
+        while (!pq.empty()) {  
+            int u = pq.top().second;  
+            pq.pop();  
+      
+            // Mark the current vertex as included in MST  
+            inMST[u] = true;  
+      
+            // Explore all adjacent vertices of u  
+            for (auto edge : edgelist) { 
+                if(edge[1]!=u) continue;
+                int w = edge[0]; 
+                int y = edge[2]; 
+      
+                // If v is not in MST, there is an edge from u to v, and the weight is smaller than the current key of v  
+                if (!inMST[y] && w < key[y]) {  
+                    // Update key value and parent of v  
+                    key[y] = w;  
+                    parent[y] = u;  
+      
+                    // Add v to the priority queue  
+                    pq.push({key[y], y});  
+                }  
+            }  
+        }  
+      
+        // Print the MST edges  
+        cout << "Edges of Minimum Spanning Tree:" << endl;  
+        for (int i = 1; i < V; ++i) {  
+            cout << "Edge: " << parent[i] << " - " << i << " Weight: " << key[i] << endl;  
+        }  
+    }  
 
     void bfs(int start) {
         queue<int> q;
@@ -124,6 +168,8 @@ int main() {
     printf("\n");
     g.dfs(a[0]);
     printf("\n");
-    g.kruskals_mst();
+    g.kruskalsMST();
+    printf("\n");
+    g.primMST();
     return 0;
 }
