@@ -228,8 +228,8 @@ Minimum Cost Spanning Tree: 5
 ```
 可看到裡面計算量最大的就是做排序 O(ElogE) 與連線 O(ElogV)，所以複雜度為 O(ElogE + ElogV)，通常 E > V，故取 O(ElogE)。
 
-#### 2. Prim 算法 O(N<sup>2</sup>)
-想法與 Kruskal 算法相同，但是在基本的 Prim 算法中並未對權重做排列，所以需要每個頂點的邊都去比較大小，挑出最小的後再往下走，且在此使用了鄰接矩陣，故算法的空間與時間複雜度均為 O(N<sup>2</sup>)。當然此算法時間也可以優化成 O(ElogE)，需要用[堆積排序法 Heap Sort](https://github.com/JrPhy/DS-AL/blob/master/Sort_and_Search/Sorting_for_array_O(nlogn)-%E6%8E%92%E5%BA%8F.md#3-%E5%A0%86%E7%A9%8D%E6%8E%92%E5%BA%8F%E6%B3%95-heap-sort)
+#### 2. Prim 算法 O(E<sup>2</sup>)
+想法與 Kruskal 算法相同，但是在基本的 Prim 算法中並未對權重做排列，所以需要每個頂點的邊都去比較大小，挑出最小的後再往下走，且在此使用了鄰接矩陣，故算法的空間與時間複雜度均為 O(N<sup>2</sup>)。當然此算法時間也可以優化成 O(ElogE)，需要用[堆積排序法 Heap Sort](https://github.com/JrPhy/DS-AL/blob/master/Sort_and_Search/Sorting_for_array_O(nlogn)-%E6%8E%92%E5%BA%8F.md#3-%E5%A0%86%E7%A9%8D%E6%8E%92%E5%BA%8F%E6%B3%95-heap-sort)先對權重做排列
 ```cpp
 void primMST()
 {
