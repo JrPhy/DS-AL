@@ -292,4 +292,52 @@ void primMST()
 }
 ```
 ## 5. Floyd-Warshall 與 Prim 算法優化
-兩者都是用了 heap sort 來做優化，在 C++ 中可使用 STL 內的 priority_queue。
+兩者都是用了 heap sort 來做優化，在 C++ 中可使用 STL 內的 priority_queue。priority_queue 資料預設由大到小排序，與 map 相反。如果要由小到大的話，需要另外再放入一個容器，然後在第三個參數放數 greater。
+#### 1. Priority Queue Prim
+程式碼[參考這篇](https://www.javatpoint.com/prims-algorithm-in-cpp)，但因為要跟 kruskals_mst 的資料結構一樣所以小改了一下。
+```cpp
+void primMST() {  
+    vector<int> parent(V, -1); // To store the parent of each vertex in the MST  
+    vector<int> key(V, INT_MAX); // To store the minimum key value for each vertex  
+    vector<bool> inMST(V, false); // To track whether a vertex is included in MST  
+  
+    // Create a priority queue (min-heap) to select edges with minimum weight  
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;  
+  
+    // Start with the first vertex (vertex 0) as the initial vertex  
+    key[0] = 0;  
+    pq.push({0, 0});  
+  
+    while (!pq.empty()) {  
+        int u = pq.top().second;  
+        pq.pop();  
+        cout << u << "  ";
+  
+        // Mark the current vertex as included in MST  
+        inMST[u] = true;  
+  
+        // Explore all adjacent vertices of u  
+        for (auto edge : edgelist) {
+            int x = edge[1]; 
+            if(x != u) continue;
+            int w = edge[0]; 
+            int y = edge[2];
+                
+            // If v is not in MST, there is an edge from u to v, and the weight is smaller than the current key of v  
+            if (!inMST[y] && w < key[y]) {  
+                // Update key value and parent of v  
+                key[y] = w;  
+                parent[y] = u;  
+                // Add v to the priority queue  
+                pq.push({key[y], y});
+            }  
+        }  
+    }  
+  
+    // Print the MST edges  
+    cout << "Edges of Minimum Spanning Tree:" << endl;  
+    for (int i = 1; i < V; ++i) {  
+        cout << "Edge: " << parent[i] << " - " << i << " Weight: " << key[i] << endl;  
+    }  
+}
+```
