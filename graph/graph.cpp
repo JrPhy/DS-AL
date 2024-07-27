@@ -154,22 +154,62 @@ public:
             }
         }
     }
+    void shortestPath(int src) {
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    
+        // Create a vector for distances and initialize all
+        // distances as infinite (INF)
+        vector<int> dist(V, INT_MAX);
+    
+        // Insert source itself in priority queue and initialize
+        // its distance as 0.
+        pq.push({0, src});
+        dist[src] = 0;
+    
+        /* Looping till priority queue becomes empty (or all
+        distances are not finalized) */
+        while (!pq.empty()) {
+            // The first vertex in pair is the minimum distance
+            // vertex, extract it from priority queue.
+            // vertex label is stored in second of pair (it
+            // has to be done this way to keep the vertices
+            // sorted distance (distance must be first item
+            // in pair)
+            int u = pq.top().second;
+            pq.pop();
+    
+            // 'i' is used to get all adjacent vertices of a
+            // vertex
+            for (auto edge : edgelist) { 
+                if(edge[1]!=u) continue;
+                int w = edge[0]; 
+                int y = edge[2];
+                // If there is shorted path to v through u.
+                if (dist[y] > dist[u] + w) {
+                    // Updating distance of v
+                    dist[y] = dist[u] + w;
+                    pq.push({dist[y], y});
+                }
+            }
+        }
+    
+        // Print shortest distances stored in dist[]
+        printf("Vertex Distance from Source\n");
+        for (int i = 0; i < V; ++i)
+            printf("%d \t\t %d\n", i, dist[i]);
+    }
 }; 
 
 int main() {
     Graph g(5);
     vector<int> a = {0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4};
     vector<int> b = {1, 2, 4, 0, 2, 3, 0, 1, 3, 4, 1, 2, 4, 0, 2, 3};
-    vector<int> w = {2, 1, 3, 2, 2, 3, 1, 2, 1, 4, 3, 1, 2, 3, 4, 1};
-    for(int i = 0; i < a.size(); i++) {
-        g.addEdge(a[i], b[i], w[i]);
-    }
-    g.bfs(a[0]);
-    printf("\n");
-    g.dfs(a[0]);
+    vector<int> w = {2, 1, 3, 2, 2, 3, 1, 2, 1, 4, 3, 1, 2, 3, 4, 2};
+    for(int i = 0; i < a.size(); i++) g.addEdge(a[i], b[i], w[i]);
+    g.primMST();
     printf("\n");
     g.kruskalsMST();
     printf("\n");
-    g.primMST();
+    g.shortestPath(0);
     return 0;
 }
