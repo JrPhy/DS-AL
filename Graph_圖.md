@@ -12,7 +12,7 @@ vector<int> a = [0, 0, 2, 2, 3, 4]
 vector<int> b = [1, 3, 3, 4, 5, 1]
 vector<vector<int>> c = [[0, 1], [0, 3], [2, 3], [2, 4], [3, 5], [4, 1]]
 ```
-意思就是說若為有向圖，則 a 中相同 index 的點可以走向 b，也就是 0->1, 0->3, ..., 4->1。若是無向則可以來回。若有權重可能就會在多個 w。此時我們就可以建一個鄰接表 (Adjacency list) 來表示每個頂點與其他頂點的連接狀況。
+意思就是說若為有向圖，則 a 中相同 index 的點可以走向 b，也就是 0->1, 0->3, ..., 4->1。若是無向則可以來回。若有權重可能就會在多個 w。此時我們就可以建一個鄰接表 (Adjacency list) 或是鄰接矩陣 (Adjacency matrix) 來表示每個頂點與其他頂點的連接狀況。
 ```c++
 unordered_map<int, vector<int>> adj;
 for(int i = 0; i < a.size(); i++) {
@@ -23,7 +23,14 @@ for(int i = 0; i < a.size(); i++) {
 //adj[2]->3->4
 //adj[3]->5
 //adj[4]->1
+/* 0 1 0 1 0 0
+   1 0 0 0 1 0
+   0 0 0 1 1 0
+   1 0 1 0 0 1
+   0 1 1 0 0 0
+   0 0 0 1 0 0 */
 ```
+可以看到矩陣需要多花費更多記憶體，但是矩陣的表示在很多情況下會比較方便使用。
 ## 2. 圖的走訪
 與樹一樣，有廣度優先(BFS)與深度優先(DFS)，在此我們會多一個 visit 來記錄該點是否已走訪過。
 #### 1. BFS
@@ -100,7 +107,48 @@ void dfs(int start) {
 ```
 可以看到 bfs/dfs 中有個引數 start，就是告訴函數要從哪個點開始，進入之後再去走訪跟他相鄰的節點，結束條件就是迴圈跑完，表示每個**有連結**的節點都走過了。當然有些節點的 visit 還是 0，就代表該點與起始節點沒有相連。
 
-## 3. 最小生成樹 Minimum-Spanning Tree
+## 3. 找出一個點至其他點的最短距離
+在圖中從某兩點 a, b 沒有直接連接，而是必須要先經過另一點 c 或是 d 才能抵達，那距離即為 d(a,b) = d(a,c) + d(c,b) 或是 d(a,b) = d(a,d) + d(d,b)。以下僅介紹最直覺與最優化的兩個算法。
+#### 1. Floyd-Warshall Algorithm O(N<sup>3</sup>)
+最直覺的就是將每個經過的距離加起來，再取較小的值即可
+```cpp
+#include <bits/stdc++.h> 
+using namespace std; 
+int main() {
+    vector<int> a = {0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4};
+    vector<int> b = {1, 2, 4, 0, 2, 3, 0, 1, 3, 4, 1, 2, 4, 0, 2, 3};
+    vector<int> w = {2, 1, 3, 2, 2, 3, 1, 2, 1, 4, 3, 1, 2, 3, 4, 1};
+    int V = 5;
+    vector<vector<int>> distance(V, vector<int>(V, 0));
+    for (int i = 0; i < V; ++i) {
+        distance[i][i] = 0; // Distance to itself is 0
+    }
+    // build adj matrix
+    for (int i = 0; i < a.size(); ++i) {
+        distance[a[i]][b[i]] = w[i];
+        distance[b[i]][a[i]] = w[i];
+    }
+
+    // Floyd-Warshall algorithm to find all-pairs shortest path
+    for (int k = 0; k < V; ++k) {
+        for (int i = 0; i < V; ++i) {
+            for (int j = 0; j < V; ++j) {
+                distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j]);
+            }
+        }
+    }
+     for (int i = 0; i < V; ++i) {
+        for (int j = 0; j < V; ++j) {
+            cout << distance[i][j] << ", ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
+```
+#### 2. Dijkstra Algorithm
+
+## 4. 最小生成樹 Minimum-Spanning Tree
 若是每個邊的**權重**不一，例如每個村莊到其他村莊的距離會有不同，就是權重不同的一種，走訪全部村莊的路徑也不只一種。如果希望每個村莊只經過一次，並走訪每個村莊，而且不限定走訪方向，那麼就會生成一棵樹，若再要求走的距離是最短的，那麼此時生成的樹就稱為最小生成樹 MST，如下圖所示。
 ![image](https://github.com/JrPhy/DS-AL/blob/master/pic/MST.jpg)\
 當然根據不同的權重不同，也有可能產生不同的最小生成樹，所以並不保證此種樹只有一顆。而最小生成樹一般有兩種算法，分別是 Kruskal 與 Prim 算法。所以最小生成樹的條件為**有權重、互相連接的無向圖**。\
