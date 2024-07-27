@@ -41,11 +41,15 @@ public:
 }; 
   
 class Graph { 
-    vector<vector<int> > edgelist; 
+    vector<vector<int>> edgelist;
+    vector<int> visited; 
     int V; 
   
 public: 
-    Graph(int V) { this->V = V; } 
+    Graph(int V) {
+        this->V = V;
+        visited.resize(V);
+    } 
   
     // Function to add edge in a graph 
     void addEdge(int x, int y, int w) 
@@ -73,6 +77,39 @@ public:
         } 
         cout << "Minimum Cost Spanning Tree: " << ans; 
     } 
+
+    void bfs(int start) {
+        queue<int> q;
+        vector<int> visited(edgelist.size(), 0);
+        visited[start] = 1;
+        q.push(start); // 也可以從其他節點進入
+        int node;
+        while (!q.empty()) {
+            node = q.front();
+            q.pop();
+            cout << node << " ";
+                
+            for (int neighbor : edgelist[node]) {
+            // 若 n = 0，neighbor = 1, 3
+                if (!visited[neighbor]) {
+            // 一開始都為 0，之後有經過就會設成 1
+                    visited[neighbor] = true;
+                    q.push(neighbor);
+            // 再把其他 node 放進 queue
+                }
+            }
+        }
+    }
+    
+    void dfs(int start) {
+        cout << start << " ";
+        visited[start] = 1;
+        for (int neighbor : edgelist[start]) {
+            if (!visited[neighbor]) {
+                dfs(neighbor);
+            }
+        }
+    }
 }; 
 
 int main() {
