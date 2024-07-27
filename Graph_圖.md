@@ -292,8 +292,8 @@ void primMST()
 }
 ```
 ## 5. Floyd-Warshall 與 Prim 算法優化
-兩者都是用了 heap sort 來做優化，在 C++ 中可使用 STL 內的 priority_queue。priority_queue 資料預設由大到小排序，與 map 相反。如果要由小到大的話，需要另外再放入一個容器，然後在第三個參數放數 greater。
-#### 1. Priority Queue Prim
+兩者都是用了 heap sort 來做優化，在 C++ 中可使用 STL 內的 priority_queue。priority_queue 資料預設由大到小排序，與 map 相反。如果要由小到大的話，需要另外再放入一個容器，然後在第三個參數放入 greater。
+#### 1. Priority Queue Prim O(ElogV)
 程式碼[參考這篇](https://www.javatpoint.com/prims-algorithm-in-cpp)，但因為要跟 kruskals_mst 的資料結構一樣所以小改了一下。
 ```cpp
 void primMST() {  
@@ -341,3 +341,4 @@ void primMST() {
     }  
 }
 ```
+而 priority_queue 是將頂點放入裡面，所以需要插入和移除，時間複雜度為 O(logV)，然後每個邊走訪一次，所以時間複雜度為 O(ElogV)。而此例子中存放點的資料結構複雜度為 O(E+V)。
