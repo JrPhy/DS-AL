@@ -110,7 +110,7 @@ void dfs(int start) {
 ## 3. 找出一個點至其他點的最短距離
 在圖中從某兩點 a, b 沒有直接連接，而是必須要先經過另一點 c 或是 d 才能抵達，那距離即為 d(a,b) = d(a,c) + d(c,b) 或是 d(a,b) = d(a,d) + d(d,b)。以下僅介紹最直覺與最優化(Dijkstra Algorithm)的兩個算法。
 #### 1. Floyd-Warshall Algorithm O(N<sup>3</sup>)
-最直覺的就是將每個經過的距離加起來，再取較小的值即可
+最直覺的就是將每個經過的距離加起來，再取較小的值即可。因為是取較小的值，所以初始化的值要大。
 ```cpp
 #include <bits/stdc++.h> 
 using namespace std; 
@@ -119,7 +119,7 @@ int main() {
     vector<int> b = {1, 2, 4, 0, 2, 3, 0, 1, 3, 4, 1, 2, 4, 0, 2, 3};
     vector<int> w = {2, 1, 3, 2, 2, 3, 1, 2, 1, 4, 3, 1, 2, 3, 4, 1};
     int V = 5;
-    vector<vector<int>> distance(V, vector<int>(V, 0));
+    vector<vector<int>> distance(V, vector<int>(V, INT_MAX/2));
     for (int i = 0; i < V; ++i) {
         distance[i][i] = 0; // Distance to itself is 0
     }
@@ -291,6 +291,5 @@ void primMST()
              << graph[i][parent[i]] << " \n";
 }
 ```
-
 ## 5. Floyd-Warshall 與 Prim 算法優化
 兩者都是用了 heap sort 來做優化，在 C++ 中可使用 STL 內的 priority_queue。
