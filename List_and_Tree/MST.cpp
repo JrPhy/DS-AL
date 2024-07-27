@@ -120,6 +120,10 @@ int main() {
     for(int i = 0; i < a.size(); i++) {
         g.addEdge(a[i], b[i], w[i]);
     }
+    g.bfs(a[0]);
+    printf("\n");
+    g.dfs(a[0]);
+    printf("\n");
     g.kruskals_mst();
     return 0;
 }
