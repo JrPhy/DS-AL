@@ -108,7 +108,7 @@ void dfs(int start) {
 可以看到 bfs/dfs 中有個引數 start，就是告訴函數要從哪個點開始，進入之後再去走訪跟他相鄰的節點，結束條件就是迴圈跑完，表示每個**有連結**的節點都走過了。當然有些節點的 visit 還是 0，就代表該點與起始節點沒有相連。
 
 ## 3. 找出一個點至其他點的最短距離
-在圖中從某兩點 a, b 沒有直接連接，而是必須要先經過另一點 c 或是 d 才能抵達，那距離即為 d(a,b) = d(a,c) + d(c,b) 或是 d(a,b) = d(a,d) + d(d,b)。以下僅介紹最直覺與最優化的兩個算法。
+在圖中從某兩點 a, b 沒有直接連接，而是必須要先經過另一點 c 或是 d 才能抵達，那距離即為 d(a,b) = d(a,c) + d(c,b) 或是 d(a,b) = d(a,d) + d(d,b)。以下僅介紹最直覺與最優化(Dijkstra Algorithm)的兩個算法。
 #### 1. Floyd-Warshall Algorithm O(N<sup>3</sup>)
 最直覺的就是將每個經過的距離加起來，再取較小的值即可
 ```cpp
@@ -146,7 +146,7 @@ int main() {
     return 0;
 }
 ```
-#### 2. Dijkstra Algorithm
+當然此算法時間可藉由需要用[堆積排序法 Heap Sort](https://github.com/JrPhy/DS-AL/blob/master/Sort_and_Search/Sorting_for_array_O(nlogn)-%E6%8E%92%E5%BA%8F.md#3-%E5%A0%86%E7%A9%8D%E6%8E%92%E5%BA%8F%E6%B3%95-heap-sort)優化成 O(ElogE)，即為有名的 Dijkstra Algorithm。
 
 ## 4. 最小生成樹 Minimum-Spanning Tree
 若是每個邊的**權重**不一，例如每個村莊到其他村莊的距離會有不同，就是權重不同的一種，走訪全部村莊的路徑也不只一種。如果希望每個村莊只經過一次，並走訪每個村莊，而且不限定走訪方向，那麼就會生成一棵樹，若再要求走的距離是最短的，那麼此時生成的樹就稱為最小生成樹 MST，如下圖所示。
@@ -226,8 +226,10 @@ Following are the edges in the constructed MST
 0 -- 1 == 2
 Minimum Cost Spanning Tree: 5
 ```
-可看到裡面計算量最大的就是做排序O(E log E)與連線O(E log V)，所以複雜度為 O(ElogE + ElogV)
-#### 2. Prim 算法
+可看到裡面計算量最大的就是做排序 O(ElogE) 與連線 O(ElogV)，所以複雜度為 O(ElogE + ElogV)，通常 E > V，故取 O(ElogE)。
+
+#### 2. Prim 算法 O(N<sup>2</sup>)
+想法與 Kruskal 算法相同，但是在基本的 Prim 算法中並未對權重做排列，所以需要每個頂點的邊都去比較大小，挑出最小的後再往下走，且在此使用了鄰接矩陣，故算法的空間與時間複雜度均為 O(N<sup>2</sup>)。當然此算法時間也可以優化成 O(ElogE)，需要用[堆積排序法 Heap Sort](https://github.com/JrPhy/DS-AL/blob/master/Sort_and_Search/Sorting_for_array_O(nlogn)-%E6%8E%92%E5%BA%8F.md#3-%E5%A0%86%E7%A9%8D%E6%8E%92%E5%BA%8F%E6%B3%95-heap-sort)
 ```cpp
 void primMST()
 {
@@ -289,3 +291,6 @@ void primMST()
              << graph[i][parent[i]] << " \n";
 }
 ```
+
+## 5. Floyd-Warshall 與 Prim 算法優化
+兩者都是用了 heap sort 來做優化，在 C++ 中可使用 STL 內的 priority_queue。
