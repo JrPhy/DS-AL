@@ -3,7 +3,7 @@
 | 方向 | 環 | 權重 | 
 | --- | --- | --- | 
 | 有向 | 有環 | 有 |
-| 無向 | 無環 | 有 |
+| 無向 | 無環 | 無 |
 
 ## 1. 資料表示
 一般來說會給兩個相同大小的陣列，或是給 [n][2] 的陣列，來表示各個點之間的關係，以上左圖為例
@@ -137,7 +137,7 @@ int main() {
             }
         }
     }
-     for (int i = 0; i < V; ++i) {
+    for (int i = 0; i < V; ++i) {
         for (int j = 0; j < V; ++j) {
             cout << distance[i][j] << ", ";
         }
@@ -231,21 +231,10 @@ Minimum Cost Spanning Tree: 5
 #### 2. Prim 算法 O(E<sup>2</sup>)
 想法與 Kruskal 算法相同，但是在基本的 Prim 算法中並未對權重做排列，所以需要每個頂點的邊都去比較大小，挑出最小的後再往下走，且在此使用了鄰接矩陣，故算法的空間與時間複雜度均為 O(N<sup>2</sup>)。當然此算法時間也可以優化成 O(ElogE)，需要用[堆積排序法 Heap Sort](https://github.com/JrPhy/DS-AL/blob/master/Sort_and_Search/Sorting_for_array_O(nlogn)-%E6%8E%92%E5%BA%8F.md#3-%E5%A0%86%E7%A9%8D%E6%8E%92%E5%BA%8F%E6%B3%95-heap-sort)先對權重做排列
 ```cpp
-void primMST()
-{
+void primMST() {
     // Array to store constructed MST
-    int parent[V] = {0}, graph[V][V] = {0}, key[V] = {0};
-
-    // To represent set of vertices included in MST
-    bool mstSet[V];
-
-    // Initialize all keys as INFINITE
-    for (int i = 0; i < V; i++)
-        key[i] = INT_MAX, mstSet[i] = false;
-
-    // Always include first 1st vertex in MST.
-    // Make key 0 so that this vertex is picked as first
-    // vertex.
+    int parent[V] = {0}, graph[V][V] = {0}, key[V] = {INT_MAX};
+    bool mstSet[V] = {false};
     key[0] = 0;
   
     // First node is always root of MST
@@ -255,7 +244,6 @@ void primMST()
 
     // The MST will have V vertices
     for (int count = 0; count < V - 1; count++) {
-        
         // Pick the minimum key vertex from the
         // set of vertices not yet included in MST
         int min = INT_MAX, min_index;
@@ -269,18 +257,8 @@ void primMST()
         // Add the picked vertex to the MST Set
         mstSet[u] = true;
 
-        // Update key value and parent index of
-        // the adjacent vertices of the picked vertex.
-        // Consider only those vertices which are not
-        // yet included in MST
         for (int v = 0; v < V; v++)
-
-            // graph[u][v] is non zero only for adjacent
-            // vertices of m mstSet[v] is false for vertices
-            // not yet included in MST Update the key only
-            // if graph[u][v] is smaller than key[v]
-            if (graph[u][v] && mstSet[v] == false
-                && graph[u][v] < key[v])
+            if (graph[u][v] && !mstSet[v] && graph[u][v] < key[v])
                 parent[v] = u, key[v] = graph[u][v];
     }
 
@@ -311,23 +289,18 @@ void primMST() {
     while (!pq.empty()) {  
         int u = pq.top().second;  
         pq.pop();  
-        cout << u << "  ";
-  
-        // Mark the current vertex as included in MST  
         inMST[u] = true;  
   
-        // Explore all adjacent vertices of u  
         for (auto edge : edgelist) {
             if(edge[1] != u) continue;
             int w = edge[0]; 
             int y = edge[2];
                 
-            // If v is not in MST, there is an edge from u to v, and the weight is smaller than the current key of v  
+            // If v is not in MST, there is an edge from u to v,
+            // and the weight is smaller than the current key of v  
             if (!inMST[y] && w < key[y]) {  
-                // Update key value and parent of v  
                 key[y] = w;  
                 parent[y] = u;  
-                // Add v to the priority queue  
                 pq.push({key[y], y});
             }  
         }  
@@ -341,3 +314,40 @@ void primMST() {
 }
 ```
 而 priority_queue 是將頂點放入裡面，所以需要插入和移除，時間複雜度為 O(logV)，然後每個邊走訪一次，所以時間複雜度為 O(ElogV)。而此例子中存放點的資料結構複雜度為 O(E+V)。
+#### 2. dijkstra 
+程式碼[參考這篇](https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/)，使用條件為所有邊的權重皆 ≥ 0。
+```cpp
+void shortestPath(int src) {
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+    // 因為是找最短，所以初始化為最大
+    vector<int> dist(V, INT_MAX);
+    // 將起始點放入
+    pq.push({0, src});
+    dist[src] = 0;
+
+    /* Looping till priority queue becomes empty (or all
+    distances are not finalized) */
+    while (!pq.empty()) {
+        // 從起始點開始找
+        int u = pq.top().second;
+        pq.pop();
+
+        for (auto edge : edgelist) { 
+            if(edge[1]!=u) continue;
+            int w = edge[0]; 
+            int y = edge[2];
+            // 如果是最短的，就更新距離與下個點
+            if (dist[y] > dist[u] + w) {
+                // Updating distance of v
+                dist[y] = dist[u] + w;
+                pq.push({dist[y], y});
+            }
+        }
+    }
+    printf("Vertex Distance from Source\n");
+    for (int i = 0; i < V; ++i)
+        printf("%d \t\t %d\n", i, dist[i]);
+};
+```
+可以看到 dijkstra 與 Priority Queue Prim 長得非常像，因為都是在找最短的邊。差異在於 dijkstra 是在算距離，所以最後是將距離相加。
