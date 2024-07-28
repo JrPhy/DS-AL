@@ -111,9 +111,13 @@ void dfs(int start) {
 若一張圖為**有向無環圖 DAG**，也就是只能朝著限定方向走，且不會形成環的圖。而這種圖一定有個是只出不進的點，也有只進不出的點，可當作起點與終點。而對應到現實例子，就是一定要先做某件事才能做接下來的事。例如修課一定要先修完某些課才能繼續往下修，此時就可使用拓樸排序法來排出先後順序。會將圖排呈線性如下圖表示
 ![image](https://github.com/JrPhy/DS-AL/blob/master/pic/topo_sort.jpg)\
 此排序算法可以用 bfs 與 dfs 的方法
-#### 1. topo sort bfs(Kahn)
+#### 1. [topo sort bfs(Kahn)](https://www.geeksforgeeks.org/topological-sorting-indegree-based-solution/)
 BFS 的作法是先計算每個節點有多少進入的邊，若是某個節點沒有進入，則表示**可能**為起始點，也就是最優先要做的事。當然也有可能是不進也不出，也就是沒與其他點相連，可以檢查 in 與 out 的數量，如果都是 0 則表示沒有相連。
 ```cpp
+#include <vector>
+#include <queue>
+#include <iostream>
+using namespace std;
 int main() {
     vector<int> a = {0, 0, 1, 1, 2, 3, 3, 4, 6};
     vector<int> b = {1, 2, 2, 3, 4, 4, 5, 6, 5};
@@ -164,3 +168,64 @@ vector<int> b = {1, 2, 0, 4, 5, 6, 5};
 int V = 9;
 // 3, 4, 6, 5,
 ```
+而此排序的順序也不唯一，因為進入的點有可能個數一樣，此時若換成 dfs 則會有不同的結果。
+#### 2. [topo sort dfs](https://www.geeksforgeeks.org/all-topological-sorts-of-a-directed-acyclic-graph/)
+同樣的，一樣不顯示與圖不相連的點
+```cpp
+#include <vector>
+#include <stack>
+#include <iostream>
+using namespace std;
+
+// Function to perform DFS and topological sorting
+void topologicalSortUtil(int v, vector<vector<int> >& adj,
+                         vector<bool>& visited,
+                         stack<int>& st) {
+    visited[v] = true;
+    for (int i : adj[v]) {
+        if (!visited[i])
+            topologicalSortUtil(i, adj, visited, st);
+    }
+    st.push(v);
+}
+
+
+int main() {
+    vector<int> a = {0, 0, 1, 1, 2, 3, 3, 4, 6};
+    vector<int> b = {1, 2, 2, 3, 4, 4, 5, 6, 5};
+    int V = 9;
+    vector<vector<int>> adj(V);
+    for (int i = 0; i < a.size(); i++)
+        adj[a[i]].push_back(b[i]);
+        // adj list
+    vector<int> indegree(V), outdegree(V);
+    for (int i = 0; i < V; i++) {
+        for (int it : adj[i]) {
+            indegree[it]++;
+            // 從 adj[i] 進入某點
+        }
+        outdegree[i] = adj[i].size();
+        // 從 adj[i] 出去
+    }
+    stack<int> st; // st to store the result
+    vector<bool> visited(V, false);
+
+    // Call the recursive helper function to store
+    // Topological Sort starting from all vertices one by
+    // one
+    for (int i = 0; i < V; i++) {
+        if (!visited[i])
+            topologicalSortUtil(i, adj, visited, st);
+    }
+
+    // Print contents of st
+    while (!st.empty()) {
+        if (indegree[st.top()] || outdegree[st.top()])
+            cout << st.top() << " ";
+        st.pop();
+    }
+    return 0;
+}
+// 0 1 3 2 4 6 5
+```
+可以看到 2, 3 順序交換了，因為走訪的方式不同。
