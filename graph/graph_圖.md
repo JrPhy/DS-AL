@@ -123,17 +123,15 @@ int main() {
     vector<int> b = {1, 2, 2, 3, 4, 4, 5, 6, 5};
     int V = 9;
     vector<vector<int>> adj(V);
-
-    for (int i = 0; i < a.size(); i++)
-        adj[a[i]].push_back(b[i]);
-        // adj list
-        
     vector<int> indegree(V), outdegree(V);
+
+    for (int i = 0; i < a.size(); i++) {
+        adj[a[i]].push_back(b[i]);
+        indegree[b[i]]++;
+        // adj list
+    }
+        
     for (int i = 0; i < V; i++) {
-        for (int it : adj[i]) {
-            indegree[it]++;
-            // 從 adj[i] 進入某點
-        }
         outdegree[i] = adj[i].size();
         // 從 adj[i] 出去
     }
@@ -150,10 +148,8 @@ int main() {
         cout << node << ", ";
         // 減少進入的次數做排序。
         for (int it : adj[node]) {
-            indegree[it]--;
-
-            // If indegree becomes 0, push it to the queue
-            if (indegree[it] == 0)
+            // indegree[it] 為零，表示進入的次數沒其他節點多
+            if (--indegree[it] == 0)
                 q.push(it);
         }
     }
@@ -195,15 +191,13 @@ int main() {
     vector<int> b = {1, 2, 2, 3, 4, 4, 5, 6, 5};
     int V = 9;
     vector<vector<int>> adj(V);
-    for (int i = 0; i < a.size(); i++)
-        adj[a[i]].push_back(b[i]);
-        // adj list
     vector<int> indegree(V), outdegree(V);
+    for (int i = 0; i < a.size(); i++) {
+        adj[a[i]].push_back(b[i]);
+        indegree[b[i]]++;
+        // adj list
+    }
     for (int i = 0; i < V; i++) {
-        for (int it : adj[i]) {
-            indegree[it]++;
-            // 從 adj[i] 進入某點
-        }
         outdegree[i] = adj[i].size();
         // 從 adj[i] 出去
     }
