@@ -33,19 +33,19 @@ void inorder(node *root)
 node *search(node *root, int key)
 {
     node *current = root;
-    while(current != NULL && key != current->data)
+    while(current && key != current->data)
     {
         if(key > current->data) current = current->right; //若比較大則往右走
         else current = current->left;                 //否則往左走
     }
-    if(current != NULL) return current;
+    if(current) return current;
     else return NULL;
 }
 
 void insert(node **root, int value)
 {
     node *current = *root, *prevNode = NULL;
-    while(current != NULL)
+    while(current)
     {
         prevNode = current;
         if(prevNode->data > value && value > current->data) break;
@@ -55,7 +55,7 @@ void insert(node **root, int value)
         else current  = current->left;                       //否則往左走
     }
 
-    if(prevNode == NULL) prevNode = newNode(value);
+    if(!prevNode) prevNode = newNode(value);
     else if (value < prevNode->data)
     {
         prevNode->left = newNode(value);
@@ -85,30 +85,30 @@ void deleteNode(node **root, int value)
     }
     printf("\n%d\n", current->data);
 
-    if(current->left == NULL && current->right == NULL)
+    if(!current->left && !current->right)
     {
         if (prevNode->left == current)  prevNode->left = NULL;
         else prevNode->right = NULL;
         free(current);
     }
-    else if(current->left != NULL && current->right != NULL)
+    else if(current->left && current->right)
     {
         node *tempNode = current->right, *prevTemp = NULL;
-        while(tempNode->left != NULL)
+        while(tempNode->left)
         {
             prevTemp = tempNode;
             tempNode = tempNode->left;
         }
-        if (prevTemp != NULL) prevTemp->left = tempNode->right;
+        if (prevTemp) prevTemp->left = tempNode->right;
         else current->right = tempNode->right;
         current->data = tempNode->data;
         free(tempNode);
     }
     else
     {
-        if (prevNode == NULL)
+        if (!prevNode)
         {
-            if(current->right != NULL) 
+            if(current->right) 
             {
                 (*root)->data = current->right->data;
                 (*root)->right = NULL;
@@ -123,12 +123,12 @@ void deleteNode(node **root, int value)
         {
             if (prevNode->data > current->data)
             {
-                if (current->left != NULL) prevNode->left = current->left;
+                if (current->left) prevNode->left = current->left;
                 else prevNode->left = current->right;
             }
             else
             {
-                if (current->left != NULL) prevNode->right = current->left;
+                if (current->left) prevNode->right = current->left;
                 else prevNode->right = current->right;
             }
         }
@@ -155,16 +155,5 @@ int main()
     printf("\n");
     deleteNode(&root, 15);
     inorder(root);
-    /*
-    node *root1_left = newNode(1);
-    node *root1_right = newNode(5);
-    node *root2_left = newNode(3);
-    node *root2_right = newNode(2);
-
-    root->left = root1_left;
-    root->right = root1_right;
-    root1_left->left = root2_left;
-    root1_right->right = root2_right;
-    */
     return 0;
 }
