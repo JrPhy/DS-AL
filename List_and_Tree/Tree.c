@@ -11,7 +11,7 @@ typedef struct _node
 node* newNode(int value)
 {
     node *tmpNode = (node*) malloc(sizeof(node));
-    if(tmpNode!=NULL)
+    if(tmpNode)
     {
         tmpNode->data = value;
         tmpNode->left = NULL;
@@ -23,9 +23,9 @@ node* newNode(int value)
 void inorder(node *root)
 {
     printf("%d, ", root->data);
-    if (root->left != NULL)  //若其中一側的子樹非空則會讀取其子樹
+    if (root->left)  //若其中一側的子樹非空則會讀取其子樹
         inorder(root->left);
-    if (root->right != NULL) //另一側的子樹也做相同事
+    if (root->right) //另一側的子樹也做相同事
         inorder(root->right);
 
 }
@@ -80,8 +80,8 @@ void deleteNode(node **root, int value)
         if(current->data > value && value > prevNode->data) break;
         //當要插入的值介於兩節點之間就跳脫迴圈
         if(value > current->data)  current = current->right; //若比較大則往右走
-        else current  = current->left;                       //否則往左走
-        if(current == NULL) return;                          //表示此樹中沒有要刪除的值
+        else current = current->left;                       //否則往左走
+        if(!current) return;                          //表示此樹中沒有要刪除的值
     }
     printf("\n%d\n", current->data);
 
