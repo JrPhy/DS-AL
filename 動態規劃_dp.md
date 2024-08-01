@@ -35,7 +35,7 @@ int main()
     return 0;
 }
 ```
-在此我們將計算出的結果放在 f1 裡面，然後再一直更新，如此一來只需要多花三個 int，空間複雜度為 O(1)，而且也只要用一個迴圈即可算出，時間複雜度為 O(n)，在空間與時間都有很大的優化。而這種方法稱為 Bottom-up 或是 memorize 的方法。\
+在此我們將計算出的結果放在 f1 裡面，然後再一直更新，如此一來只需要多花三個 int，空間複雜度為 O(1)，而且也只要用一個迴圈即可算出，時間複雜度為 O(n)，在空間與時間都有很大的優化。而這種方法稱為 Bottom-up 或是 memorize 的方法。
 
 ## 2. 計算 bit 數
 一般動態規劃的問題難就難在要找出遞迴關係式，例如 [leetcode 338. Counting Bits](https://leetcode.com/problems/counting-bits/description/)，最直接的解法就是每個都找出來然後在加起來
@@ -50,4 +50,6 @@ int main()
 ```cpp
 ans[i] = ans[i >> 1] + (i & 1);
 ```
-其中 i>>1 在電腦中為 /2 的意思，i & 1 為判斷 i mod 2 的意思。
+其中 i>>1 在電腦中為 /2 的意思，i & 1 為判斷 i mod 2 的意思。此種解法也為 Bottom-up 或是 memorize 的方法。
+
+## 3. quicksort 和 mergesort
