@@ -2,7 +2,7 @@
 
 ## 1. 費氏數列
 費氏數列是一個任何程式設計都會教到的部分，是一個遞回程式的好例子，且數學表達氏通常也在中學學到\
-F<sub>n-2</sub> = F<sub>n-1</sub> + F<sub>n-0</sub>, F<sub>0</sub> = F<sub>1</sub> = 1\
+F<sub>n-2</sub> = F<sub>n-1</sub> + F<sub>n-0</sub>, F<sub>0</sub> = F<sub>1</sub> = 1
 ```cpp
 #include <stdio.h>
 int f(int n) {
@@ -35,4 +35,5 @@ int main()
     return 0;
 }
 ```
-在此我們將計算出的結果放在 f1 裡面，然後再一直更新，如此一來只需要多花三個 int，空間複雜度為 O(1)，而且也只要用一個迴圈即可算出，時間複雜度為 O(n)。在空間與時間都有很大的優化
+在此我們將計算出的結果放在 f1 裡面，然後再一直更新，如此一來只需要多花三個 int，空間複雜度為 O(1)，而且也只要用一個迴圈即可算出，時間複雜度為 O(n)，在空間與時間都有很大的優化。而這種方法稱為 Bottom-up 或是 memorize 的方法。\
+不過一般動態規劃的問題難就難在要找出遞迴關係式，例如 [leetcode 338. Counting Bits](https://leetcode.com/problems/counting-bits/description/)，
