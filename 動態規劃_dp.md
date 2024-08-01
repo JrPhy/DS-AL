@@ -36,7 +36,9 @@ int main()
 }
 ```
 在此我們將計算出的結果放在 f1 裡面，然後再一直更新，如此一來只需要多花三個 int，空間複雜度為 O(1)，而且也只要用一個迴圈即可算出，時間複雜度為 O(n)，在空間與時間都有很大的優化。而這種方法稱為 Bottom-up 或是 memorize 的方法。\
-不過一般動態規劃的問題難就難在要找出遞迴關係式，例如 [leetcode 338. Counting Bits](https://leetcode.com/problems/counting-bits/description/)，最直接的解法就是每個都找出來然後在加起來
+
+## 2. 計算 bit 數
+一般動態規劃的問題難就難在要找出遞迴關係式，例如 [leetcode 338. Counting Bits](https://leetcode.com/problems/counting-bits/description/)，最直接的解法就是每個都找出來然後在加起來
 |   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | binary | 0 | 01 | 10 | 11 | 100 | 101 | 110 | 111 | 1000 |
