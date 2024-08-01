@@ -43,7 +43,27 @@ void mergeSort(int a[], int length)
     }
 }
 ```
-
+從遞迴寫法可以更容易地看出合併的特點。
+```cpp
+void merge(int nums[], int head, int r1, int l2, int tail, int temp[]){
+    int index = 0, startl = head;
+    while(head <= r1 && l2 <= tail){
+        if(nums[head] < nums[l2]) temp[index++] = nums[head++]; 
+        else temp[index++] = nums[l2++];
+    }
+    while(head <= r1) temp[index++] = nums[head++];
+    while(l2 <= tail) temp[index++] = nums[l2++]; 
+    for(int i = 0; i<index; i++) nums[startl+i] = temp[i];
+}
+void mergeSort(int nums[], int head, int tail){
+    int temp[tail-head+1];
+    if(head >= tail) return;
+    int mid = head + (tail - head) / 2; 
+    mergeSort(nums, head, mid, temp);
+    mergeSort(nums, mid + 1, tail, temp);
+    merge(nums, head, mid, mid+1, tail, temp);
+}
+```
 ## 2. 快速排序法 Quick Sort
 不同於合併排序，快速排序法並不一定會將資料等分，而是在取陣列中的某個值(pivot)當作二元樹的 root，接著若比 root 大就放右邊，反之放左邊。所以在最差的情況，也就是要將資料升序排列，但資料已經以降序的方式排列好了，需要 O(n<sup>2</sup>) 的時間複雜度。而平均情況下則是需要 O(nlog<sub>2</sub>n)。\
 如同上面所提到的，因為是在資料中任選一個值，並利用一個相同長度的陣列存放，所以皆需要 Θ(n) 的額外記憶體空間。\
@@ -96,7 +116,25 @@ void quickSort(int a[], int length) {
 }
 ```
 由上面的合併排序和快速排序看下來，兩者都是用 Divide and Conquer 方法來實現，只是合併排序注重的是合併資料，而快速排序注重的是分割資料。然而在 C 的標準函示庫中也有 qsort，使用方式請參考 [模擬泛型函數](https://github.com/JrPhy/C_tutorial/blob/main/CH5-%E6%8C%87%E6%A8%99%E8%88%87%E5%AD%97%E4%B8%B2.md#5-%E6%A8%A1%E6%93%AC%E6%B3%9B%E5%9E%8B%E5%87%BD%E6%95%B8)
+同樣的，用遞迴寫法更容易看出做分割
+```cpp
+void quickSort(vector<int> &nums, int s, int e){
+    if (s >= e) return;
 
+    int i = s, j = s;
+    int p = rand() % (e - s + 1) + s;
+    swap (nums[e], nums[p]);
+    int pivot = nums[e];
+
+    while (j < e){
+        if (nums[j] <= pivot) swap(nums[i++], nums[j]);
+        j++;
+    }
+    swap(nums[i],nums[e]);
+    quickSort(nums, s, i-1);
+    quickSort(nums, i+1, e);
+}
+```
 ## 3. 堆積排序法 Heap Sort
 不同於前面兩種排序法，堆積排序是利用[完全二元樹](https://github.com/JrPhy/DS-AL/blob/master/Tree-%E4%BA%8C%E5%85%83%E6%A8%B9.md#2-%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%85%83%E6%A8%B9-complete-binary-tree)，將陣列轉化成堆積(Heap)的概念來做排序。若為升序則稱最大堆積，降序則稱最小堆積，在此以升序排列為例。根節點為最大值且任一父節點的直皆大於子節點。\
 在陣列中第一個位置(index = 0)為根，父節點 i 的左子節點在位置 2i+1，右子節點在位置 2i+2，子節點i的父節點在位置 floor((i-1)/2)，用此方式模擬樹狀結構。從根出發，在樹中比較每個子樹的父節點與子節點，將子樹中最小的值放到父節點，最大的值放在右子節點，並從最下面、最右邊的子樹開始，依序往左再往上，直到每個節點的葉子即完成排序，圖中每一個紅框為一個子樹。
