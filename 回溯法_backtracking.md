@@ -31,7 +31,7 @@ int main()
     return 0;
 }
 ```
-像此種方法較常拿來作排列組合的問題，如[77. Combinations](https://leetcode.com/problems/combinations/description/)。做組合時，會先任一取一個，然後再從剩下的去取，接著重複去做，直到列出所有可能為止。
+像此種方法較常拿來作排列組合的問題，如[77. Combinations](https://leetcode.com/problems/combinations/description/)。做組合時，會先任意取一個，然後再從剩下的去取，接著重複去做，直到列出所有可能為止。
 ```cpp
 #include <vector>
 #include <iostream>
@@ -103,13 +103,14 @@ for (int i = 0; i < 4; ++i) {
 
 ## 2. 回溯法樣板
 看得出來回溯法就是利用遞迴來實作，主要要有一個停止條件，與一直往下做的迴圈
-```
+```c
+    // 停止條件
     if (isSolution(state)) {
         for (int i = 0; i < numRes; i++) result[i] = res[i];
         return;
     }
 ```
-```
+```c
 void backtracking(int state[], int choices[], int res[], int numChoices, int numRes) {
     // 停止條件
     for (int i = 0; i < numChoices; i++) {
