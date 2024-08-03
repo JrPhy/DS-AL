@@ -1,12 +1,13 @@
 ## 1. map 與 set 的異同
-在 C++ STL 中，有兩個使用 RBTree 的資料結構，分別為 map 與 set，而 unorder_map 與 hash_set 則是用 hash map 實作。所以 map 與 set 為有序的資料結構，而 unorder_map 與 hash_set 則是無序的。在實際情況下，若是需要對資料做頻繁的修改，那使用 unorder_map 比較實在，若是需要排序過的資料，則 map 比較適當。
+在 C++ STL 中，有兩個使用 RBTree 的資料結構，分別為 map 與 set，而 unordered_map 與 hash_set 則是用 hash map 實作。所以 map 與 set 為有序的資料結構，而 unordered_map 與 hash_set 則是無序的。在實際情況下，若是需要對資料做頻繁的修改，那使用 unordered_map 比較實在，若是需要排序過的資料，則 map 比較適當。
 
-|  | map | set |
-| --- | --- | --- |
-| 實作 | RBTree | RBTree |
-| 排序 | 已排序 | 已排序 |
-| key | 不可重複，無法修改 | 不可重複，無法修改 |
-| value | 與 key 不同，可修改 | 與 key 相同，無法修改 |
+|  | map | set | unordered_map |
+| --- | --- | --- | --- |
+| 實作 | RBTree | RBTree | array+list |
+| 排序 | 已排序 | 已排序 | 未排序 |
+| key | 不可重複，無法修改 | 不可重複，無法修改 | 可重複，無法修改 |
+| value | 與 key 不同，可修改 | 與 key 相同，無法修改 | 與 key 不同，可修改 |
+| TC | O(logn) | O(logn) | O(1)~O(n) |
 
 ## 1. map 使用
 ```cpp 
