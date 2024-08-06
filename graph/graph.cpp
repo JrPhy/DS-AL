@@ -198,6 +198,45 @@ public:
         for (int i = 0; i < V; ++i)
             printf("%d \t\t %d\n", i, dist[i]);
     }
+    void BellmanFord(int src) {
+    	// Initialize distance of all vertices as infinite.
+    	int dis[V];
+    	for (int i = 0; i < V; i++)
+    		dis[i] = INT_MAX;
+    
+    	// initialize distance of source as 0
+    	dis[src] = 0;
+    
+    	// Relax all edges |V| - 1 times. A simple
+    	// shortest path from src to any other
+    	// vertex can have at-most |V| - 1 edges
+    	for (int i = 0; i < V - 1; i++) {
+            for (auto edge : edgelist) { 
+                int w = edge[0]; 
+                int x = edge[1]; 
+                int y = edge[2];
+    			if (dis[x] != INT_MAX && dis[x] + w < dis[y])
+    				dis[y] = dis[x] + w;
+    		}
+    	}
+    
+    	// check for negative-weight cycles.
+    	// The above step guarantees shortest
+    	// distances if graph doesn't contain
+    	// negative weight cycle. If we get a
+    	// shorter path, then there is a cycle.
+    	for (auto edge : edgelist) { 
+            int w = edge[0]; 
+            int x = edge[1]; 
+            int y = edge[2];
+    		if (dis[x] != INT_MAX && dis[x] + w < dis[y])
+    			cout << "Graph contains negative weight cycle"	<< endl;
+    	}
+    
+    	cout << "Vertex Distance from Source" << endl;
+    	for (int i = 0; i < V; i++)
+    		cout << i << "\t\t" << dis[i] << endl;
+    }
 }; 
 
 int main() {
@@ -211,5 +250,7 @@ int main() {
     g.kruskalsMST();
     printf("\n");
     g.shortestPath(0);
+    printf("\n");
+    g.BellmanFord(0);
     return 0;
 }
