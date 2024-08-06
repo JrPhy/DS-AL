@@ -199,14 +199,10 @@ public:
             printf("%d \t\t %d\n", i, dist[i]);
     }
     void BellmanFord(int src) {
-    	// Initialize distance of all vertices as infinite.
-    	int dis[V];
-    	for (int i = 0; i < V; i++)
-    		dis[i] = INT_MAX;
-    
+      	// Initialize distance of all vertices as infinite.
+      	vector<int> dist(V, INT_MAX);
     	// initialize distance of source as 0
-    	dis[src] = 0;
-    
+    	dist[src] = 0;
     	// Relax all edges |V| - 1 times. A simple
     	// shortest path from src to any other
     	// vertex can have at-most |V| - 1 edges
@@ -215,8 +211,8 @@ public:
                 int w = edge[0]; 
                 int x = edge[1]; 
                 int y = edge[2];
-    			if (dis[x] != INT_MAX && dis[x] + w < dis[y])
-    				dis[y] = dis[x] + w;
+    			if (dist[x] != INT_MAX && dist[x] + w < dis[y])
+    				dist[y] = dist[x] + w;
     		}
     	}
     
@@ -229,13 +225,13 @@ public:
             int w = edge[0]; 
             int x = edge[1]; 
             int y = edge[2];
-    		if (dis[x] != INT_MAX && dis[x] + w < dis[y])
+    		if (dis[x] != INT_MAX && dist[x] + w < dis[y])
     			cout << "Graph contains negative weight cycle"	<< endl;
     	}
     
     	cout << "Vertex Distance from Source" << endl;
     	for (int i = 0; i < V; i++)
-    		cout << i << "\t\t" << dis[i] << endl;
+    		cout << i << "\t\t" << dist[i] << endl;
     }
 }; 
 
