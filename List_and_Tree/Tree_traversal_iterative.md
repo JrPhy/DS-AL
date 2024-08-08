@@ -78,15 +78,13 @@ void printLevelOrder(node* root){
     std::queue<node*> q;
     q.push(root);
     while (!q.empty()){
-        node *current = q.front();      // 取出先進 queue 的node
-        q.pop();                          
-        std::cout << current->data << ", ";   // 走訪
-        if (current->left != NULL){    // 若 left 有資料則放進 queue
-            q.push(current->left);
-        }
-        if (current->right != NULL){  // 若 right 有資料則放進 queue
-            q.push(current->right);
-        }
+        node *current = q.front(); q.pop();      
+        // 取出先進 queue 的node
+        std::cout << current->data << ", ";
+        if (current->left) q.push(current->left);
+        // 若 left 有資料則放進 queue
+        if (current->right) q.push(current->right);
+        // 若 right 有資料則放進 queue
     }
 }
 ```
