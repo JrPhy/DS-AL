@@ -156,7 +156,6 @@ public:
     }
     void shortestPath(int src) {
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    
         // Create a vector for distances and initialize all
         // distances as infinite (INF)
         vector<int> dist(V, INT_MAX);
@@ -169,17 +168,7 @@ public:
         /* Looping till priority queue becomes empty (or all
         distances are not finalized) */
         while (!pq.empty()) {
-            // The first vertex in pair is the minimum distance
-            // vertex, extract it from priority queue.
-            // vertex label is stored in second of pair (it
-            // has to be done this way to keep the vertices
-            // sorted distance (distance must be first item
-            // in pair)
-            int u = pq.top().second;
-            pq.pop();
-    
-            // 'i' is used to get all adjacent vertices of a
-            // vertex
+            int u = pq.top().second; pq.pop();
             for (auto edge : edgelist) { 
                 if(edge[1]!=u) continue;
                 int w = edge[0]; 
@@ -199,39 +188,30 @@ public:
             printf("%d \t\t %d\n", i, dist[i]);
     }
     void BellmanFord(int src) {
-      	// Initialize distance of all vertices as infinite.
-      	vector<int> dist(V, INT_MAX);
-    	// initialize distance of source as 0
-    	dist[src] = 0;
-    	// Relax all edges |V| - 1 times. A simple
-    	// shortest path from src to any other
-    	// vertex can have at-most |V| - 1 edges
-    	for (int i = 0; i < V - 1; i++) {
+        vector<int> dist(V, INT_MAX);
+        dist[src] = 0;
+        for (int i = 0; i < V - 1; i++) {
             for (auto edge : edgelist) { 
                 int w = edge[0]; 
                 int x = edge[1]; 
                 int y = edge[2];
-    			if (dist[x] != INT_MAX && dist[x] + w < dis[y])
-    				dist[y] = dist[x] + w;
-    		}
-    	}
+                if (dist[x] != INT_MAX && dist[x] + w < dis[y])
+                    dist[y] = dist[x] + w;
+            }
+        }
     
     	// check for negative-weight cycles.
-    	// The above step guarantees shortest
-    	// distances if graph doesn't contain
-    	// negative weight cycle. If we get a
-    	// shorter path, then there is a cycle.
     	for (auto edge : edgelist) { 
-            int w = edge[0]; 
-            int x = edge[1]; 
-            int y = edge[2];
-    		if (dis[x] != INT_MAX && dist[x] + w < dis[y])
-    			cout << "Graph contains negative weight cycle"	<< endl;
-    	}
+        int w = edge[0]; 
+        int x = edge[1]; 
+        int y = edge[2];
+            if (dis[x] != INT_MAX && dist[x] + w < dis[y])
+                cout << "Graph contains negative weight cycle"	<< endl;
+        }
     
-    	cout << "Vertex Distance from Source" << endl;
-    	for (int i = 0; i < V; i++)
-    		cout << i << "\t\t" << dist[i] << endl;
+        cout << "Vertex Distance from Source" << endl;
+        for (int i = 0; i < V; i++)
+            cout << i << "\t\t" << dist[i] << endl;
     }
 }; 
 
