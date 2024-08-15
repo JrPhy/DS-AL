@@ -75,3 +75,4 @@ void A_start(int x0, int y0, int x1, int y1)
 當機器人在行走時會去一直計算 PROCESS_STATE()，有新的障礙物時就會去計算 MODIFY_COST()，如果新的 w* 比較小就更新。
 
 https://qiao.github.io/PathFinding.js/visual/
+https://typeset.io/pdf/the-delayed-d-algorithm-for-efficient-path-replanning-wazkipik70.pdf
