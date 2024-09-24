@@ -45,23 +45,27 @@ void mergeSort(int a[], int length)
 ```
 從遞迴寫法可以更容易地看出合併的特點。
 ```cpp
-void merge(int nums[], int head, int r1, int l2, int tail, int temp[]){
-    int index = 0, startl = head;
-    while(head <= r1 && l2 <= tail){
-        if(nums[head] < nums[l2]) temp[index++] = nums[head++]; 
-        else temp[index++] = nums[l2++];
+void merge(vector<int> &arr, int low, int mid, int high) {
+    vector<int> res(high - low + 1);
+    int i = low, j = mid + 1, k = 0;
+    while(i <= mid && j <= high) {
+        if(arr[i] <= arr[j]) res[k++] = arr[i++];
+        else res[k++] = arr[j++];
     }
-    while(head <= r1) temp[index++] = nums[head++];
-    while(l2 <= tail) temp[index++] = nums[l2++]; 
-    for(int i = 0; i<index; i++) nums[startl+i] = temp[i];
+    while(i <= mid) res[k++] = arr[i++];
+    while(j <= high) res[k++] = arr[j++];
+    for(int x = 0; x < res.size(); x++) {
+        arr[low + x] = res[x];
+    }
 }
-void mergeSort(int nums[], int head, int tail){
-    int temp[tail-head+1];
-    if(head >= tail) return;
-    int mid = head + (tail - head) / 2; 
-    mergeSort(nums, head, mid, temp);
-    mergeSort(nums, mid + 1, tail, temp);
-    merge(nums, head, mid, mid+1, tail, temp);
+
+void mergeSort(vector<int> &arr, int low, int high) {
+    if(low < high) {
+        int mid = low + (high - low) / 2;
+        mergeSort(arr, low, mid);
+        mergeSort(arr, mid + 1, high);
+        merge(arr, low, mid, high);
+    }
 }
 ```
 ## 2. 快速排序法 Quick Sort
