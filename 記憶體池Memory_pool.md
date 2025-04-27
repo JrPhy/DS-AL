@@ -226,4 +226,5 @@ void pool_free(MemoryPool* mp, void* block) {
 | 缺點 | 開銷較高 | 程式碼較複雜 |
 | 缺點 | 可能有死鎖 | 不適合複雜的臨界區 |
 | 缺點 |  | 可能導致忙等待 |
+
 主要在於臨界區是否複雜，若不複雜則使用 atomic，反之則用 mutex
