@@ -2,9 +2,8 @@
 #include <queue>
 // A Binary Tree Node
 typedef struct _node {
-    struct _node* left;
+    struct _node* left, right;
     int data;
-    struct _node* right;
 }node;
 
 // Iterative method to do level order traversal
@@ -13,15 +12,11 @@ void printLevelOrder(node* root){
     std::queue<node*> q;
     q.push(root);
     while (!q.empty()){
-        node *current = q.front();      // 取出先進入queue的node
+        node *current = q.front();// 取出先進入queue的node
         q.pop();                          
         std::cout << current->data << ", ";   // 走訪
-        if (current->left != NULL){    // 若 left 有資料則放進queue
-            q.push(current->left);
-        }
-        if (current->right != NULL){  // 若 right 有資料則放進queue
-            q.push(current->right);
-        }
+        if (current->left) q.push(current->left);
+        if (current->right) q.push(current->right);
     }
 }
 
