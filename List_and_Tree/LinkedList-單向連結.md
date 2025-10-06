@@ -6,25 +6,21 @@ Linked List 的結構為許多的成員與勾環，此鉤環是與其他 list �
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct _node
-{
+typedef struct _node {
     int data;
     struct _node *next;
 }node;
 
-node* newNode(int value)
-{
+node* newNode(int value) {
     node *tmpNode = malloc(sizeof(node));
-    if(tmpNode!=NULL) 
-    {
+    if(tmpNode) {
         tmpNode->data = value;
         tmpNode->next = NULL;
     }
     return tmpNode;
 }
 
-int main()
-{
+int main() {
     /* Initialize nodes */
     node *one = newNode(1);
     node *two = newNode(2);
@@ -42,10 +38,8 @@ int main()
 ## 2. 印出 list 中的資料
 因為 list 的最後一個是指向 NULL，故當傳入一個 node 的結構指標，只要指標不為 NULL，就都印出來，印出來後指向下一個。
 ```C
-void printList(node *list)
-{
-    while(list != NULL)
-    {
+void printList(node *list) {
+    while(list) {
         printf("%d ", list->data);
         list = list->next;
     }
@@ -57,11 +51,9 @@ void printList(node *list)
 ## 3. 計算 list 長度
 使用方式與印出 list 中所有元素並無不同。
 ```C
-int lenOfList(node *list)
-{
+int lenOfList(node *list) {
     int length = 0;
-    while(list != NULL)
-    {
+    while(list) {
         ++length;
         list = list->next;
     }
@@ -73,8 +65,7 @@ int lenOfList(node *list)
 #### 1. 在首插入
 若有一個資料想放在 list 首，就先在裡面開一個新的 node 指標 newNode，將 data 放進去後，newNode 裡面的 next 指向原本的頭，最後再將 list 指向 newNode 即可。
 ```C
-void insertNode(node **list, int value)
-{
+void insertNode(node **list, int value) {
     node *new_node = newNode(value);
     new_node->next = *list;
     *list = new_node;
@@ -85,11 +76,10 @@ void insertNode(node **list, int value)
 #### 2. 在尾插入
 大部分的步驟一樣，只不過 newNode 最後要指向 NULL，然後另外開一個指標 temp 指向 list，找到目前存在 list 中最後一項物件，再把 temp 指向 newNode 即可。
 ```C
-void insertNode(node **list, int value)
-{
+void insertNode(node **list, int value) {
     node *new_node = newNode(value);
     node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
-    while(temp->next != NULL) temp = temp->next;  //會一直指向後面的 node 直到最後一個
+    while(temp->next) temp = temp->next;  //會一直指向後面的 node 直到最後一個
     temp->next = new_node;
 }
 ```
@@ -97,10 +87,9 @@ void insertNode(node **list, int value)
 #### 3. 在其他地方插入 
 大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。在此是在第 n 個 node 後面插入，所以是將新的 node 插入在第 n+1 個 node。
 ```C
-void insertNode(node **list, int value, int position)
-{
+void insertNode(node **list, int value, int position) {
     node *new_node = newNode(value);
-    for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
+    for(int i = 1; i < position; i++) if(temp->next) temp = temp->next;
     new_node->next = temp->next;
     temp->next = new_node;
 }
@@ -112,8 +101,7 @@ void insertNode(node **list, int value, int position)
 #### 1. 刪除首位資料
 同樣的先開一個指標 temp 來指向 list 的第一個位置，因為是要將首位資料刪除，所以再把 list 指向 temp 的 next，此時 list 就是到了第二個位置，接著再free(temp)即可。
 ```C
-void deleteNode(node **list, int position) 
-{
+void deleteNode(node **list, int position) {
     node *temp = *list;
     *list = temp->next;
     free(temp);
@@ -123,13 +111,12 @@ void deleteNode(node **list, int position)
 #### 2. 刪除其餘資料
 刪除其他位置的節點需要開兩個指標，一個去存取 list 的頭，另一個則是把倒數第二個的節點存下來，將最後一個節點 free 調，並把原先倒數第二的 next 指向 NULL 即可。
 ```C
-void deleteNode(node **list, int position)
-{
+void deleteNode(node **list, int position) {
     int length = lenOfList(*list);
     //在此先計算 list 長度，若欲刪除之位置大於長度，則直接刪除最後一個
-    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    for (int i = 0; temp && i < position - 1; ++i) temp = temp->next;
     //找到要刪除的位置的前一個
-    if (temp == NULL || temp->next == NULL) return;
+    if (!temp || !temp->next) return;
     //如果在第二個位置就已經是 NULL 了則直接回傳，代表 list 長度為 1。
     node *nodeToBeDel = temp->next;
     //將找到的位置的前一個另外開一個指標存下來
@@ -149,11 +136,9 @@ list 反轉需要另外開三個 node 才能完成，current 是要做移動，n
 * 4. 接著重複以上三步驟直到最後一個為止
 結束以上步驟後將 list 分配給 prev 即可。
 ```C
-void reverse(node **list)
-{
+void reverse(node **list) {
     node *prevNode = NULL, *current = *list, *nextNode = NULL;
-    while (current != NULL) 
-    {
+    while (current) {
         nextNode = current->next;
         current->next = prevNode;
         prevNode = current;
