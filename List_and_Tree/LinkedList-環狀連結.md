@@ -5,25 +5,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct _node
-{
+typedef struct _node {
     int data;
     struct _node *next;
 }node;
 
-node* newNode(int value)
-{
+node* newNode(int value) {
     node *tmpNode = malloc(sizeof(node));
-    if(tmpNode!=NULL) 
-    {
+    if(tmpNode) {
         tmpNode->data = value;
         tmpNode->next = NULL;
     }
     return tmpNode;
 }
 
-int main()
-{
+int main() {
     /* Initialize nodes */
     node *one = newNode(1);
     node *two = newNode(2);
@@ -41,13 +37,11 @@ int main()
 ## 2. 印出 list 中的資料
 因為 list 的最後一個是指向 head，所以結束條件就是 list != head，但是因為一開始是從 head 進入，所以我們可以選擇先將第一個節點印出並讓 list 指向第二個，最後當 lise == head 即結束迴圈。
 ```C
-void printList(node *list)
-{
+void printList(node *list) {
     node *ptr = list;
     printf("%d->", list->data);
     list = list->next;
-    while(list != ptr)
-    {
+    while(list) {
         printf("%d->", list->data);
         list = list->next;
     }
@@ -58,13 +52,11 @@ void printList(node *list)
 ## 3. 計算 list 長度
 使用方式與印出 list 中所有元素並無不同。
 ```C
-int lenOfList(node *list)
-{
+int lenOfList(node *list) {
     int length = 1;
     node *ptr = list;
     list = list->next;
-    while(list != ptr)
-    {
+    while(list) {
         ++length;
         list = list->next;
     }
@@ -75,12 +67,11 @@ int lenOfList(node *list)
 #### 1. 在首插入
 若有一個資料想放在 list 首，因為頭尾是連接的，所以若是要將新的 node 當作頭，則必須要再找到最後一個 node 將其接上。
 ```C
-void insertHead(node **list, int value)
-{
+void insertHead(node **list, int value) {
     node *new_node = newNode(value);
     node *temp = *list;
     node *ptr = *list;
-    while(temp->next != ptr) temp = temp->next;//此迴圈是移動到末節點
+    while(temp->next) temp = temp->next;//此迴圈是移動到末節點
 
     temp->next = new_node; //將末節點與新的頭節點接上
     new_node->next = *list;//新的首節點接上原本的 list
@@ -90,13 +81,12 @@ void insertHead(node **list, int value)
 #### 2. 在其餘地方插入
 因為是環狀鏈結，所以可以看成一個無限長的單向鏈結，所以在尾插入與在其他地方插入是一樣的做法。
 ```C
-void insert(node **list, int value, int position)
-{
+void insert(node **list, int value, int position) {
     node *new_node = newNode(value);
     node *temp = *list;
     int length = lenOfList(*list)
     if(position >= length)position = position%length;
-    for(int i = 0; i < position; i++) if(temp->next != NULL) temp = temp->next;
+    for(int i = 0; i < position; i++) if(temp->next) temp = temp->next;
     new_node->next = temp->next;
     temp->next = new_node;
 }
@@ -106,8 +96,7 @@ void insert(node **list, int value, int position)
 #### 1. 刪除首位資料
 因為頭尾是連接的，所以要將原本的末節點接到第二個節點。
 ```C
-void deleteNode(node **list, int position)
-{
+void deleteNode(node **list, int position) {
     node *temp = *list;
     node *ptr = *list;
     while(temp->next != *list) temp = temp->next;
@@ -120,8 +109,7 @@ void deleteNode(node **list, int position)
 #### 2. 刪除其餘位置
 因為是環狀鏈結，所以可以看成一個無限長的單向鏈結，所以刪除末節點與在刪除其他節點是一樣的做法。
 ```C
-void deleteNode(node **list, int position)
-{
+void deleteNode(node **list, int position) {
     node *temp = *list;
     int length = lenOfList(*list);
     if(position >= length) position = position%length;
@@ -135,11 +123,9 @@ void deleteNode(node **list, int position)
 ## 6. list 反轉
 在此與單向鏈結差不多，只是最後要再讓原本的頭指向尾即可。
 ```C
-void reverse(node **list)
-{
+void reverse(node **list) {
     node *prevNode = *list, *current = *list, *nextNode = NULL;
-    while (nextNode != *list)
-    {
+    while (nextNode)     {
         nextNode = current->next;
         current->next = prevNode;
         prevNode = current;
@@ -165,47 +151,38 @@ void reverse(node **list)
 #### 3. 計算環的起點
 假設環的長度為 n，起點到環的入口長度為 m，第一次相遇距環的入口為 k。已知快指標速度是慢指標的兩倍，設快指標第二次到**相遇**點時，快指標共走了 m + (n-k) + 2k 步，慢指標共走 m + k 步，又 2(m+k) = m + (n-k) + 2k，可得 m = n - k，即慢指標與快指標第一次相遇後，將快指標指向起點，然後走一次一步，接著慢指標繼續從相遇點往前走，在下一次遇到的點就是環的入口了。
 ```C
-node *hasCycle(node *head)
-{
+node *hasCycle(node *head) {
     int count = 0, cycle = 0;
     node *fast = head, *slow = head, *current = NULL;
 
-    while (fast != NULL && fast->next != NULL)
-    {
+    while (fast && fast->next) {
         //檢測是否有環
-
         fast = fast->next->next;
         slow = slow->next;
-        if(fast == slow)
-        {
+        if(fast == slow)         {
             cycle = 1;
             current = slow;
             break;
         }
-
     }
 
     //若有環，計算環的長度
-    if(cycle == 1)
-    {
+    if(cycle) {
         slow = current->next;
         count = 1;
-        while (slow != current)
-        {
+        while (slow != current) {
             slow = slow->next;
             ++count;
         }
         //若有環，找出進入環的節點
         fast = head;
-        while(fast != current)
-        {
+        while(fast != current) {
             fast = fast->next;
             slow = slow->next;
         }
         slow->data = count;
     }
     else slow = NULL;
-
     return slow;
 }
 ```
