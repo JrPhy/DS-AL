@@ -80,8 +80,7 @@ void deleteNode(node **list, int position) {
 
 void reverse(node **list) {
     node *prevNode = NULL, *current = *list, *nextNode = NULL;
-    while (current != NULL) 
-    {
+    while (current) {
         nextNode = current->next;
         current->next = prevNode;
         prevNode = current;
@@ -121,4 +120,5 @@ int main() {
     
     return 0;
 }
+
 
