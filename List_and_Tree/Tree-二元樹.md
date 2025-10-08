@@ -56,7 +56,7 @@ int main() {
 對於一棵二元樹來說，每往下走一次高度就會 +1，所以只要一直走並走到葉子，那就可以知道這棵樹的高度了
 ```C
 int height(struct TreeNode* node) {
-    if (node) return -1;
+    if (!node) return -1;
     int left_height = height(node->left);
     int right_height = height(node->right);
     return 1 + (left_height > right_height ? left_height : right_height);
