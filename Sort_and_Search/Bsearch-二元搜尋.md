@@ -6,11 +6,9 @@
 利用 a[head] = 1, a[tail] = 9, a[mid] = 5。第一次尋找後 key > a[mid]，則將下一次範圍限定在 {6, 7, 8, 9}，此時 a[head] = 6, a[tail] = 9, a[mid] = 7。所以只找了兩次就找到了。\
 下列使用整數型別陣列示範，因為是用 array，所以若有找到，則直接將 key 的位置傳出來，之後就可以直接取用該位置的值。若沒找到則是 -1。
 ```C
-int bsearch(const int array[], int head, int tail, int key)
-{
+int bsearch(const int array[], int head, int tail, int key) {
     int mid = 0;
-    while(head <= tail)	
-    {
+    while(head <= tail) {
         mid = head + (tail - head)/2;  //之所以不直接寫 (tail + head)/2 是因為可能會溢位造成 mid 變為負數。
         if (key < array[mid]) tail = mid - 1;
         else if (key > array[mid]) head = mid + 1;
