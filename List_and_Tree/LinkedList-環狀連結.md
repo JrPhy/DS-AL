@@ -56,7 +56,7 @@ int lenOfList(node *list) {
     int length = 1;
     node *ptr = list;
     list = list->next;
-    while(list) {
+    while(list != ptr) {
         ++length;
         list = list->next;
     }
@@ -97,10 +97,8 @@ void insert(node **list, int value, int position) {
 因為頭尾是連接的，所以要將原本的末節點接到第二個節點。
 ```C
 void deleteNode(node **list, int position) {
-    node *temp = *list;
-    node *ptr = *list;
+    node *temp = *list, *ptr = *list;
     while(temp->next != *list) temp = temp->next;
-    
     *list = ptr->next;
     temp->next = *list;
     free(ptr);
@@ -125,7 +123,7 @@ void deleteNode(node **list, int position) {
 ```C
 void reverse(node **list) {
     node *prevNode = *list, *current = *list, *nextNode = NULL;
-    while (nextNode)     {
+    while (nextNode) {
         nextNode = current->next;
         current->next = prevNode;
         prevNode = current;
@@ -154,18 +152,16 @@ void reverse(node **list) {
 node *hasCycle(node *head) {
     int count = 0, cycle = 0;
     node *fast = head, *slow = head, *current = NULL;
-
     while (fast && fast->next) {
         //檢測是否有環
         fast = fast->next->next;
         slow = slow->next;
-        if(fast == slow)         {
+        if(fast == slow) {
             cycle = 1;
             current = slow;
             break;
         }
     }
-
     //若有環，計算環的長度
     if(cycle) {
         slow = current->next;
