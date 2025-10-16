@@ -6,18 +6,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct _node
-{
+struct _node {
     int data;
     struct _node *next;
     struct _node *prev;
 }node;
 
-node* newNode(int value)
-{
+node* newNode(int value) {
     node *tmpNode = malloc(sizeof(node));
-    if(tmpNode!=NULL) 
-    {
+    if(tmpNode) {
         tmpNode->data = value;
         tmpNode->next = NULL;
         tmpNode->prev = NULL;
@@ -25,8 +22,7 @@ node* newNode(int value)
     return tmpNode;
 }
 
-int main()
-{
+int main() {
     /* Initialize nodes */
     node *one = newNode(1);
     node *two = newNode(2);
@@ -48,10 +44,8 @@ int main()
 ## 2. 印出 list 中的資料
 雙向連結因為多了一個 prev 所以可以從後面往前印。
 ```C
-void printList(node *list)
-{
-    while(list != NULL)
-    {
+void printList(node *list) {
+    while(list) {
         printf("%d\n", list->data);
         list = list->prev;
     }
@@ -65,8 +59,7 @@ void printList(node *list)
 #### 1. 在首插入
 與單向連結大致上相同，但要記得傳入的 list 中的 prev 要指向 newNode。
 ```C
-void insertHead(node **list, int value)
-{
+void insertHead(node **list, int value) {
     node *new_node = newNode(value);
     (*list)->prev = new_node;
     new_node->next = *list;
@@ -77,11 +70,10 @@ void insertHead(node **list, int value)
 #### 2. 在尾插入
 因為多了一個 prev，所以要記得把 new_node 的 prev 指向 temp。
 ```C
-void insertEnd(struct node **list, int value)
-{
+void insertEnd(struct node **list, int value) {
     node *new_node = newNode(value);
     node *temp = *list;  //因為是一個指標的指標，所以我們要先開一個新的 node 指標指向 list
-    while(temp->next != NULL) temp = temp->next;  //會一直指向後面的 node 直到最後一個
+    while(temp->next) temp = temp->next;  //會一直指向後面的 node 直到最後一個
     temp->next = new_node;
     new_node->prev = temp;
 }
@@ -90,11 +82,10 @@ void insertEnd(struct node **list, int value)
 3. 在其他地方插入
 大部分的步驟一樣，只不過要將第 n 個 node 指向 newNode，newNode 指向第 n+1 個 node，這樣就完成串接了。
 ```C
-void insertMiddle(node **list, int value, int position)
-{
+void insertMiddle(node **list, int value, int position) {
     node *new_node = newNode(value);
     node *temp = *list;
-    for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
+    for(int i = 1; i < position; i++) if(temp->next) temp = temp->next;
     new_node->next = temp->next;
     temp->next = new_node;
     new_node->prev = temp;
@@ -110,13 +101,11 @@ temp->next->prev 是指原本的第 n+1 個 node 的 prev。其中而實作上�
 #### 1. 刪除首位資料
 同樣的先開一個指標 temp 來指向 list 的第一個位置，因為是要將首位資料刪除，所以再把 list 指向 temp 的 next，此時 list 就是到了第二個位置，接著再free(temp)即可。
 ```C
-void deleteNode(node **list, int position) 
-{
+void deleteNode(node **list, int position) {
     if (*list == NULL) return; //如果本身就是空 list 則直接回傳
 
     node *temp = *list;
-    if (position <= 0) 
-    {
+    if (position <= 0) {
         *list = temp->next;
         temp->next->prev = NULL;
         free(temp);
@@ -128,24 +117,20 @@ void deleteNode(node **list, int position)
 #### 2. 刪除其餘資料
 雙向鏈結在此與單向不同的地方在於，如果非最後一個節點，則還需要將被刪除節點的下一個 prev 指向被刪除節點的前一個節點，兩者在行為上有些許不同。
 ```C
-void deleteNode(node **list, int position)
-{
+void deleteNode(node **list, int position) {
     int length = lenOfList(*list);
     if (position >= length) position = length - 1;
     //在此先計算 list 長度，若欲刪除之位置 > 長度，則直接刪除最後一個
-    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    for (int i = 0; temp && i < position - 1; ++i) temp = temp->next;
     //找到要刪除的位置的前一個
-    if (temp == NULL || temp->next == NULL) return;
+    if (!temp || !temp->next) return;
     //如果在第二個位置就已經是 NULL 了則直接回傳，代表 list 長度為 1。
     node *nodeToBeDel = temp->next, *temp2;
     //將找到的位置的前一個另外開一個指標存下來
-    if(nodeToBeDel->next == NULL)
-    {
-        temp->next = nodeToBeDel->next;
-    }
+    if(!nodeToBeDel->next) temp->next = nodeToBeDel->next;
+
     //如果 nodeToBeDel->next 為 NULL，表示此節點為最後一個節點，所以只要把前一個節點的 next 指向 NULL 即可。
-    else
-    {
+    else {
         temp2 = nodeToBeDel->next;
         temp->next = temp2;
         temp2->prev = temp;
@@ -160,11 +145,9 @@ void deleteNode(node **list, int position)
 ## 6. 雙向 list 反轉
 雙向 list 反轉比單向單純，可以想成只是 prev 與 next 做交換而已。
 ```C
-void reverse(node **list)
-{
+void reverse(node **list) {
     node *temp = NULL, *current = *list;
-    while(current != NULL)
-    {
+    while(current) {
         current->prev = current->next;
         current->next = temp;
         temp = current;
