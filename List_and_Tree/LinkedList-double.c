@@ -1,16 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-typedef struct _node
-{
+typedef struct _node {
     int data;
     struct _node *next, *prev;
 }node;
 
-node* newNode(int value)
-{
+node* newNode(int value) {
     node *tmpNode = malloc(sizeof(node));
-    if(tmpNode!=NULL)
-    {
+    if(tmpNode) {
         tmpNode->data = value;
         tmpNode->next = NULL;
         tmpNode->prev = NULL;
@@ -18,18 +15,15 @@ node* newNode(int value)
     return tmpNode;
 }
 
-void printList(node *list)
-{
+void printList(node *list) {
     node *address = list;
-    while(list->next != NULL)
-    {
+    while(list->next) {
         printf("%d->", list->data);
         list = list->next;
     }
     printf("%d\n", list->data);
 
-    while(list->prev != NULL)
-    {
+    while(list->prev) {
         printf("%d->", list->data);
         list = list->prev;
     }
@@ -38,59 +32,50 @@ void printList(node *list)
 
 }
 
-void printListAddress(node *list)
-{
-    while(list != NULL)
-    {
+void printListAddress(node *list) {
+    while(list) {
         printf("%p->", list->prev);
         list = list->next;
     }
     printf("\n");
 }
 
-int lenOfList(node *list)
-{
+int lenOfList(node *list) {
     int length = 0;
-    while(list != NULL)
-    {
+    while(list) {
         ++length;
         list = list->next;
     }
     return length;
 }
 
-void insertNode(node **list, int value, int position)
-{
+void insertNode(node **list, int value, int position) {
     node *temp = *list;
     int length = 0;
-    while(temp != NULL)
-    {
+    while(temp) {
         length += 1;
         temp = temp->next;
     }
     /* insert at the beginning*/
     node *new_node = newNode(value);
-    if(position < 1)
-    {
+    if(position < 1) {
         (*list)->prev = new_node;
         new_node->next = *list;
         *list = new_node;
     }
     /* insert at the beginning*/
     /* insert at the ending*/
-    else if (position >= length + 1)
-    {
+    else if (position >= length + 1) {
         node *temp = *list;
-        while(temp->next != NULL) temp = temp->next;
+        while(temp->next) temp = temp->next;
         temp->next = new_node;
         new_node->prev = temp;
     }
     /* insert at the ending*/
     /* insert at the middle*/
-    else
-    {
+    else {
         node *temp = *list;
-        for(int i = 1; i < position; i++) if(temp->next != NULL) temp = temp->next;
+        for(int i = 1; i < position; i++) if(temp->next) temp = temp->next;
 
         new_node->next = temp->next;
         temp->next = new_node;
@@ -100,37 +85,29 @@ void insertNode(node **list, int value, int position)
     /* insert at the middle*/
 }
 
-void deleteNode(node **list, int position)
-{
-
+void deleteNode(node **list, int position) {
     if (*list == NULL) return;
 
     node *temp = *list;
     int length;
-    if (position <= 0)
-    {
+    if (position <= 0) {
         *list = temp->next;
         temp->next->prev = NULL;
         free(temp);
         return;
     }
-    else
-    {
+    else {
         length = lenOfList(*list);
         if (position >= length) position = length - 1;
     }
 
-    for (int i = 0; temp != NULL && i < position - 1; ++i) temp = temp->next;
+    for (int i = 0; temp && i < position - 1; ++i) temp = temp->next;
 
-    if (temp == NULL || temp->next == NULL) return;
+    if (!temp || !temp->next) return;
 
     node *nodeToBeDel = temp->next, *temp2;
-    if(nodeToBeDel->next == NULL)
-    {
-        temp->next = nodeToBeDel->next;
-    }
-    else
-    {
+    if(!nodeToBeDel->next) temp->next = nodeToBeDel->next;
+    else {
         temp2 = nodeToBeDel->next;
         temp->next = temp2;
         temp2->prev = temp;
@@ -138,11 +115,9 @@ void deleteNode(node **list, int position)
     free(nodeToBeDel);
 }
 
-void reverse(node **list)
-{
+void reverse(node **list) {
     node *temp = NULL, *current = *list;
-    while(current != NULL)
-    {
+    while(current) {
         current->prev = current->next;
         current->next = temp;
         temp = current;
@@ -151,8 +126,7 @@ void reverse(node **list)
     *list = temp;
 }
 
-int main()
-{
+int main() {
     /* Initialize nodes */
     node *one = newNode(1);
     node *two = newNode(2);
@@ -193,3 +167,4 @@ int main()
 
     return 0;
 }
+
