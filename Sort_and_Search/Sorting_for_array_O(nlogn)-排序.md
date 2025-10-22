@@ -14,11 +14,9 @@ void merge(int a[], int head, int mid, int tail)
     for (i = 0; i < n1; i++) L[i] = a[head + i];
     for (j = 0; j < n2; j++) R[j] = a[mid + 1+ j];
     i = 0, j = 0, k = head;
-    while (i < n1 && j < n2)  //此迴圈將兩子陣列的元素倆倆比較並合併進原始陣列
-    {
-        if (L[i] <= R[j]) a[k] = L[i++];
-        else a[k] = R[j++];
-        k++;
+    while (i < n1 && j < n2) { //此迴圈將兩子陣列的元素倆倆比較並合併進原始陣列
+        if (L[i] <= R[j]) a[k++] = L[i++];
+        else a[k++] = R[j++];
     }
     while (i < n1) a[k++] = L[i++];
     //若左陣列較長，則把多餘的元素放在原始陣列最末端
@@ -124,15 +122,12 @@ void quickSort(int a[], int length) {
 ```cpp
 void quickSort(vector<int> &nums, int s, int e){
     if (s >= e) return;
-
     int i = s, j = s;
     int p = rand() % (e - s + 1) + s;
     swap (nums[e], nums[p]);
     int pivot = nums[e];
-
-    while (j < e){
-        if (nums[j] <= pivot) swap(nums[i++], nums[j]);
-        j++;
+    while (j < e) {
+        if (nums[j] <= pivot) swap(nums[i++], nums[j++]);
     }
     swap(nums[i],nums[e]);
     quickSort(nums, s, i-1);
@@ -154,13 +149,11 @@ void swap(int *a, int *b)
     *a = temp;
 }
 
-void heapify(int a[], int head, int tail)   //建立堆用
-{
+void heapify(int a[], int head, int tail) {  //建立堆用
     int dad = head;
     int son = dad * 2 + 1;
-    while (son <= tail)
+    while (son <= tail) {
     // 若子節點指標在範圍內才做比較
-    { 
         if (son + 1 <= tail && a[son] < a[son + 1]) son++;
         // 先比較兩個子節點大小，選擇最大的
         if (a[dad] > a[son]) return;
