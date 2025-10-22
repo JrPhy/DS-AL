@@ -5,8 +5,7 @@
 因為每次合併都需要走訪 n 個元素，而合併需 log<sub>2</sub>n 步，要共需走訪 log<sub>2</sub>n 次，故共為 nlog<sub>2</sub>n 步，故時間複雜度為 O(nlog<sub>2</sub>n)，且因為是倆倆比較，所以不論是何種情況所需的時間複雜度為 O(nlog<sub>2</sub>n)。\
 而在合併的過程中最多需要額外相同長度的記憶體空間，故空間複雜度為 Θ(n)。
 ```C
-void merge(int a[], int head, int mid, int tail) 
-{
+void merge(int a[], int head, int mid, int tail) {
     int i, j, k;
     int n1 = mid - head + 1;
     int n2 = tail - mid;
@@ -26,10 +25,8 @@ void merge(int a[], int head, int mid, int tail)
 
 int min(int x, int y) { return (x < y) ? x : y;}
  
-void mergeSort(int a[], int length)
-{
-    int curr_size;
-    int head; 
+void mergeSort(int a[], int length) {
+    int curr_size, head; 
     for (curr_size = 1; curr_size < length; curr_size = 2*curr_size) {
     //此迴圈用來合併子陣列用
         for (head = 0; head < length - 1; head += 2*curr_size) {
@@ -93,8 +90,7 @@ void quickSort(int a[], int length) {
     //先將整段陣列複製出來，隨後任選一個值當作陣列 pivot 並做分段排序
     stack[++top] = head;
     stack[++top] = tail;
-    while (top >= 0) 
-    {
+    while (top >= 0) {
         tail = stack[top--];
         head = stack[top--];
   
@@ -102,15 +98,13 @@ void quickSort(int a[], int length) {
         int p = partition(a, head, tail);
   
         //將 pivot 左邊的元素從左邊放入 stack
-        if (p - 1 > head) 
-        {
+        if (p - 1 > head) {
             stack[++top] = head;
             stack[++top] = p - 1;
         }
   
         //將 pivot 左邊的元素從右邊放入 stack
-        if (p + 1 < tail) 
-        {
+        if (p + 1 < tail) {
             stack[++top] = p + 1;
             stack[++top] = tail;
         }
@@ -142,8 +136,7 @@ void quickSort(vector<int> &nums, int s, int e){
 然而此堆積方式是利用欲排序的陣列模擬樹狀結構，故不再需要額外的陣列，空間複雜度為 Θ(1)。\
 但是因為陣列中可能會有相同的值，有可能最末的葉子與根的值相同，故為非穩定排序算法。
 ```C
-void swap(int *a, int *b) 
-{
+void swap(int *a, int *b) {
     int temp = *b;
     *b = *a;
     *a = temp;
@@ -158,9 +151,8 @@ void heapify(int a[], int head, int tail) {  //建立堆用
         // 先比較兩個子節點大小，選擇最大的
         if (a[dad] > a[son]) return;
         // 如果父節點大於子節點代表調整完畢，直接跳出函數
-        else
+        else {
         // 否則交換父子內容再繼續子節點和孫節點比較
-        {
             swap(&a[dad], &a[son]);
             dad = son;
             son = dad * 2 + 1;
@@ -168,12 +160,10 @@ void heapify(int a[], int head, int tail) {  //建立堆用
     }
 }
 
-void HeapSort(int a[], int len) 
-{
+void HeapSort(int a[], int len) {
     int i;
     for (i = len / 2 - 1; i >= 0; i--) heapify(a, i, len - 1);  // 建立 heap
-    for (i = len - 1; i > 0; i--) 
-    {
+    for (i = len - 1; i > 0; i--) {
         swap(&a[0], &a[i]);  // 先將第一個元素和已排好元素前一位做交換
         heapify(a, 0, i - 1);  // 再重新調整，直到排序完畢
     }
