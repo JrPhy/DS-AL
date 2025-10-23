@@ -6,18 +6,15 @@
 ```C
 #include <stdio.h>
 #include <stdlib.h>
-typedef struct _queue 
-{
+typedef struct _queue {
     int rear, front, size;
     int capacity;
     int *array;
 }queue;
 
-queue *newQueue(int capacity)
-{
+queue *newQueue(int capacity) {
     queue *new_queue = malloc(sizeof(queue));
-    if(new_queue != NULL)
-    {
+    if(!new_queue) {
         new_queue->capacity = capacity;
         new_queue->rear = 0;
         new_queue->front = 0;
@@ -28,20 +25,16 @@ queue *newQueue(int capacity)
     else return new_queue;
 }
 
-void enqueue(queue *buffer, int data)
-{
-    if (buffer->front < buffer->capacity) 
-    {
+void enqueue(queue *buffer, int data) {
+    if (buffer->front < buffer->capacity)      {
         buffer->array[buffer->front] = data;
         ++buffer->front;
     }
     else printf("queue is full");
 }
 
-int dequeue(queue *buffer)
-{
-    if (buffer->front > 0)
-    {
+int dequeue(queue *buffer) {
+    if (buffer->front > 0) {
         int _dequeue = buffer->array[0];
         --buffer->front;
         for(int i = 0; i < buffer->front+1; i++)
@@ -51,21 +44,18 @@ int dequeue(queue *buffer)
     else printf("queue is empty");
 }
 
-void printQueue(queue *buffer)
-{
+void printQueue(queue *buffer) {
     for(int i = 0; i < buffer->front; i++)
     {printf("%d  ", buffer->array[i]);}
     printf("\n");
 }
 
-void delQueue(queue *buffer)
-{
+void delQueue(queue *buffer) {
     free(buffer->array);
     free(buffer);
 }
 
-int main()
-{
+int main() {
     queue *buffer = newQueue(5);
     
     enqueue(buffer, 10);
@@ -98,12 +88,10 @@ int main()
 #### enqueue
 在環狀佇列中可以另外加上一個 size 來方便使用，如果佇列未滿，則可以直接放入新的元素。若佇列滿了，則需先執行 dequeue 再將新的元素放入佇列中。而判斷佇列是否滿不像線性佇列這麼單純，因為 rear 與 front 會經過任何一個 index，所以當 size == capacity 時表示佇列已經放滿了，反之當 size == 0 表示為空。
 ```C
-void enqueue(queue *buffer, int data)
-{
+void enqueue(queue *buffer, int data) {
     if (buffer->size == buffer->capacity)
     {printf("queue is full");}
-    else
-    {
+    else {
         ++buffer->size;
         buffer->array[buffer->front] = value;
         buffer->front = (buffer->front+1)%buffer->capacity;
@@ -113,10 +101,8 @@ void enqueue(queue *buffer, int data)
 #### dequeue
 同 enqueue，若環狀佇列放滿了，此時要先將頭元素移出，然後將 top 往後移一格，且 bottom 也往後移一格，這樣才能達到排隊的效果。而如果沒放滿要出隊，則直接將 top 往後移一格即可。
 ```C
-void dequeue(queue *buffer)
-{
-    if (buffer->size != 0;)
-    {
+void dequeue(queue *buffer) {
+    if (buffer->size) {
         --buffer->size;
         buffer->rear = (buffer->rear + 1) % buffer->capacity;
     }
