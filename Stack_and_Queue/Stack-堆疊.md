@@ -9,11 +9,9 @@ typedef struct _stack {
     int *array;
 }stack;
 
-stack *newStack(int capacity)
-{
+stack *newStack(int capacity) {
     stack *new_stack = malloc(sizeof(stack));
-    if(new_stack != NULL)
-    {
+    if(!new_stack) {
         new_stack->capacity = capacity;
         new_stack->top = -1;
         new_stack->array = (int*)malloc(new_stack->capacity * sizeof(int));
@@ -24,26 +22,22 @@ stack *newStack(int capacity)
 ```
 在 stack 中主要有兩個函數，分別是放入 push 與拿出 pop，
 ```C
-void push(stack *buffer, int data)
-{
+void push(stack *buffer, int data) {
     if (buffer->top != buffer->capacity - 1)
     {buffer->array[++buffer->top] = data;}
 }
 
-int pop(stack *buffer)
-{
+int pop(stack *buffer) {
     if (buffer->top != - 1)
     {return buffer->array[buffer->top--];}
 }
 
-void printStack(stack *buffer)
-{
+void printStack(stack *buffer) {
     for(int i = 0; i < buffer->top+1; i++)
     {printf("%d  ", buffer->array[i]);}
 }
 
-void delStack(stack *buffer)
-{
+void delStack(stack *buffer) {
     free(buffer->array);
     free(buffer);
 }
@@ -53,8 +47,7 @@ void delStack(stack *buffer)
 ```C
 #include <stdio.h>
 #include <stdlib.h>
-int main()
-{
+int main() {
     stack *buffer = newStack(100);
     
     push(buffer, 10);
@@ -74,49 +67,41 @@ Linked-list 的好處就是不用管陣列大小，不須像陣列一樣要先�
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct _node
-{
+typedef struct _node {
     int data;
     struct _node *next;
 }node;
 
-node* newNode(int value)
-{
+node* newNode(int value) {
     node *tmpNode = malloc(sizeof(node));
-    if(tmpNode!=NULL) 
-    {
+    if(!tmpNode!) {
         tmpNode->data = value;
         tmpNode->next = NULL;
     }
     return tmpNode;
 }
 
-void push(node **list, int value, int position) //insertNode
-{
+void push(node **list, int value, int position) { //insertNode
     node *new_node = newNode(value);
     new_node->next = *list;
     *list = new_node;
 }
 
-void pop(node **list, int position) //deleteNode
-{
+void pop(node **list, int position) {//deleteNode
     node *temp = *list;
     *list = temp->next;
     free(temp);
 }
 
-void printStack(node *list)
-{
-    while(list != NULL)
-    {
+void printStack(node *list) {
+    while(!list) {
         printf("%d ", list->data);
         list = list->next;
     }
     printf("\n");
 }
 
-int main()
-{
+int main() {
     node *top = newNode(-1);
     
     push(&top, 10, 0);
